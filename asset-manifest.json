@@ -1,16 +1,17 @@
 {
   "files": {
     "main.css": "/ppi_15/static/css/main.073c9b0a.css",
-    "main.js": "/ppi_15/static/js/main.d713bec3.js",
+    "main.js": "/ppi_15/static/js/main.3e85e4dd.js",
     "static/js/787.c4e7f8f9.chunk.js": "/ppi_15/static/js/787.c4e7f8f9.chunk.js",
+    "static/media/img_registro.png": "/ppi_15/static/media/img_registro.85a219c86c2c3637a21c.png",
     "static/media/logo.svg": "/ppi_15/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/ppi_15/index.html",
     "main.073c9b0a.css.map": "/ppi_15/static/css/main.073c9b0a.css.map",
-    "main.d713bec3.js.map": "/ppi_15/static/js/main.d713bec3.js.map",
+    "main.3e85e4dd.js.map": "/ppi_15/static/js/main.3e85e4dd.js.map",
     "787.c4e7f8f9.chunk.js.map": "/ppi_15/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.d713bec3.js"
+    "static/js/main.3e85e4dd.js"
   ]
 }
