@@ -1,7 +1,38 @@
-import styled from "styled-components";
-import img_registro from "../images/img_registro.png"
+import {styled} from "styled-components";
+import img_registro from "../images/img_registro.jpg"
+import {useForm} from 'react-hook-form'
+import { useState } from "react";
+import { createUser } from "../api/users_api";
+import {useNavigate} from 'react-router-dom'
 
 export default function Registro(){
+
+    /* GET de todas las eps desde la base de datos*/
+    const list_eps = ['SURA', 'Medimás', 'Colmédica'];
+
+    /* Se muestran las opciones en el select EPS*/
+    const [selectedEPS, setSelectedEPS] = useState('');
+    const handleSelectChangeEPS = (event) => {
+        setSelectedEPS(event.target.value);
+    };
+
+    /* Se listan los géneros y se muestran en el select*/
+    const list_generos = ['Masculino', 'Femenino', '39 tipos de gays'];
+
+    const [selectedGenero, setSelectedGenero] = useState('');
+    const handleSelectChangeGenero = (event) => {
+        setSelectedGenero(event.target.value);
+    };
+
+    /* Se toma la información del form y se guarda en la base de datos */
+    const {register, handleSubmit} = useForm();
+
+    const navigate = useNavigate();
+    const onSubmit = handleSubmit(async (data) => {
+        await createUser(data);
+        navigate("/ppi_15/");
+    });
+
     return(
         <>
         <Registro_styled>
@@ -10,44 +41,82 @@ export default function Registro(){
                     <img src={img_registro}/>
                 </div>
                 <div className="formulario">
-                    <form>
+                    <form onSubmit={onSubmit} autoComplete="off">
                         <h2>Formulario de registro</h2>
-                        <input type="text" name="name" placeholder="Nombre completo"
-                        autoComplete="off" required></input>
+                        <input
+                            type="text"
+                            placeholder="Nombre completo"
+                            autoComplete="off" 
+                            {...register('name', { required: true })}
+                        />
 
-                        <input type="text" name="id" placeholder="Documento de identidad"
-                        autoComplete="off" required></input>
+                        <input
+                            type="text"
+                            placeholder="Documento de identidad"
+                            autoComplete="off"
+                            {...register('id', { required: true })}
+                        />
 
-                        <input type="text" name="number" placeholder="Número de contacto"
-                        autoComplete="off" required></input>
+                        <input
+                            type="text"
+                            placeholder="Número de contacto"
+                            autoComplete="off"
+                            {...register('contacto', { required: true })}
+                        />
 
-                        <input type="email" name="email" placeholder="Correo electrónico"
-                        autoComplete="off" required></input>
+                        <input
+                            type="email"
+                            placeholder="Correo electrónico"
+                            autoComplete="off"
+                            {...register('email', { required: true })}
+                        />
 
-                        <select name="eps">
-                            <option value="EPS1">EPS1</option>
-                            <option value="EPS2">EPS2</option>
-                            <option value="EPS3">EPS3</option>
+                        <select {...register('eps')} value={selectedEPS} onChange={handleSelectChangeEPS}>
+                            <option value="">Seleccione una EPS</option>
+                            {list_eps.map((eps, index) => (
+                                <option key={index} value={eps}>
+                                    {eps}
+                                </option>
+                            ))}
                         </select>
 
-                        <select name="genero">
-                            <option value="Masculino">Masculino</option>
-                            <option value="Femenino">Femenino</option>
-                            <option value="Otro">Otro</option>
+                        <select {...register('genero')} value={selectedGenero} onChange={handleSelectChangeGenero}>
+                            <option value=''>Seleccione su género</option>
+                            {list_generos.map((genero, index) => (
+                                <option key={index} value={genero}>
+                                    {genero}
+                                </option>
+                            ))}
                         </select>
 
-                        <input type="text" name="username" placeholder="Usuario"
-                        autoComplete="off" required></input>
+                        <input
+                            type="text"
+                            placeholder="Usuario"
+                            autoComplete="off"
+                            {...register('usuario', { required: true })}
+                        />
 
-                        <input type="password" name="password" placeholder="Contraseña"
-                        autoComplete="off" required></input>
+                        <input
+                            type="password"
+                            placeholder="Contraseña"
+                            autoComplete="off"
+                            {...register('password', { required: true })}
+                        />
                         
                         <h3>Contacto de emergencia</h3>
-                        <input type="text" name="name" placeholder="Nombre completo"
-                        autoComplete="off" required></input>
+                        <input 
+                            type="text"
+                            placeholder="Nombre completo"
+                            autoComplete="off"
+                            {...register('name_emergencia', { required: true })}
+                        />
 
-                        <input type="text" name="id" placeholder="Número de contacto"
-                        autoComplete="off" required></input>
+                        <input
+                            type="text"
+                            placeholder="Número de contacto"
+                            autoComplete="off"
+                            {...register('contacto_emergencia', { required: true })}
+                        />
                         
                         <div className="politica">
                             <input type="checkbox"></input>
