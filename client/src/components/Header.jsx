@@ -10,8 +10,7 @@ function Header() {
             <Link to={"/ppi_15/informacion"}>Información</Link>
             <Link to={"/ppi_15/conocenos"}>Conócenos</Link>
             <Link to={"/ppi_15/registro"}>Registro</Link>
-            <Link to={"/ppi_15/ingresar"}>Ingresar</Link>
-            {/* <button>Entrar</button> */}
+            <button>Entrar</button>
 
             <input placeholder='Ingrese su usuario'></input>
         </div>

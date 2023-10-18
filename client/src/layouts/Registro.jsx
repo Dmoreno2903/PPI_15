@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import img_registro from "../images/img_registro.jpg"
+import img_registro from "../images/img_registro.png"
 
 export default function Registro(){
     return(
