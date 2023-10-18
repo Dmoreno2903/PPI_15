@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import img_registro from "../images/img_registro.jpg"
 import Menu from "../components/Menu";
 import Perfil_usuario from "../components/Prefil-usuario";
 
