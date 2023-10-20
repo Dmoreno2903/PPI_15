@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { createUser } from "../api/users_api";
 import {useNavigate} from 'react-router-dom'
 import { getAllEps } from "../api/eps_api";
+import {toast} from "react-hot-toast";
 
 export default function Registro(){
 
@@ -41,6 +42,7 @@ export default function Registro(){
         console.log(data);
         await createUser(data);
         navigate("/ppi_15/");
+        toast.success("Registro éxitoso");
     });
 
     return(

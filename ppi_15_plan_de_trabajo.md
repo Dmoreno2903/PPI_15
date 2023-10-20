@@ -9,14 +9,11 @@
 |                           |                           | - Compartir Ubicación                     | Implementación de la función de compartir ubicación. |
 |                           |                           | - Reseñas y Calificaciones                | Desarrollo del sistema de reseñas y calificaciones. |
 ||
-|                           | Juan Diego Aguirre Moreno  | - App principal                           | Desarrollo de la aplicación principal. |
+|                           | Juan Diego Aguirre Moreno  | - Ventana inicial                           | Creación del menú de inicio |
 |                           |                           | - Header                                   | Diseño y desarrollo del encabezado de la aplicación. |
-|                           |                           | - Footer                                   | Diseño y desarrollo del pie de página de la aplicación. |
-|                           |                           | - Botón de información                    | Implementación del botón de información. |
-|                           |                           | - Botón de registro                       | Creación de la funcionalidad de registro. |
-|                           |                           | - Botón de inicio de sesión               | Implementación de la funcionalidad de inicio de sesión. |
-|                           |                           | - App de registro                         | Diseño y desarrollo de la aplicación de registro. |
-|                           |                           | - App de inicio                           | Diseño y desarrollo de la aplicación de inicio. |
+|                           |                           | - Ventana de información                   | Diseño e implementación de la ventana Información |
+|                           |                           | - Formulario de registro                       | Diseño del formulario de registro |
+|                           |                           | - App de registro                         | Implementación del formulario de registro |
 |||||
 |                           | Sergio Andres Arias Jimenez | - Consulta de clasificacion de triage      | Implementación de la consulta de clasificación de triage. |
 |                           |                           | - Búsqueda de centros de salud            | Desarrollo de la función de búsqueda de centros de salud. |
@@ -30,7 +27,7 @@
 |                           | César Augusto Ospina Muñoz | - Clasificación de triage personalizada   | Mejora y refinamiento de la clasificación de triage personalizada. |
 |                           |                           | - Diseño de base de datos                 | Diseño y estructura de la base de datos. |
 |                           | Juan Diego Aguirre Moreno  | - Consulta de Clasificación de Triage      | Mejora y refinamiento de la consulta de Clasificación de Triage. |
-|                           |                           | - Diseño de la base de datos              | Diseño y estructura de la base de datos. |
+|                           |                           | - API de User y EPS             | Diseño de las relaciones User y EPS y sus respectivas API's |
 |                           | Sergio Andres Arias Jimenez | - Información de contacto                  | Mejora y refinamiento de la información de contacto. |
 |                           |                           | - Diseño de la base de datos              | Diseño y estructura de la base de datos. |
 ||
