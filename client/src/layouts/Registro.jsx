@@ -1,20 +1,29 @@
 import {styled} from "styled-components";
 import img_registro from "../images/img_registro.jpg"
 import {useForm} from 'react-hook-form'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createUser } from "../api/users_api";
 import {useNavigate} from 'react-router-dom'
+import { getAllEps } from "../api/eps_api";
 
 export default function Registro(){
 
-    /* GET de todas las eps desde la base de datos*/
-    const list_eps = ['SURA', 'Medimás', 'Colmédica'];
+    const [selectedEPS, setselectedEPS] = useState();
+    const handleSelectChangeEPS = (event) => {
+        setselectedEPS(event.target.value);
+    };
 
     /* Se muestran las opciones en el select EPS*/
-    const [selectedEPS, setSelectedEPS] = useState('');
-    const handleSelectChangeEPS = (event) => {
-        setSelectedEPS(event.target.value);
-    };
+    const [listEPS, setlistEPS] = useState([]);
+
+    /* GET de todas las eps desde la base de datos*/
+    useEffect(() => {
+        async function getEPS() {
+            const list_eps = await getAllEps();
+            setlistEPS(list_eps.data)
+        }
+        getEPS();
+    }, []);
 
     /* Se listan los géneros y se muestran en el select*/
     const list_generos = ['Masculino', 'Femenino', '39 tipos de gays'];
@@ -29,6 +38,7 @@ export default function Registro(){
 
     const navigate = useNavigate();
     const onSubmit = handleSubmit(async (data) => {
+        console.log(data);
         await createUser(data);
         navigate("/ppi_15/");
     });
@@ -73,9 +83,9 @@ export default function Registro(){
 
                         <select {...register('eps')} value={selectedEPS} onChange={handleSelectChangeEPS}>
                             <option value="">Seleccione una EPS</option>
-                            {list_eps.map((eps, index) => (
-                                <option key={index} value={eps}>
-                                    {eps}
+                            {listEPS.map((eps) => (
+                                <option key={eps.nit} value={eps.codigo}>
+                                    {eps.entidad}
                                 </option>
                             ))}
                         </select>
