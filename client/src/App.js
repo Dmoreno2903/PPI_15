@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast'
 
 import Home from './layouts/Home';
 import Información from './layouts/Información';
@@ -35,7 +36,10 @@ const router = createBrowserRouter([
 
 function App() {
   return (
+    <>
     <RouterProvider router={router} />
+    <Toaster />
+    </>
   );
 }
 

@@ -37,13 +37,13 @@ const Header_styled = styled.nav`
     }
 
     a{
-        font-size: 1.2em;
+        font-size: 1.1vw;
         color: white;
         text-decoration: none;
         margin-right: 1.5rem;
     }
     a:hover{
-        font-size: 1.3rem;
+        font-size: 1.2vw;
     }
 
     button{
@@ -53,7 +53,7 @@ const Header_styled = styled.nav`
         padding: 10px 40px;
         border: none;
         border-radius: 8px;
-        font-size: 16px;
+        font-size: 1.1vw;
         cursor: pointer;
     }
     button:hover{
@@ -63,7 +63,7 @@ const Header_styled = styled.nav`
 
     input{
         text-align: center;
-        font-size: 1em;
+        font-size: 1.1vw;
         width: 15rem;
         margin-left: 1rem;
         background-color: rgba(242, 242, 242, 0.6);
