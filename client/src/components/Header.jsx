@@ -1,18 +1,13 @@
-import { Link } from "react-router-dom"
-import styled from "styled-components"
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import Ingreso from "./Ingreso";
 
 function Header() {
     return (
       <><Header_styled>
         <h2>Medi<span>Minder</span></h2>
-        <div>
-            <Link to={"/ppi_15/"}>Inicio</Link>
-            <Link to={"/ppi_15/informacion"}>Información</Link>
-            <Link to={"/ppi_15/conocenos"}>Conócenos</Link>
-            <Link to={"/ppi_15/registro"}>Registro</Link>
-            <button>Entrar</button>
-
-            <input placeholder='Ingrese su usuario'></input>
+        <div className="link_buttons">
+            <Ingreso/>
         </div>
         </Header_styled></>
     )
@@ -28,10 +23,16 @@ const Header_styled = styled.nav`
     padding-left: 2rem;
     padding-right: 2rem;
 
+    .link_buttons{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     h2{
-        font-size:1.5vw;
+        font-size: 1.5vw;
         color: white;
-        font-weight: 600;
+        font-weight: 500;
         span{
         font-weight: bold;
         }
@@ -45,38 +46,5 @@ const Header_styled = styled.nav`
     }
     a:hover{
         font-size: 1.2vw;
-    }
-
-    button{
-        font-weight: bold;
-        background-color: #0B4FD9;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.1vw;
-        cursor: pointer;
-        padding: 0.5em 1vw;
-    }
-    button:hover{
-        background-color: white;
-        color: #0B4FD9;
-    }
-
-    input{
-        text-align: center;
-        font-size: 1.1vw;
-        margin-left: 1rem;
-        background-color: rgba(242, 242, 242, 0.6);
-        color: #fff;
-        opacity: 1;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 0.5em 1vw;
-    }
-    input:focus{
-        outline: none;
-    }
-    input::placeholder {
-        color: #fff;
     }
 `
