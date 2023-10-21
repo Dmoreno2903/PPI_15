@@ -39,10 +39,11 @@ export default function Registro(){
 
     const navigate = useNavigate();
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data);
-        await createUser(data);
-        navigate("/ppi_15/");
-        toast.success("Registro éxitoso");
+        if(data){
+            await createUser(data);
+            navigate("/ppi_15/");
+            toast.success("Registro éxitoso");
+        }        
     });
 
     return(
@@ -58,7 +59,8 @@ export default function Registro(){
                         <input
                             type="text"
                             placeholder="Nombre completo"
-                            autoComplete="off" 
+                            autoComplete="off"
+                            maxlength="50"
                             {...register('name', { required: true })}
                         />
 
@@ -66,6 +68,7 @@ export default function Registro(){
                             type="text"
                             placeholder="Documento de identidad"
                             autoComplete="off"
+                            maxlength="10"
                             {...register('id', { required: true })}
                         />
 
@@ -73,6 +76,7 @@ export default function Registro(){
                             type="text"
                             placeholder="Número de contacto"
                             autoComplete="off"
+                            maxlength="10"
                             {...register('contacto', { required: true })}
                         />
 
@@ -80,6 +84,7 @@ export default function Registro(){
                             type="email"
                             placeholder="Correo electrónico"
                             autoComplete="off"
+                            maxlength="254"
                             {...register('email', { required: true })}
                         />
 
@@ -105,6 +110,7 @@ export default function Registro(){
                             type="text"
                             placeholder="Usuario"
                             autoComplete="off"
+                            maxlength="20"
                             {...register('usuario', { required: true })}
                         />
 
@@ -112,6 +118,7 @@ export default function Registro(){
                             type="password"
                             placeholder="Contraseña"
                             autoComplete="off"
+                            maxlength="20"
                             {...register('password', { required: true })}
                         />
                         
@@ -120,6 +127,7 @@ export default function Registro(){
                             type="text"
                             placeholder="Nombre completo"
                             autoComplete="off"
+                            maxlength="50"
                             {...register('name_emergencia', { required: true })}
                         />
 
@@ -127,6 +135,7 @@ export default function Registro(){
                             type="text"
                             placeholder="Número de contacto"
                             autoComplete="off"
+                            maxlength="10"
                             {...register('contacto_emergencia', { required: true })}
                         />
                         
@@ -185,6 +194,7 @@ const Registro_styled = styled.div`
     }
 
     h2{
+        font-size: 2vw;
         margin-top: 5vh;
         color: #0B4FD9;
     }
@@ -192,16 +202,17 @@ const Registro_styled = styled.div`
         margin-bottom: 2vh;
         margin-top: 0vh;
         color: #0B4FD9;
+        font-size: 1.5vw;
     }
 
     input{
         text-align: center;
-        font-size: 1rem;
+        font-size: 1.5vw;
         background-color: rgba(242, 242, 242, 0.7);
         color: #0B4FD9;
         border: 1px solid #0B4FD9;
         border-radius: 8px;
-        padding: 10px;
+        padding: 0.5em 1vw;
         margin-bottom: 2vh;
     }
     input:focus{
@@ -213,12 +224,12 @@ const Registro_styled = styled.div`
 
     select{
         text-align: center;
-        font-size: 1rem;
+        font-size: 1.5vw;
         background-color: rgba(242, 242, 242, 0.7);
         color: #0B4FD9;
         border: 1px solid #0B4FD9;
         border-radius: 8px;
-        padding: 10px;
+        padding: 0.5em 1vw;
         margin-bottom: 2vh;
     }
     select:focus{
@@ -227,11 +238,11 @@ const Registro_styled = styled.div`
 
     label{
         color: #0B4FD9;
-        font-size: 1.1rem;
+        font-size: 1.5vw;
     }
 
     .politica{
-        margin: 2vh;
+        margin-bottom: 3vh;
     }
 
     button{
@@ -239,10 +250,10 @@ const Registro_styled = styled.div`
         font-weight: bold;
         background-color: #0B4FD9;
         color: white;
-        padding: 10px 40px;
+        padding: 0.5em 1vw;
         border: none;
         border-radius: 8px;
-        font-size: 16px;
+        font-size: 1.5vw;
         cursor: pointer;
         border: 1px solid #0B4FD9;
     }
