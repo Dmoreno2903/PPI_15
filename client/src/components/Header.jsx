@@ -28,7 +28,8 @@ const Header_styled = styled.nav`
     padding-left: 2rem;
     padding-right: 2rem;
 
-    h2{ 
+    h2{
+        font-size:1.5vw;
         color: white;
         font-weight: 600;
         span{
@@ -50,11 +51,11 @@ const Header_styled = styled.nav`
         font-weight: bold;
         background-color: #0B4FD9;
         color: white;
-        padding: 10px 40px;
         border: none;
         border-radius: 8px;
         font-size: 1.1vw;
         cursor: pointer;
+        padding: 0.5em 1vw;
     }
     button:hover{
         background-color: white;
@@ -64,14 +65,13 @@ const Header_styled = styled.nav`
     input{
         text-align: center;
         font-size: 1.1vw;
-        width: 15rem;
         margin-left: 1rem;
         background-color: rgba(242, 242, 242, 0.6);
         color: #fff;
         opacity: 1;
         border: 1px solid #ccc;
         border-radius: 8px;
-        padding: 10px;
+        padding: 0.5em 1vw;
     }
     input:focus{
         outline: none;
