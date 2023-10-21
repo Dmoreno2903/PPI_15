@@ -26,7 +26,7 @@
 |---------------------------|---------------------------|--------------------------------------------|-----------------------------------------|
 |                           | César Augusto Ospina Muñoz | - Clasificación de triage personalizada   | Mejora y refinamiento de la clasificación de triage personalizada. |
 |                           |                           | - Diseño de base de datos                 | Diseño y estructura de la base de datos. |
-|                           | Juan Diego Aguirre Moreno  | - Consulta de Clasificación de Triage      | Mejora y refinamiento de la consulta de Clasificación de Triage. |
+|                           | Juan Diego Aguirre Moreno  | - Inicio de sesión                         | Implementación de la función de inicio de sesión. |
 |                           |                           | - API de User y EPS             | Diseño de las relaciones User y EPS y sus respectivas API's |
 |                           | Sergio Andres Arias Jimenez | - Información de contacto                  | Mejora y refinamiento de la información de contacto. |
 |                           |                           | - Diseño de la base de datos              | Diseño y estructura de la base de datos. |
@@ -36,7 +36,7 @@
 |---------------------------|---------------------------|--------------------------------------------|-----------------------------------------|
 |                           | César Augusto Ospina Muñoz | - Visualización de rutas                   | Mejora y refinamiento de la visualización de rutas. |
 |                           | Juan Diego Aguirre Moreno  | - Búsqueda de Centros de Salud            | Mejora y refinamiento de la búsqueda de Centros de Salud. |
-|                           | Sergio Andres Arias Jimenez | - Inicio de sesión                         | Implementación de la función de inicio de sesión. |
+|                           | Sergio Andres Arias Jimenez | - Consulta de Clasificación de Triage      | Mejora y refinamiento de la consulta de Clasificación de Triage. |
 ||
 
 | Informe 06 - 20 de Noviembre | Integrante              | Lista de Tareas                            | Descripción de Tareas                    |
