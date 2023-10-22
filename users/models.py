@@ -20,7 +20,7 @@ class User(models.Model):
     email = models.EmailField(blank=False)
     eps = models.ForeignKey(Eps, on_delete=models.CASCADE)
     genero = models.CharField(max_length=20, blank=False)
-    usuario = models.CharField(max_length=20, blank=False)
+    usuario = models.CharField(max_length=20, blank=False, unique=True)
     password = models.CharField(max_length=20, blank=False)
     name_emergencia = models.CharField(max_length=50, blank=False)
     contacto_emergencia = models.CharField(max_length=10, blank=False)
