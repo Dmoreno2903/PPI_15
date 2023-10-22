@@ -35,7 +35,7 @@ export default function Ingreso() {
     const onSubmit = () => {
         let userExist = false;
         users.forEach(function(user) {
-            if(user.usuario == usuarioValue && user.password) {
+            if(user.usuario == usuarioValue && user.password == passwordValue) {
                 userExist = true;
                 setUser(user);
             }
