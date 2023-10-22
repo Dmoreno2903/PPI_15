@@ -140,7 +140,7 @@ export default function Registro(){
                         />
                         
                         <div className="politica">
-                            <input type="checkbox"></input>
+                            <input type="checkbox" className="checkbox"></input>
                             <label>Acepto la politica de tratamiento de datos personales</label>
                         </div>
 
@@ -184,13 +184,13 @@ const Registro_styled = styled.div`
     }
 
     .formulario{
+        display: grid;
         width: 50%;
         text-align: center;
     }
 
     form{
-        display: grid;
-        width: 80%;
+        width: 95%;
     }
 
     h2{
@@ -214,6 +214,7 @@ const Registro_styled = styled.div`
         border-radius: 8px;
         padding: 0.5em 1vw;
         margin-bottom: 2vh;
+        width: 80%;
     }
     input:focus{
         outline: none;
@@ -231,6 +232,7 @@ const Registro_styled = styled.div`
         border-radius: 8px;
         padding: 0.5em 1vw;
         margin-bottom: 2vh;
+        width: 85%;
     }
     select:focus{
         outline:none;
@@ -242,7 +244,12 @@ const Registro_styled = styled.div`
     }
 
     .politica{
-        margin-bottom: 3vh;
+        width: 100%;
+        display: flex;
+        margin-bottom: 2vh;
+    }
+    .checkbox{
+        width: 5%;
     }
 
     button{
@@ -256,6 +263,7 @@ const Registro_styled = styled.div`
         font-size: 1.5vw;
         cursor: pointer;
         border: 1px solid #0B4FD9;
+        width: 80%;
     }
     button:hover{
         background-color: white;
