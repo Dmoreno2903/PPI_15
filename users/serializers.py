@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User
 from .models import Eps
+from .models import Ips
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,3 +29,9 @@ class EpsSerializer(serializers.ModelSerializer):
             'regimen',
             'entidad',
         )
+
+class IpsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ips
+        #Serializa todos los campos
+        fields = '__all__' 
