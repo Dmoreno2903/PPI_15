@@ -178,5 +178,3 @@ function InformacionIPS() {
 }
 
 export default InformacionIPS;
-
-

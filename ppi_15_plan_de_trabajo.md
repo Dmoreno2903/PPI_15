@@ -28,8 +28,8 @@
 |                           |                           | - Diseño de base de datos                 | Diseño y estructura de la base de datos. |
 |                           | Juan Diego Aguirre Moreno  | - Inicio de sesión                         | Implementación de la función de inicio de sesión. |
 |                           |                           | - API de User y EPS             | Diseño de las relaciones User y EPS y sus respectivas API's |
-|                           | Sergio Andres Arias Jimenez | - Información de contacto de los centros de salud                  | Busqueda en la base de datos de los centros de salud |
-|                           |                           | - Relación IPS              | Crear de la relación IPS |
+|                           | Sergio Andres Arias Jimenez | - Información de contacto                  | Mejora y refinamiento de la información de contacto. |
+|                           |                           | - Diseño de la base de datos              | Diseño y estructura de la base de datos. |
 ||
 
 | Informe 05 - 30 de Octubre | Integrante                | Lista de Tareas                            | Descripción de Tareas                    |

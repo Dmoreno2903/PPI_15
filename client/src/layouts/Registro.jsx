@@ -27,7 +27,7 @@ export default function Registro(){
     }, []);
 
     /* Se listan los géneros y se muestran en el select*/
-    const list_generos = ['Masculino', 'Femenino', '39 tipos de gays'];
+    const list_generos = ['Masculino', 'Femenino', 'Otro'];
 
     const [selectedGenero, setSelectedGenero] = useState('');
     const handleSelectChangeGenero = (event) => {
@@ -40,9 +40,10 @@ export default function Registro(){
     const navigate = useNavigate();
     const onSubmit = handleSubmit(async (data) => {
         if(data){
-            console.log(data)
+            console.log(data);
             await createUser(data);
-            navigate("/ppi_15/");
+            // navigate("/ppi_15/");
+            window.location.href = "/ppi_15/";
             toast.success("Registro éxitoso");
         }        
     });
@@ -61,7 +62,7 @@ export default function Registro(){
                             type="text"
                             placeholder="Nombre completo"
                             autoComplete="off"
-                            maxLength="50"
+                            maxlength="50"
                             {...register('name', { required: true })}
                         />
 
@@ -69,7 +70,7 @@ export default function Registro(){
                             type="text"
                             placeholder="Documento de identidad"
                             autoComplete="off"
-                            maxLength="10"
+                            maxlength="10"
                             {...register('id', { required: true })}
                         />
 
@@ -77,15 +78,15 @@ export default function Registro(){
                             type="text"
                             placeholder="Número de contacto"
                             autoComplete="off"
-                            maxLength="10"
+                            maxlength="10"
                             {...register('contacto', { required: true })}
                         />
 
                         <input
                             type="email"
-                            placeholder="Correo electrónico"
+                            placeholder="Correo electrónico"x
                             autoComplete="off"
-                            maxLength="254"
+                            maxlength="254"
                             {...register('email', { required: true })}
                         />
 
@@ -111,7 +112,7 @@ export default function Registro(){
                             type="text"
                             placeholder="Usuario"
                             autoComplete="off"
-                            maxLength="20"
+                            maxlength="20"
                             {...register('usuario', { required: true })}
                         />
 
@@ -119,7 +120,7 @@ export default function Registro(){
                             type="password"
                             placeholder="Contraseña"
                             autoComplete="off"
-                            maxLength="20"
+                            maxlength="20"
                             {...register('password', { required: true })}
                         />
                         
@@ -128,7 +129,7 @@ export default function Registro(){
                             type="text"
                             placeholder="Nombre completo"
                             autoComplete="off"
-                            maxLength="50"
+                            maxlength="50"
                             {...register('name_emergencia', { required: true })}
                         />
 
@@ -136,12 +137,12 @@ export default function Registro(){
                             type="text"
                             placeholder="Número de contacto"
                             autoComplete="off"
-                            maxLength="10"
+                            maxlength="10"
                             {...register('contacto_emergencia', { required: true })}
                         />
                         
                         <div className="politica">
-                            <input type="checkbox" className="checkbox"></input>
+                            <input type="checkbox"></input>
                             <label>Acepto la politica de tratamiento de datos personales</label>
                         </div>
 
@@ -185,13 +186,13 @@ const Registro_styled = styled.div`
     }
 
     .formulario{
-        display: grid;
         width: 50%;
         text-align: center;
     }
 
     form{
-        width: 95%;
+        display: grid;
+        width: 80%;
     }
 
     h2{
@@ -215,7 +216,6 @@ const Registro_styled = styled.div`
         border-radius: 8px;
         padding: 0.5em 1vw;
         margin-bottom: 2vh;
-        width: 80%;
     }
     input:focus{
         outline: none;
@@ -233,7 +233,6 @@ const Registro_styled = styled.div`
         border-radius: 8px;
         padding: 0.5em 1vw;
         margin-bottom: 2vh;
-        width: 85%;
     }
     select:focus{
         outline:none;
@@ -245,12 +244,7 @@ const Registro_styled = styled.div`
     }
 
     .politica{
-        width: 100%;
-        display: flex;
-        margin-bottom: 2vh;
-    }
-    .checkbox{
-        width: 5%;
+        margin-bottom: 3vh;
     }
 
     button{
@@ -264,7 +258,6 @@ const Registro_styled = styled.div`
         font-size: 1.5vw;
         cursor: pointer;
         border: 1px solid #0B4FD9;
-        width: 80%;
     }
     button:hover{
         background-color: white;
