@@ -24,3 +24,16 @@ class User(models.Model):
     password = models.CharField(max_length=20, blank=False)
     name_emergencia = models.CharField(max_length=50, blank=False)
     contacto_emergencia = models.CharField(max_length=10, blank=False)
+
+# Relación ips
+class Ips(models.Model):
+    codigo = models.CharField(max_length=10, blank=False, primary_key=True)
+    nombre_prestador = models.CharField(max_length=250, blank=False)
+    nit = models.CharField(max_length=15, blank=False)
+    naturaleza = models.CharField(max_length=15, blank=False)
+    direccion = models.CharField(max_length=10, blank=False)
+    email = models.CharField(max_length=30, blank=False)
+    telefono = models.CharField(max_length=10, blank=False)
+
+    def __str__(self):
+        return (self.nombre_prestador)
