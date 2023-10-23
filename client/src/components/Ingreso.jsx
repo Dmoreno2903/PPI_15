@@ -79,7 +79,7 @@ export default function Ingreso() {
             />
 
             <input
-                type="text" 
+                type="password" 
                 placeholder='Contraseña'
                 maxLength="20"
                 value={passwordValue}
