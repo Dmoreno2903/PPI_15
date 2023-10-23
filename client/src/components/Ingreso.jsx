@@ -38,6 +38,7 @@ export default function Ingreso() {
             if(user.usuario == usuarioValue && user.password == passwordValue) {
                 userExist = true;
                 setUser(user);
+                navigate(`/ppi_15/ingresar/${user.id}`);
             }
         })
 
@@ -45,7 +46,7 @@ export default function Ingreso() {
             setUsuarioValue('');
             setPasswordValue('');
             setVisible(false);
-            navigate("/ppi_15/ingresar");
+            navigate(`/ppi_15/ingresar/${user.id}`);
         }
         else{
             setUsuarioValue('');

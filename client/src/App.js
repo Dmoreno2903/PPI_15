@@ -30,6 +30,10 @@ const router = createBrowserRouter([
         path: "/ppi_15/ingresar",
         element: <Ingresar />
       },
+      {
+        path: "/ppi_15/ingresar/:id",
+        element: <Ingresar />
+      },
     ]
   }
 ])
