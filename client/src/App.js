@@ -8,8 +8,6 @@ import Información from './layouts/Información';
 import Conocenos from './layouts/Conocenos';
 import Registro from './layouts/Registro';
 import Ingresar from './layouts/Ingresar';
-import Perfil_usuario from './components/Prefil-usuario';
-import Emergencia from './layouts/Emergencia';
 
 const router = createBrowserRouter([
   {
@@ -31,18 +29,6 @@ const router = createBrowserRouter([
       {
         path: "/ppi_15/ingresar",
         element: <Ingresar />
-      },
-      {
-        path: "/ppi_15/ingresar/:id",
-        element: <Ingresar />
-      },
-      {
-        path: "/ppi_15/emergencia/",
-        element: <Emergencia />
-      },
-      {
-        path: "/ppi_15/emergencia/:id",
-        element: <Emergencia />
       },
     ]
   }

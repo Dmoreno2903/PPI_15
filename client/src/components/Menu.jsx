@@ -1,64 +1,48 @@
-import styled from "styled-components";
-import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { obtenerUsuario } from "../api/users_api";
-import user_man from "../images/user_man.png";
-import user_woman from "../images/user_woman.png";
+import styled from "styled-components"
 
-const rutasLogin = [
-//   { title: 'Perfil usuario', id: 1, ruta: 'perfil' },
-  { title: 'Emergencia', id: 1, ruta: 'emergencia' },
-//   { title: 'Triage', id: 2 , ruta: 'triage'},
-//   { title: 'Calendario', id: 3 , ruta: 'calendario'},
-//   { title: 'Rutas', id: 4 , ruta: 'rutas'}, // ID único
-//   { title: 'Ubicación', id: 5 , ruta: 'ubicacion'}, // ID único
-//   { title: 'Reseña', id: 6 , ruta: 'resena'}, // ID único
-];
+const products = [
+    { title: 'Perfil usuario', id: 1 },
+    { title: 'Triage', id: 2 },
+    { title: 'Calendario', id: 3 },
+    { title: 'Rutas', id: 3 },
+    { title: 'Ubicación', id: 3 },
+    { title: 'Reseña', id: 3 },
+  ];
+  
+function MenuList() {
+    
 
-export default function MenuList() {
-  const paramUser = useParams();
+    const listItems = products.map(product =>
+        <li key={product.id}>
+          {product.title}
+        </li>
+      );
+      
+      return (
+        <><Menu_styled>
+            
+                <div class="profile-picture">
+                            <img 
+                                src={require('../images/user.png')} 
+                                alt="Foto de perfil" 
+                            />
+                </div>
+                <div class="profile-slidebar">
+                    <div class="slidebar_inner">
+                        <ul>{listItems}</ul>
+                    </div>
+                </div>
+                <div class="profile-blank">  
+                </div>
 
-  const [genero, setGenero] = useState(''); // Establecer un estado para el género
-  const [imagenPerfil, setImagenPerfil] = useState(user_man); // Establecer una imagen predeterminada
-
-  useEffect(() => {
-    async function getUsuario() {
-      const usuarioBuscado = await obtenerUsuario(paramUser.id);
-      const generoUsuario = usuarioBuscado.data.genero;
-      setGenero(generoUsuario);
-
-      // Cambiar la imagen según el género
-      if (generoUsuario === 'Femenino') {
-        setImagenPerfil(user_woman);
-      }
-    }
-    getUsuario();
-  }, [paramUser.id]);
-
-  const listItems = rutasLogin.map(product =>
-    <li key={product.id}>
-      <Link to={`/ppi_15/${product.ruta}/${paramUser.id}`}>{product.title}</Link>
-    </li>
-  );
-
-  return (
-    <MenuStyled>
-      <div className="profile-picture">
-        <img src={imagenPerfil} alt="Foto de perfil" />
-      </div>
-      <div className="profile-slidebar">
-        <div className="slidebar_inner">
-          <ul key={1}>{listItems}</ul>
-        </div>
-      </div>
-      <div className="profile-blank"></div>
-    </MenuStyled>
-  );
+        </Menu_styled>
+        </>
+      );
 }
 
+export default MenuList
 
-const MenuStyled = styled.div`
-
+const Menu_styled = styled.div`
 
 .profile-picture{
     width: auto;
@@ -76,7 +60,7 @@ const MenuStyled = styled.div`
     height: auto;
     /* position: fixed; */ 
     /* top: 90px; */
-    background-color: #F4F3EE;
+    background-color: #E4F2E7;
 }
 
 .slidebar_inner ul{
@@ -89,24 +73,18 @@ const MenuStyled = styled.div`
     padding: 16px 25px;
     align-items: center;
     cursor: pointer;
-    justify-content: center;
-    color : #000;
-}
-
-
-.slidebar_inner ul li:hover{
-  color: #fff;
-  background-color: #DA1B2B;
-  font-weight: bold;
 }
 
 .slidebar_inner ul li a{
     display: block;
-    color: #000;
+    color: #0F4365;
     width: auto;
     padding: 5px;
     text-decoration: none;
-    justify-content: center;
+}
+
+.slidebar_inner ul li:hover{
+    background-color: #C8E4CE;
 }
 
 .profile-slidebar .text{
