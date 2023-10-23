@@ -12,19 +12,6 @@ class Eps(models.Model):
     def __str__(self):
         return (self.entidad)
 
-# Relación Usuarios
-class User(models.Model):
-    name = models.CharField(max_length=50, blank=False)
-    id = models.CharField(max_length=10, blank=False, primary_key=True)
-    contacto = models.CharField(max_length=10, blank=False)
-    email = models.EmailField(blank=False)
-    eps = models.ForeignKey(Eps, on_delete=models.CASCADE)
-    genero = models.CharField(max_length=20, blank=False)
-    usuario = models.CharField(max_length=20, blank=False, unique=True)
-    password = models.CharField(max_length=20, blank=False)
-    name_emergencia = models.CharField(max_length=50, blank=False)
-    contacto_emergencia = models.CharField(max_length=10, blank=False)
-
 # Relación ips
 class Ips(models.Model):
     codigo = models.CharField(max_length=10, blank=False, primary_key=True)
@@ -37,3 +24,16 @@ class Ips(models.Model):
 
     def __str__(self):
         return (self.nombre_prestador)
+    
+# Relación Usuario
+class User(models.Model):
+    name = models.CharField(max_length=50, blank=False)
+    id = models.CharField(max_length=10, blank=False, primary_key=True)
+    contacto = models.CharField(max_length=10, blank=False)
+    email = models.EmailField(blank=False)
+    eps = models.ForeignKey(Eps, on_delete=models.CASCADE)
+    genero = models.CharField(max_length=20, blank=False)
+    usuario = models.CharField(max_length=20, blank=False, unique=True)
+    password = models.CharField(max_length=20, blank=False)
+    name_emergencia = models.CharField(max_length=50, blank=False)
+    contacto_emergencia = models.CharField(max_length=10, blank=False)
