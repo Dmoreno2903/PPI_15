@@ -27,7 +27,7 @@ export default function Registro(){
     }, []);
 
     /* Se listan los géneros y se muestran en el select*/
-    const list_generos = ['Masculino', 'Femenino', '39 tipos de gays'];
+    const list_generos = ['Masculino', 'Femenino', 'Otro'];
 
     const [selectedGenero, setSelectedGenero] = useState('');
     const handleSelectChangeGenero = (event) => {
@@ -41,7 +41,8 @@ export default function Registro(){
     const onSubmit = handleSubmit(async (data) => {
         if(data){
             await createUser(data);
-            navigate("/ppi_15/");
+            // navigate("/ppi_15/");
+            window.location.href = "/ppi_15/";
             toast.success("Registro éxitoso");
         }        
     });
@@ -82,7 +83,7 @@ export default function Registro(){
 
                         <input
                             type="email"
-                            placeholder="Correo electrónico"
+                            placeholder="Correo electrónico"x
                             autoComplete="off"
                             maxlength="254"
                             {...register('email', { required: true })}

@@ -5,30 +5,39 @@ import Perfil_usuario from "../components/Prefil-usuario";
 export default function Ingresar(){
     return(
         <>
-        <Ingresar_styled>
+        <IngresarStyled>
             <div className="profile-container">
-                <div class="profile-picture-links">
+                <div className="profile-picture-links">
                     <Menu />
                 </div>
-                <div class="perfil">
+                <div className="perfil">
                     <Perfil_usuario />
                 </div>
             </div>
-        </Ingresar_styled>
+            
+        </IngresarStyled>
         </>
     );
 }
 
 
 
-const Ingresar_styled = styled.div`
+const IngresarStyled = styled.div`
+    background-color: #eeeeee;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+    height: 100%;
+
 .profile-container {
     background-color: #fff;
     height: 720px;
     width: 90%;
     margin: 20px auto;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     text-align: center;
     display: flex;
@@ -36,7 +45,7 @@ const Ingresar_styled = styled.div`
 }
 
 .profile-picture-links{
-    background-color: #003840;
+    background-color: #081A40;
     width: 350px;
     display: flex;
     flex-direction: column;
