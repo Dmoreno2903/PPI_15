@@ -2,15 +2,15 @@ from rest_framework import routers
 from .api import EpsViewSet
 from .api import IpsViewSet
 from .api import UserViewSet
-from .api import PerfilUsuarioViewSet
-from .api import TriageViewSet
+from .api import PerfilViewSet
+from .api import TriajeViewSet
 
 router = routers.DefaultRouter()
 
 router.register('api/eps', EpsViewSet, 'eps')
 router.register('api/ips', IpsViewSet, "ips")
 router.register('api/user', UserViewSet, 'user')
-router.register('api/perfil', UserViewSet, 'perfil')
-router.register('api/triaje', UserViewSet, 'triaje')
+router.register('api/perfil', PerfilViewSet, 'perfil')
+router.register('api/triaje', TriajeViewSet, 'triaje')
 
 urlpatterns = router.urls
