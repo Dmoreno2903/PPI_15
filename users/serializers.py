@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import Eps
 from .models import Ips
 from .models import Usuario
-from .models import PerfilUsuario
 from .models import Triaje
 
 class EpsSerializer(serializers.ModelSerializer):
@@ -19,23 +18,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = '__all__' 
-
-class PerfilUsuarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PerfilUsuario
-        fields = (
-            'user',
-            'email',
-            'telefono',
-            'contacto_emergencia',
-            'telefono_emergencia',
-            'direccion',
-            'acceso_ubicacion',
-            'alergias',
-            'medicamentos',
-            'rh'
-        )
-        read_only_fields = ('codigo')
 
 class TriajeSerializer(serializers.ModelSerializer):
     class Meta:

@@ -3,13 +3,11 @@ from rest_framework import viewsets, permissions
 from .models import Eps
 from .models import Ips
 from .models import Usuario
-from .models import PerfilUsuario
 from .models import Triaje
 
 from .serializers import EpsSerializer
 from .serializers import IpsSerializer
 from .serializers import UsuarioSerializer
-from .serializers import PerfilUsuarioSerializer
 from .serializers import TriajeSerializer
 
 class EpsViewSet(viewsets.ModelViewSet):
@@ -26,11 +24,6 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     permissions_classes = [permissions.AllowAny]
     serializer_class = UsuarioSerializer
-
-class PerfilViewSet(viewsets.ModelViewSet):
-    queryset = PerfilUsuario.objects.all()
-    permissions_classes = [permissions.AllowAny]
-    serializer_class = PerfilUsuarioSerializer
 
 class TriajeViewSet(viewsets.ModelViewSet):
     queryset = Triaje.objects.all()
