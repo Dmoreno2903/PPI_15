@@ -1,13 +1,12 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Ingreso from "./Ingreso";
+import HeaderIngreso from "./HeaderIngreso"
 
 function Header() {
     return (
       <><Header_styled>
         <h2>Medi<span>Minder</span></h2>
-        <div className="link_buttons">
-            <Ingreso/>
+        <div className="header_ingreso">
+            <HeaderIngreso/>
         </div>
         </Header_styled></>
     )
@@ -23,7 +22,7 @@ const Header_styled = styled.nav`
     padding-left: 2rem;
     padding-right: 2rem;
 
-    .link_buttons{
+    .header_ingreso{
         display: flex;
         align-items: center;
         justify-content: center;

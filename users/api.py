@@ -1,14 +1,16 @@
+from rest_framework import viewsets, permissions
+
 from .models import Eps
 from .models import Ips
 from .models import User
 from .models import PerfilUsuario
-from .models import Triage
-from rest_framework import viewsets, permissions
+from .models import Triaje
+
 from .serializers import EpsSerializer
 from .serializers import IpsSerializer
 from .serializers import UserSerializer
 from .serializers import PerfilUsuarioSerializer
-from .serializers import TriageSerializer
+from .serializers import TriajeSerializer
 
 class EpsViewSet(viewsets.ModelViewSet):
     queryset = Eps.objects.all()
@@ -25,12 +27,12 @@ class UserViewSet(viewsets.ModelViewSet):
     permissions_classes = [permissions.AllowAny]
     serializer_class = UserSerializer
 
-class PerfilUsuarioViewSet(viewsets.ModelViewSet):
+class PerfilViewSet(viewsets.ModelViewSet):
     queryset = PerfilUsuario.objects.all()
     permissions_classes = [permissions.AllowAny]
-    serializer_class = PerfilUsuarioSerializer
+    serializer_class = PerfilUsuario
 
-class TriageViewSet(viewsets.ModelViewSet):
-    queryset = Triage.objects.all()
+class TriajeViewSet(viewsets.ModelViewSet):
+    queryset = Triaje.objects.all()
     permissions_classes = [permissions.AllowAny]
-    serializer_class = TriageSerializer
+    serializer_class = TriajeSerializer
