@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-export default function HeaderIngreso() {
+export default function Ingreso() {
 
     // Obtener el usuario que se está buscando desde la URL
     const { id } = useParams();
@@ -39,17 +39,17 @@ export default function HeaderIngreso() {
 
     const navigate = useNavigate();
 
+
+
     // Login    
     const onSubmit = () => {
         let userExist = false;
         users.forEach(function (user) {
-            if (user.usuario === usuarioValue && user.password == passwordValue) {
+            if (user.usuario === usuarioValue && user.password) {
                 userExist = true;
-<<<<<<< HEAD:client/src/components/Ingreso.jsx
                 setUser(user);
-=======
                 setIsLogin(true);
->>>>>>> diego:client/src/components/HeaderIngreso.jsx
+                // navigate("/ppi_15/ingresar/" + user.usuario);
                 navigate(`/ppi_15/ingresar/${user.id}`);
             }
         })
@@ -58,10 +58,8 @@ export default function HeaderIngreso() {
             setUsuarioValue('');
             setPasswordValue('');
             setVisible(false);
-<<<<<<< HEAD:client/src/components/Ingreso.jsx
-            navigate(`/ppi_15/ingresar/${user.id}`);
-=======
->>>>>>> diego:client/src/components/HeaderIngreso.jsx
+            // navigate("/ppi_15/ingresar");
+            // navigate("/ppi_15/ingresar/" + user.usuario);
         }
         else {
             setUsuarioValue('');

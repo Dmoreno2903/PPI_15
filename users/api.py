@@ -30,7 +30,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class PerfilViewSet(viewsets.ModelViewSet):
     queryset = PerfilUsuario.objects.all()
     permissions_classes = [permissions.AllowAny]
-    serializer_class = PerfilUsuario
+    serializer_class = PerfilUsuarioSerializer
 
 class TriajeViewSet(viewsets.ModelViewSet):
     queryset = Triaje.objects.all()
