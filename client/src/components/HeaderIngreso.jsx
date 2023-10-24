@@ -4,8 +4,14 @@ import { getAllUsers } from "../api/users_api";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export default function Ingreso() {
+export default function HeaderIngreso() {
+
+    // Obtener el usuario que se está buscando desde la URL
+    const { id } = useParams();
+
+    const [isLogin, setIsLogin] = useState(false);
 
     const [visible, setVisible] = useState(true);
     const [users, setUsers] = useState([]);
@@ -32,22 +38,24 @@ export default function Ingreso() {
     }
 
     const navigate = useNavigate();
+
+    // Login    
     const onSubmit = () => {
         let userExist = false;
-        users.forEach(function(user) {
-            if(user.usuario == usuarioValue && user.password == passwordValue) {
+        users.forEach(function (user) {
+            if (user.usuario === usuarioValue && user.password == passwordValue) {
                 userExist = true;
-                setUser(user);
+                setIsLogin(true);
+                navigate(`/ppi_15/ingresar/${user.id}`);
             }
         })
 
-        if(userExist) {
+        if (userExist) {
             setUsuarioValue('');
             setPasswordValue('');
             setVisible(false);
-            navigate("/ppi_15/ingresar");
         }
-        else{
+        else {
             setUsuarioValue('');
             setPasswordValue('');
             toast.error("Usuario o contraseña incorrecta")
@@ -59,42 +67,56 @@ export default function Ingreso() {
         navigate("/ppi_15/");
     }
 
+    useEffect(() => {
+        if (id && !isLogin) {
+            users.forEach(function (user) {
+                if (user.id === id) {
+                    console.log(user);
+                    setUser(user);
+                    setIsLogin(true);
+                    setVisible(false);
+                    navigate(`/ppi_15/ingresar/${user.id}`);
+                }
+            })
+        }
+    }, [id, users]);
+
     return (
         <>
-        <Header_styled>
-        {visible ? <div>
-            <Link to={"/ppi_15/"}>Inicio</Link>
-            <Link to={"/ppi_15/informacion"}>Información</Link>
-            <Link to={"/ppi_15/conocenos"}>Conócenos</Link>
-            <Link to={"/ppi_15/registro"}>Registro</Link>
+            <HeaderStyled>
+                {visible ? <div>
+                    <Link to={"/ppi_15/"}>Inicio</Link>
+                    <Link to={"/ppi_15/informacion"}>Información</Link>
+                    <Link to={"/ppi_15/conocenos"}>Conócenos</Link>
+                    <Link to={"/ppi_15/registro"}>Registro</Link>
 
-            <button onClick={onSubmit}>Entrar</button>
+                    <button onClick={onSubmit}>Entrar</button>
 
-            <input
-                type="text" 
-                placeholder='Ingrese su usuario'
-                maxLength="20"
-                value={usuarioValue}
-                onChange={handleUsuarioChange}
-            />
+                    <input
+                        type="text"
+                        placeholder='Ingrese su usuario'
+                        maxLength="20"
+                        value={usuarioValue}
+                        onChange={handleUsuarioChange}
+                    />
 
-            <input
-                type="password" 
-                placeholder='Contraseña'
-                maxLength="20"
-                value={passwordValue}
-                onChange={handlePasswordChange}
-            />
-        </div>:<div>
-            <Link to={"/ppi_15/ingresar"}>{user.usuario}</Link>
-            <button onClick={handleExit}>Salir</button>
-        </div>}
-        </Header_styled></>
+                    <input
+                        type="text"
+                        placeholder='Contraseña'
+                        maxLength="20"
+                        value={passwordValue}
+                        onChange={handlePasswordChange}
+                    />
+                </div> : <div>
+                    <Link to={"/ppi_15/ingresar"}>{user.usuario}</Link>
+                    <button onClick={handleExit}>Salir</button>
+                </div>}
+            </HeaderStyled></>
     )
 }
 
-const Header_styled = styled.div`
-
+const HeaderStyled = styled.div`
+    
     h2{
         font-size: 1.5vw;
         color: white;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import InformacionIPS from "../components/Informacion-IPS";
+import InformacionIPS from "../components//InformacionIPS";
 
 export default function Información(){
     return(
