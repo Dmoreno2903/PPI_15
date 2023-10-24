@@ -42,18 +42,15 @@ class Usuario(models.Model):
 class PerfilUsuario(models.Model):
     codigo = models.AutoField(primary_key=True)
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    email = models.EmailField(blank=True)
-    telefono = models.CharField(max_length=10, blank=True)
+    email = models.EmailField(max_length=30, blank=True, null=True)
+    telefono = models.CharField(max_length=10, blank=True, null=True)
     contacto_emergencia = models.CharField(max_length=50, blank=False)
     telefono_emergencia = models.CharField(max_length=10, blank=False)
-    direccion = models.CharField(max_length=50, blank=True)
-    acceso_ubicacion = models.BooleanField(default=False)
-    alergias = models.TextField(blank=True)
-    medicamentos = models.TextField(blank=True)
-    RH = models.CharField(max_length=5, blank=False)
-
-    def __str__(self):
-        return (self.user.usuario)
+    direccion = models.CharField(max_length=50, blank=True, null=True)
+    acceso_ubicacion = models.BooleanField(blank=False, default=False)
+    alergias = models.TextField(blank=True, null=True)
+    medicamentos = models.TextField(blank=True, null=True)
+    rh = models.CharField(max_length=1, blank=False, null=True)
     
 # Relación Triaje
 class Triaje(models.Model):

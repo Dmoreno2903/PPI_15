@@ -33,7 +33,7 @@ class PerfilUsuarioSerializer(serializers.ModelSerializer):
             'acceso_ubicacion',
             'alergias',
             'medicamentos',
-            'RH'
+            'rh'
         )
         read_only_fields = ('codigo')
 
