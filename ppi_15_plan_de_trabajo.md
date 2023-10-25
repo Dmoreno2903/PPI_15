@@ -34,9 +34,9 @@
 
 | Informe 05 - 30 de Octubre | Integrante                | Lista de Tareas                            | Descripción de Tareas                    |
 |---------------------------|---------------------------|--------------------------------------------|-----------------------------------------|
-|                           | César Augusto Ospina Muñoz | - Visualización de rutas                   | Mejora y refinamiento de la visualización de rutas. |
-|                           | Juan Diego Aguirre Moreno  | - Búsqueda de Centros de Salud            | Mejora y refinamiento de la búsqueda de Centros de Salud. |
-|                           | Sergio Andres Arias Jimenez | - Consulta de Clasificación de Triage      | Mejora y refinamiento de la consulta de Clasificación de Triage. |
+|                           | César Augusto Ospina Muñoz | - Visualización de rutas                   | Muestra en un mapa la ruta a el centro de salud seleccionado por el usuario |
+|                           | Juan Diego Aguirre Moreno  | - Búsqueda de centros de salud      | En base al resultado del triage, se seleccionan las IPS que cumplan cierta condición, usando Scipy se seleccionan las 3 IPS más cercanas a la ubicación del usuario |
+|                           | Sergio Andres Arias Jimenez | - Búsqueda de centros de salud      | En base al resultado del triage, se seleccionan las IPS que cumplan cierta condición, usando Scipy se seleccionan las 3 IPS más cercanas a la ubicación del usuario |
 ||
 
 | Informe 06 - 20 de Noviembre | Integrante              | Lista de Tareas                            | Descripción de Tareas                    |

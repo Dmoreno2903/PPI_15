@@ -12,15 +12,19 @@ class Eps(models.Model):
     def __str__(self):
         return (self.entidad)
 
-# Relación ips
+# Relación IPS
 class Ips(models.Model):
     codigo = models.CharField(max_length=10, blank=False, primary_key=True)
     nombre_prestador = models.CharField(max_length=250, blank=False)
     nit = models.CharField(max_length=15, blank=False)
     naturaleza = models.CharField(max_length=15, blank=False)
-    direccion = models.CharField(max_length=10, blank=False)
+    direccion = models.CharField(max_length=100, blank=False)
     email = models.CharField(max_length=30, blank=False)
     telefono = models.CharField(max_length=10, blank=False)
+    tiempo_urgencias = models.CharField(max_length=4, blank=False)
+    complejidad = models.CharField(max_length=1, blank=False)
+    latitud = models.CharField(max_length=50, blank=False)
+    longitud = models.CharField(max_length=50, blank=False)
 
     def __str__(self):
         return (self.nombre_prestador)
@@ -60,3 +64,17 @@ class Triaje(models.Model):
     dolor_cabeza_cronico = models.BooleanField(blank=False , default=False )
     triage_calculado = models.CharField(max_length=1, blank=False, default = 0)
     fecha = models.DateTimeField(auto_now_add=True)
+
+# Relación Perfil-Usuario
+class PerfilUsuario(models.Model):
+    codigo = models.AutoField(primary_key=True)
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    email = models.EmailField(max_length=30, blank=True, null=True)
+    telefono = models.CharField(max_length=10, blank=False)
+    contacto_emergencia = models.CharField(max_length=50, blank=False)
+    telefono_emergencia = models.CharField(max_length=10, blank=False)
+    direccion = models.CharField(max_length=50, blank=False)
+    acceso_ubicacion = models.BooleanField(blank=False, default=False)
+    alergias = models.CharField(max_length=100, blank=False)
+    medicamentos = models.CharField(max_length=100, blank=False)
+    rh = models.CharField(max_length=1, blank=False)
