@@ -4,4 +4,4 @@ const IPSAPI = axios.create({
     baseURL: 'http://localhost:8000/api/ips/',
 });
 
-export const getAllIPS = () => IPSAPI.get('/');
+export const getAllIps = () => IPSAPI.get('/');

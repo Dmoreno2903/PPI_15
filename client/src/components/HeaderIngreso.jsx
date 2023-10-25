@@ -1,11 +1,91 @@
 import styled from "styled-components";
+import { getAllUsers } from "../api/usuario_api";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 
 export default function Ingreso() {
 
-    const [visible, setVisible] = useState(true)
+    // Obtener el usuario que se está buscando desde la URL
+    const { id } = useParams();
+
+    const [isLogin, setIsLogin] = useState(false);
+
+    const [visible, setVisible] = useState(true);
+    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState();
+
+    /* Obtenemos todos los usuarios */
+    useEffect(() => {
+        async function getUsers() {
+            const users = await getAllUsers();
+            setUsers(users.data);
+        }
+        getUsers();
+    }, []);
+
+    /* Obtenemos el valor introducido en el input usuario*/
+    const [usuarioValue, setUsuarioValue] = useState('');
+    const handleUsuarioChange = (event) => {
+        setUsuarioValue(event.target.value);
+    }
+    /* Obtenemos el valor introducido en el input password*/
+    const [passwordValue, setPasswordValue] = useState('');
+    const handlePasswordChange = (event) => {
+        setPasswordValue(event.target.value);
+    }
+
+    const navigate = useNavigate();
+
+
+
+    // Login    
+    const onSubmit = () => {
+        let userExist = false;
+        users.forEach(function (user) {
+            if (user.usuario === usuarioValue && user.password) {
+                userExist = true;
+                setUser(user);
+                setIsLogin(true);
+                // navigate("/ppi_15/ingresar/" + user.usuario);
+                navigate(`/ppi_15/ingresar/${user.usuario}`);
+            }
+        })
+
+        if (userExist) {
+            setUsuarioValue('');
+            setPasswordValue('');
+            setVisible(false);
+            // navigate("/ppi_15/ingresar");
+            // navigate("/ppi_15/ingresar/" + user.usuario);
+        }
+        else {
+            setUsuarioValue('');
+            setPasswordValue('');
+            toast.error("Usuario o contraseña incorrecta")
+        }
+    };
+
+    const handleExit = () => {
+        setVisible(true);
+        navigate("/ppi_15/");
+    }
+
+    useEffect(() => {
+        if (id && !isLogin) {
+            users.forEach(function (user) {
+                if (user.id === id) {
+                    console.log(user);
+                    setUser(user);
+                    setIsLogin(true);
+                    setVisible(false);
+                    navigate(`/ppi_15/ingresar/${user.id}`);
+                }
+            })
+        }
+    }, [id, users]);
 
     return (
         <>

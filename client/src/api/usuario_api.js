@@ -7,3 +7,5 @@ const UsuarioAPI = axios.create({
 export const getAllUsers = () => UsuarioAPI.get('/');
 
 export const createUser = (user) => UsuarioAPI.post('/', user);
+
+export const obtenerUsuario = (usuario) => UsuarioAPI.get(`/${usuario}/`);
