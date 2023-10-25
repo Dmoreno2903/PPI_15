@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getAllUsers } from "../api/users_api";
+import { getAllUsers } from "../api/usuario_api";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
@@ -50,7 +50,7 @@ export default function Ingreso() {
                 setUser(user);
                 setIsLogin(true);
                 // navigate("/ppi_15/ingresar/" + user.usuario);
-                navigate(`/ppi_15/ingresar/${user.id}`);
+                navigate(`/ppi_15/ingresar/${user.usuario}`);
             }
         })
 
