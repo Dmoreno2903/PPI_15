@@ -2,7 +2,7 @@ import img_registro from "../images/img_registro.jpg"
 import {styled} from "styled-components";
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from "react";
-import { getAllEPS } from "../api/eps_api";
+import { getAllEps } from "../api/eps_api";
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-hot-toast";
 import { createUser } from "../api/usuario_api";
@@ -16,7 +16,7 @@ export default function Registro(){
     useEffect(() => {
         async function getEPS() {
             /* Solicitamos a la base de datos la lista de EPS */
-            const listEPS = await getAllEPS()
+            const listEPS = await getAllEps()
             setListEPS(listEPS.data)
         }
         getEPS();
