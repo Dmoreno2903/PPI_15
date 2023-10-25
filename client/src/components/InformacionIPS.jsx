@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllIps } from '../api/ips_api';
+import { getAllIPS } from '../api/ips_api';
 import styled from 'styled-components';
 
 const InformacionStyled = styled.div`
@@ -74,7 +74,7 @@ function InformacionIPS() {
 
   useEffect(() => {
     // Realizar la solicitud GET al servidor para obtener la lista de IPs
-    getAllIps()
+    getAllIPS()
       .then(response => {
         setIps(response.data);
       })

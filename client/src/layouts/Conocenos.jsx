@@ -107,7 +107,7 @@ const Conocenos_styled = styled.div`
 
     .contenedor{
         border-radius: 15px;
-        width: 70%;
+        width: 80%;
         height: 100%;
         background-color: #ffffff;
         box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.2);
