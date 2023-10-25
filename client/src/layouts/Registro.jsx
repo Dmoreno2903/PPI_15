@@ -1,275 +1,198 @@
-import {styled} from "styled-components";
 import img_registro from "../images/img_registro.jpg"
-import {useForm} from 'react-hook-form'
+import {styled} from "styled-components";
+import { useForm } from 'react-hook-form'
 import { useEffect, useState } from "react";
-import { createUser } from "../api/users_api";
-import {useNavigate} from 'react-router-dom'
 import { getAllEps } from "../api/eps_api";
-import {toast} from "react-hot-toast";
 
 export default function Registro(){
 
-    const [selectedEPS, setselectedEPS] = useState();
-    const handleSelectChangeEPS = (event) => {
-        setselectedEPS(event.target.value);
-    };
+    const [listEPS, setListEPS] = useState([]);
 
-    /* Se muestran las opciones en el select EPS*/
-    const [listEPS, setlistEPS] = useState([]);
-
-    /* GET de todas las eps desde la base de datos*/
     useEffect(() => {
         async function getEPS() {
-            const list_eps = await getAllEps();
-            setlistEPS(list_eps.data)
+            const listEPS = await getAllEps()
+            setListEPS(listEPS.data)
         }
         getEPS();
     }, []);
 
-    /* Se listan los géneros y se muestran en el select*/
-    const list_generos = ['Masculino', 'Femenino', '39 tipos de gays'];
-
-    const [selectedGenero, setSelectedGenero] = useState('');
-    const handleSelectChangeGenero = (event) => {
-        setSelectedGenero(event.target.value);
+    const [selectedEPS, setSelectedEPS] = useState();
+    const changeEPS = (event) => {
+        setSelectedEPS(event.target.value);
     };
 
-    /* Se toma la información del form y se guarda en la base de datos */
-    const {register, handleSubmit} = useForm();
 
-    const navigate = useNavigate();
-    const onSubmit = handleSubmit(async (data) => {
-        if(data){
-            console.log(data)
-            await createUser(data);
-            navigate("/ppi_15/");
-            toast.success("Registro éxitoso");
-        }        
-    });
+    const listGENEROS = ["Masculino", "Femenino", "Otro"];
+
+    const [selectGENERO, setSelectedGENERO] = useState();
+    const changeGENERO = (event) => {
+        setSelectedGENERO(event.target.value);
+    };
+
+    const {register, handleSubmit} = useForm()    
 
     return(
         <>
-        <Registro_styled>
+        <StyledRegistro>
             <div className="contenedor">
-                <div className="image">
-                    <img src={img_registro}/>
-                </div>
-                <div className="formulario">
-                    <form onSubmit={onSubmit} autoComplete="off">
-                        <h2>Formulario de registro</h2>
+                <div className="target">
+
+                    <div className="cont_image">
+                        <img src={img_registro}/>
+                    </div>
+
+                    <form className="form">
+                        <h1>Formulario de registro</h1>
+                        <p>Complete todos los campos</p>
+
                         <input
                             type="text"
-                            placeholder="Nombre completo"
+                            placeholder="Nombres"
                             autoComplete="off"
-                            maxLength="50"
+                            maxLength='30'
                             {...register('name', { required: true })}
                         />
+                        
+                        <input
+                            type="text"
+                            placeholder="Apellidos"
+                            autoComplete="off"
+                            maxLength='30'
+                            {...register('last_name', { required: true })}
+                        />
 
                         <input
                             type="text"
-                            placeholder="Documento de identidad"
+                            placeholder="Número de identidad"
                             autoComplete="off"
-                            maxLength="10"
-                            {...register('id', { required: true })}
+                            maxLength='10'
+                            {...register('cedula', { required: true })}
                         />
-
-                        <input
-                            type="text"
-                            placeholder="Número de contacto"
-                            autoComplete="off"
-                            maxLength="10"
-                            {...register('contacto', { required: true })}
-                        />
-
-                        <input
-                            type="email"
-                            placeholder="Correo electrónico"
-                            autoComplete="off"
-                            maxLength="254"
-                            {...register('email', { required: true })}
-                        />
-
-                        <select {...register('eps')} value={selectedEPS} onChange={handleSelectChangeEPS}>
-                            <option value="">Seleccione una EPS</option>
-                            {listEPS.map((eps) => (
-                                <option key={eps.nit} value={eps.codigo}>
-                                    {eps.entidad}
-                                </option>
-                            ))}
-                        </select>
-
-                        <select {...register('genero')} value={selectedGenero} onChange={handleSelectChangeGenero}>
-                            <option value=''>Seleccione su género</option>
-                            {list_generos.map((genero, index) => (
-                                <option key={index} value={genero}>
-                                    {genero}
-                                </option>
-                            ))}
-                        </select>
 
                         <input
                             type="text"
                             placeholder="Usuario"
                             autoComplete="off"
-                            maxLength="20"
+                            maxLength='20'
                             {...register('usuario', { required: true })}
                         />
 
                         <input
-                            type="password"
+                            type="text"
                             placeholder="Contraseña"
                             autoComplete="off"
-                            maxLength="20"
+                            maxLength='20'
                             {...register('password', { required: true })}
                         />
                         
-                        <h3>Contacto de emergencia</h3>
-                        <input 
-                            type="text"
-                            placeholder="Nombre completo"
-                            autoComplete="off"
-                            maxLength="50"
-                            {...register('name_emergencia', { required: true })}
-                        />
+                        <select {...register('eps')}>
+                            <option>Seleccione su EPS</option>
+                        </select>
 
-                        <input
-                            type="text"
-                            placeholder="Número de contacto"
-                            autoComplete="off"
-                            maxLength="10"
-                            {...register('contacto_emergencia', { required: true })}
-                        />
-                        
-                        <div className="politica">
-                            <input type="checkbox" className="checkbox"></input>
-                            <label>Acepto la politica de tratamiento de datos personales</label>
-                        </div>
+                        <select {...register('genero')}>
+                            <option>Seleccione su género</option>
+                        </select>
 
                         <button>Registrarse</button>
+
                     </form>
                 </div>
             </div>
-        </Registro_styled>
+        </StyledRegistro>
         </>
     );
-}
+};
 
-const Registro_styled = styled.div`
-    background-color: #eeeeee;
-    display: flex;
-    justify-content: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 100%;
-    height: 100%;
-
+const StyledRegistro  = styled.div`
     .contenedor{
-        border-radius: 15px;
+        background-color: #E5E7E9;
+        height: 100vh;
         display: flex;
-        width: 70%;
-        height: 100%;
-        background-color: #ffffff;
-        box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.2);
+        justify-content: center;
+        align-items: center;
     }
 
-    .image{
+    .target{
+        background-color: #FDFEFE;
+        border-radius: 20px;
+        width: 80%;
+        display: flex;
+    }
+
+    .cont_image{
         display: flex;
         justify-content: center;
         align-items: center;
         width: 50%;
     }
-
-    img{
-        width: 95%;
-        height: auto;
-    }
-
-    .formulario{
-        display: grid;
-        width: 50%;
-        text-align: center;
-    }
-
-    form{
-        width: 95%;
-    }
-
-    h2{
-        font-size: 2vw;
-        margin-top: 5vh;
-        color: #0B4FD9;
-    }
-    h3{
-        margin-bottom: 2vh;
-        margin-top: 0vh;
-        color: #0B4FD9;
-        font-size: 1.5vw;
-    }
-
-    input{
-        text-align: center;
-        font-size: 1.5vw;
-        background-color: rgba(242, 242, 242, 0.7);
-        color: #0B4FD9;
-        border: 1px solid #0B4FD9;
-        border-radius: 8px;
-        padding: 0.5em 1vw;
-        margin-bottom: 2vh;
-        width: 80%;
-    }
-    input:focus{
-        outline: none;
-    }
-    input::placeholder {
-        color: #0B4FD9;
-    }
-
-    select{
-        text-align: center;
-        font-size: 1.5vw;
-        background-color: rgba(242, 242, 242, 0.7);
-        color: #0B4FD9;
-        border: 1px solid #0B4FD9;
-        border-radius: 8px;
-        padding: 0.5em 1vw;
-        margin-bottom: 2vh;
-        width: 85%;
-    }
-    select:focus{
-        outline:none;
-    }
-
-    label{
-        color: #0B4FD9;
-        font-size: 1.5vw;
-    }
-
-    .politica{
+    .cont_image img{
         width: 100%;
-        display: flex;
-        margin-bottom: 2vh;
-    }
-    .checkbox{
-        width: 5%;
+        border-radius: 20px 0px 0px 20px;
     }
 
-    button{
-        margin-bottom: 5vh;
+    .form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        aling-items: center;
+        width: 50%;
+    }
+    .form h1{
+        font-size: 2vw;
+        margin: 0px 0px 0px 0px;
+        text-align: center;
+        margin: 3vh 0px 0px 1vh;
+    }
+    .form p{
+        font-size: 1.5vw;
+        margin: 0px 0px 0px 0px;
+        text-align: center;
+        margin: 1vh 2vw;
+    }
+    .form input{
+        font-size: 1.5vw;
+        margin: 1vh 2vw;
+        padding: 1vh 1vw;
+        border: 0px;
+        border-radius: 5px
+    }
+    .form input:hover{
+        border: 1px solid gray;
+    }
+    .form input:focus{
+        outline: none;
+        border: 1px solid gray;
+    }
+
+    .form select{
+        font-size: 1.5vw;
+        margin: 1vh 2vw;
+        padding: 1vh 1vw;
+        border: 0px;
+        border-radius: 5px
+    }
+    .form select:hover{
+        border: 1px solid gray;
+    }
+    .form select:focus{
+        outline: none;
+        border: 1px solid gray;
+    }
+
+    .form button{
+        font-size: 1.5vw;
         font-weight: bold;
         background-color: #0B4FD9;
-        color: white;
-        padding: 0.5em 1vw;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.5vw;
-        cursor: pointer;
-        border: 1px solid #0B4FD9;
-        width: 80%;
+        color: #fff;
+        margin: 1vh 2vw 3vh 2vw;
+        padding: 1vh 1vw;
+        border: 0px;
+        border-radius: 10px
     }
-    button:hover{
-        background-color: white;
-        color: #0B4FD9;
+    .form button:hover{
         border: 1px solid #0B4FD9;
+        background-color: #FFF;
+        color: #0B4FD9; 
     }
-
+    
 `
