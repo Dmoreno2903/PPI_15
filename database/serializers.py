@@ -3,6 +3,7 @@ from .models import Eps
 from .models import Ips
 from .models import Usuario
 from .models import Triaje
+from .models import PerfilUsuario
 
 class EpsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,3 +44,20 @@ class TriajeSerializer(serializers.ModelSerializer):
             'triage_calculado'
         )
         read_only_fields = ('codigo', 'fecha')
+
+class PerfilUsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PerfilUsuario
+        fields = (
+            'user',
+            'email',
+            'telefono',
+            'contacto_emergencia',
+            'telefono_emergencia',
+            'direccion',
+            'acceso_ubicacion',
+            'alergias',
+            'medicamentos',
+            'rh'
+        )
+        read_only_fields = (['codigo'])
