@@ -1,119 +1,133 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getAllUsers } from "../api/usuario_api";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-
+import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Ingreso() {
 
-    // Obtener el usuario que se está buscando desde la URL
-    const { id } = useParams();
+    /* Tomamos el parametro de la barra de direcciones */
+    const params = useParams();
 
-    const [isLogin, setIsLogin] = useState(false);
+    /* Lista dónde se guardarán todos los usuarios */
+     const [listaUsuarios, setListaUsuarios] = useState([]);
+     useEffect(() => {
+        async function getUsuarios() {
+            /* Obtenemos todos los usuarios de la base de datos */
+            const listaUsuarios = await getAllUsers();
+            /* Pasamos la lista obtenida al array */
+            setListaUsuarios(listaUsuarios.data); 
+        };
+        getUsuarios()
+     }, [params]);
 
-    const [visible, setVisible] = useState(true);
-    const [users, setUsers] = useState([]);
-    const [user, setUser] = useState();
+     /* Guardamos los datos ingresados en usuario y contraseña */
+     const [usuarioField, setUsuarioField] = useState('');
+     const [passwordField, setPasswordField] = useState('');
 
-    /* Obtenemos todos los usuarios */
-    useEffect(() => {
-        async function getUsers() {
-            const users = await getAllUsers();
-            setUsers(users.data);
-        }
-        getUsers();
-    }, []);
+     const changeUsuario = (event) => {
+        /* Guardamos el valor ingresado en el campo usuario */
+        setUsuarioField(event.target.value);
+     };
+     const changePassword = (event) => {
+        /* Guardamos el valor ingresado en el campo password */
+        setPasswordField(event.target.value);
+     };
 
-    /* Obtenemos el valor introducido en el input usuario*/
-    const [usuarioValue, setUsuarioValue] = useState('');
-    const handleUsuarioChange = (event) => {
-        setUsuarioValue(event.target.value);
-    }
-    /* Obtenemos el valor introducido en el input password*/
-    const [passwordValue, setPasswordValue] = useState('');
-    const handlePasswordChange = (event) => {
-        setPasswordValue(event.target.value);
-    }
+     /* Variable que decide que div mostrar */
+     const [isLogin, setIsLogin] = useState(true);
 
-    const navigate = useNavigate();
+     /* Seleccionamos el usuario */
+     const [user, setUser] = useState();
 
+     /* Creamos el navigate para entrar al perfil */
+     const navigate = useNavigate();
 
+     const login = () => {
+        /* Función para iniciar sesión */
 
-    // Login    
-    const onSubmit = () => {
-        let userExist = false;
-        users.forEach(function (user) {
-            if (user.usuario === usuarioValue && user.password) {
-                userExist = true;
-                setUser(user);
-                setIsLogin(true);
-                // navigate("/ppi_15/ingresar/" + user.usuario);
-                navigate(`/ppi_15/ingresar/${user.usuario}`);
+        /* Variable */
+        let usuario_exist = false;
+        let usuario;
+
+        /* Se itera sobre todos los usuarios */
+        listaUsuarios.map((value, index) => {
+            /* Buscamos el usuario cuyo "usuario" y "password" coincidan */
+            if(value.usuario === usuarioField && value.password === passwordField) {
+                usuario_exist = true;
+                usuario = value;
             }
-        })
+        });
 
-        if (userExist) {
-            setUsuarioValue('');
-            setPasswordValue('');
-            setVisible(false);
-            // navigate("/ppi_15/ingresar");
-            // navigate("/ppi_15/ingresar/" + user.usuario);
+        if (usuario_exist == true) {
+            /* Guardamos el usuario */
+            setUser(usuario);
+
+            /* Limpiamos el formulario */
+            setUsuarioField('');
+            setPasswordField('');
+
+            /* Ocultamos el formulario */
+            setIsLogin(false);
+
+            /* Abrimos el perfil del usuario */
+            navigate(`/ppi_15/ingresar/${usuario.usuario}`);
         }
-        else {
-            setUsuarioValue('');
-            setPasswordValue('');
-            toast.error("Usuario o contraseña incorrecta")
+        else{
+            /* Limpiamos el formulario */
+            setUsuarioField('');
+            setPasswordField('');
+
+            /* Mostramos una alerta */
+            toast.error("Usuario o contraseña incorrectas");
         }
-    };
+     };
 
-    const handleExit = () => {
-        setVisible(true);
-        navigate("/ppi_15/");
-    }
+     const exit = () => {
+        /* Función para cerrar sesión */
+        navigate('/ppi_15/');
 
-    useEffect(() => {
-        if (id && !isLogin) {
-            users.forEach(function (user) {
-                if (user.id === id) {
-                    console.log(user);
-                    setUser(user);
-                    setIsLogin(true);
-                    setVisible(false);
-                    navigate(`/ppi_15/ingresar/${user.id}`);
-                }
-            })
-        }
-    }, [id, users]);
-
+        /* Cambiamos el estado de la variable isLogin */
+        setIsLogin(true)
+     }
+    
     return (
         <>
-            <HeaderStyled>
-                {visible ? <div>
-                    <Link to={"/ppi_15/"}>Inicio</Link>
-                    <Link to={"/ppi_15/informacion"}>Información</Link>
-                    <Link to={"/ppi_15/conocenos"}>Conócenos</Link>
-                    <Link to={"/ppi_15/registro"}>Registro</Link>
+        <HeaderStyled>
+            {isLogin ? 
+                <div>
+                <Link to={"/ppi_15/"}>Inicio</Link>
+                <Link to={"/ppi_15/informacion"}>Información</Link>
+                <Link to={"/ppi_15/conocenos"}>Conócenos</Link>
+                <Link to={"/ppi_15/registro"}>Registro</Link>
 
-                    <button>Entrar</button>
+                <button onClick={login}>Entrar</button>
 
-                    <input
-                        type="text"
-                        placeholder='Ingrese su usuario'
-                        maxLength="20"
-                    />
+                <input
+                    type="text"
+                    placeholder='Usuario'
+                    maxLength="20"
+                    value={usuarioField}
+                    onChange={changeUsuario}
+                />
 
-                    <input
-                        type="text"
-                        placeholder='Contraseña'
-                        maxLength="20"
-                    />
-                </div> : <div>
-                    <Link to={"/ppi_15/ingresar"}></Link>
-                    <button>Salir</button>
+                <input
+                    type="password"
+                    placeholder='Contraseña'
+                    maxLength="20"
+                    value={passwordField}
+                    onChange={changePassword}
+                />
+                </div> 
+                : 
+                <div>
+                    <Link to={"/ppi_15/ingresar"}>{user.usuario}</Link>
+                    <button onClick={exit}>Salir</button>
                 </div>}
-            </HeaderStyled></>
+        </HeaderStyled>
+        </>
     )
 }
 

@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import img_Profile from "../images/img_Profile.jpg"
 import styled from "styled-components";
-import { set, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { obtenerUsuario } from "../api/usuario_api";
-import { getAllEps } from "../api/eps_api";
 import { updatePerfil, createPerfil, getPerfilUsuario } from "../api/perfil_api";
 
 
@@ -17,21 +15,6 @@ export default function Perfil_usuario() {
     // Obtener el usuario que se está buscando desde la URL
     const paramUser = useParams();
 
-
-    // Para mostrar las opciones en el select EPS
-    const [selectedEPS, setselectedEPS] = useState();
-    const handleSelectChangeEPS = (event) => {
-        setselectedEPS(event.target.value);
-    };
-
-    // Para mostrar las opciones en el select Genero
-    const list_generos = ['Masculino', 'Femenino', 'Otro'];
-
-    const [selectedGenero, setSelectedGenero] = useState('');
-    const handleSelectChangeGenero = (event) => {
-        setSelectedGenero(event.target.value);
-    };
-
     // Para mostrar las opciones en el select TipoSangre
     const list_sangres = ['A', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
@@ -40,20 +23,11 @@ export default function Perfil_usuario() {
         setSelectedSangres(event.target.value);
     };
 
-    // Se guardan los datos consultados en la base de datos EPS
-    const [listEPS, setlistEPS] = useState([]);
-
     // Se guardan los datos consultados en la base de datos Usuario
     const [DataUsuario, setUsuarioBuscado] = useState([]);
 
     // Se guardan los datos consultados en la base de datos Usuario
     const [dataPerfilUsuario, setdataPerfilUsuario] = useState([]);
-
-    /* GET de todas las eps desde la base de datos*/
-    async function getEPS() {
-        const list_eps = await getAllEps();
-        setlistEPS(list_eps.data)
-    }
 
     async function getUsuario() {
         const usuarioBuscado = await obtenerUsuario(paramUser.id);
@@ -67,7 +41,7 @@ export default function Perfil_usuario() {
 
     async function getPerfil(user) {
         try {
-            const perfilUsuarioBuscado = await getPerfilUsuario(paramUser.id);
+            const perfilUsuarioBuscado = await getPerfilUsuario(paramUser.usuario);
             toast.success("El perfil de usuario está completo	\n puede editarlo si lo desea");
             console.log("No DATA");
             console.log(perfilUsuarioBuscado.data);
@@ -122,7 +96,6 @@ export default function Perfil_usuario() {
     useEffect(() => {
         // console.log("Entre en el useEffect");
         (async () => {
-            await getEPS();
             const user = await getUsuario();
             console.log(DataUsuario)
             await getPerfil(user);
@@ -168,21 +141,11 @@ export default function Perfil_usuario() {
         }
     });
 
-
-
-
-
-    // Traer la información del usuario desde la base de datos
-
-
-
-
     return (
         <>
             <PerfilStyled>
                 <div className="contenedor">
                     <div className="image">
-                        <img src={img_Profile} />
                     </div>
 
                     <div className="formulario">
