@@ -2,34 +2,85 @@ import img_registro from "../images/img_registro.jpg"
 import {styled} from "styled-components";
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from "react";
-import { getAllEps } from "../api/eps_api";
+import { getAllEPS } from "../api/eps_api";
+import { useNavigate } from "react-router-dom";
+import {toast} from "react-hot-toast";
+import { createUser } from "../api/usuario_api";
 
 export default function Registro(){
 
+    /* Guardamos la lista de EPS obtenida */
     const [listEPS, setListEPS] = useState([]);
 
+    
     useEffect(() => {
         async function getEPS() {
-            const listEPS = await getAllEps()
+            /* Solicitamos a la base de datos la lista de EPS */
+            const listEPS = await getAllEPS()
             setListEPS(listEPS.data)
         }
         getEPS();
     }, []);
 
+    /* Guardamos la EPS seleccionada por el usuario */
     const [selectedEPS, setSelectedEPS] = useState();
     const changeEPS = (event) => {
+        /* Cambiamos el estado de selectedEPS */
         setSelectedEPS(event.target.value);
     };
 
 
+    /* Guardamos la lista de generos */
     const listGENEROS = ["Masculino", "Femenino", "Otro"];
 
+    /* Guardamos el género seleccionado por el usuario */
     const [selectGENERO, setSelectedGENERO] = useState();
     const changeGENERO = (event) => {
+        /* Cambiamos el estado de selectedGENERO */
         setSelectedGENERO(event.target.value);
     };
 
-    const {register, handleSubmit} = useForm()    
+
+    /* Guardamos el valor del checkbox */
+    const [checkbox, setCheckbox] = useState(false);
+    const changeCHECKBOX = (event) => {
+        /* Cambiamos el estado del checkbox */
+        setCheckbox(event.target.checked);
+    }
+
+    /* Creamos un formulario usando react-hook */
+    const {register, handleSubmit} = useForm()
+
+    /* Creamos un navegador para intercambiar entre componentes */
+    const navigate = useNavigate();
+ 
+    const onSubmit = handleSubmit(async (data) => {
+        
+        /* Obtenemos los valores de género y de EPS */
+        const { eps } = data;
+        const { genero } = data;
+
+        /* Válidamos que género y EPS se hayan seleccionado */
+        if (eps == 'incorrect' || genero == 'incorrect') {
+            /* Mostramos una alerta */
+            toast.error("Complete todos los campos");
+        }
+        else {
+            /* Válidamos si el checkbox fue checkeado */
+            if(checkbox) {
+                /* Creamos el usuario y lo pasamos a la base de datos */
+                await createUser(data);
+                /* Pasa a la ventana de inicio */
+                navigate("/ppi_15/");
+                /* Confirma el registro éxitoso */
+                toast.success("Registro éxitoso");
+            }
+            else {
+                /* Mostramos una alerta */
+                toast.error("Acepte la politica de tratamiento");
+            }
+        }
+    });  
 
     return(
         <>
@@ -41,7 +92,7 @@ export default function Registro(){
                         <img src={img_registro}/>
                     </div>
 
-                    <form className="form">
+                    <form className="form" onSubmit={onSubmit}>
                         <h1>Formulario de registro</h1>
                         <p>Complete todos los campos</p>
 
@@ -85,13 +136,34 @@ export default function Registro(){
                             {...register('password', { required: true })}
                         />
                         
-                        <select {...register('eps')}>
-                            <option>Seleccione su EPS</option>
+                        <select {...register('eps')} value={selectedEPS} onChange={changeEPS}>
+                            <option value='incorrect'>Seleccione su EPS</option>
+                            {listEPS.map((eps) => (
+                                <option key={eps.nit} value={eps.codigo}>
+                                    {eps.entidad}
+                                    </option>
+                            ))}
                         </select>
 
-                        <select {...register('genero')}>
-                            <option>Seleccione su género</option>
+                        <select {...register('genero')} value={selectGENERO} onChange={changeGENERO}>
+                            <option value='incorrect'>Seleccione su género</option>
+                            {listGENEROS.map((genero, index) => (
+                                <option key={index} value={genero}>
+                                    {genero}
+                                </option>
+                            ))}
                         </select>
+
+                        <div className="tratamiento_datos">
+                            <input
+                                type="checkbox"
+                                checked={checkbox}
+                                onChange={changeCHECKBOX}
+                            />
+                            <p>
+                                Acepto la politica de tratamiento de datos
+                            </p>
+                        </div>
 
                         <button>Registrarse</button>
 
@@ -117,6 +189,7 @@ const StyledRegistro  = styled.div`
         border-radius: 20px;
         width: 80%;
         display: flex;
+        box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.2);
     }
 
     .cont_image{
@@ -141,20 +214,23 @@ const StyledRegistro  = styled.div`
         font-size: 2vw;
         margin: 0px 0px 0px 0px;
         text-align: center;
-        margin: 3vh 0px 0px 1vh;
+        margin: 3vh 0px 0px 0px;
+        color: #081A40;
     }
     .form p{
         font-size: 1.5vw;
         margin: 0px 0px 0px 0px;
         text-align: center;
         margin: 1vh 2vw;
+        color: #081A40;
     }
     .form input{
         font-size: 1.5vw;
-        margin: 1vh 2vw;
+        margin: 5px 2vw;
         padding: 1vh 1vw;
         border: 0px;
-        border-radius: 5px
+        border-radius: 5px;
+        color: #081A40;
     }
     .form input:hover{
         border: 1px solid gray;
@@ -166,10 +242,11 @@ const StyledRegistro  = styled.div`
 
     .form select{
         font-size: 1.5vw;
-        margin: 1vh 2vw;
+        margin: 5px 2vw;
         padding: 1vh 1vw;
         border: 0px;
-        border-radius: 5px
+        border-radius: 5px;
+        color: #081A40;
     }
     .form select:hover{
         border: 1px solid gray;
@@ -179,10 +256,24 @@ const StyledRegistro  = styled.div`
         border: 1px solid gray;
     }
 
+    .tratamiento_datos{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2vh 2vw;
+    }
+    .tratamiento_datos input{
+        margin-right: .5vw;
+    }
+    .tratamiento_datos p{
+        margin: 0px;
+        font-size: 1.5vw;
+    }
+
     .form button{
         font-size: 1.5vw;
         font-weight: bold;
-        background-color: #0B4FD9;
+        background-color: #081A40;
         color: #fff;
         margin: 1vh 2vw 3vh 2vw;
         padding: 1vh 1vw;
@@ -190,9 +281,8 @@ const StyledRegistro  = styled.div`
         border-radius: 10px
     }
     .form button:hover{
-        border: 1px solid #0B4FD9;
-        background-color: #FFF;
-        color: #0B4FD9; 
+        color: #FFFFFF;
+        background-color: #0B4FD9;
     }
     
 `

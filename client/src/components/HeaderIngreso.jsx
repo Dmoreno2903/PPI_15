@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getAllUsers } from "../api/usuario_api";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
+
 
 export default function Ingreso() {
 
@@ -96,26 +96,22 @@ export default function Ingreso() {
                     <Link to={"/ppi_15/conocenos"}>Conócenos</Link>
                     <Link to={"/ppi_15/registro"}>Registro</Link>
 
-                    <button onClick={onSubmit}>Entrar</button>
+                    <button>Entrar</button>
 
                     <input
                         type="text"
                         placeholder='Ingrese su usuario'
                         maxLength="20"
-                        value={usuarioValue}
-                        onChange={handleUsuarioChange}
                     />
 
                     <input
                         type="text"
                         placeholder='Contraseña'
                         maxLength="20"
-                        value={passwordValue}
-                        onChange={handlePasswordChange}
                     />
                 </div> : <div>
-                    <Link to={"/ppi_15/ingresar"}>{user.usuario}</Link>
-                    <button onClick={handleExit}>Salir</button>
+                    <Link to={"/ppi_15/ingresar"}></Link>
+                    <button>Salir</button>
                 </div>}
             </HeaderStyled></>
     )
