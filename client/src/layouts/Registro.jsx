@@ -61,7 +61,7 @@ export default function Registro(){
         const { genero } = data;
 
         /* Válidamos que género y EPS se hayan seleccionado */
-        if (eps == 'incorrect' || genero == 'incorrect') {
+        if (eps === 'incorrect' || genero === 'incorrect') {
             /* Mostramos una alerta */
             toast.error("Complete todos los campos");
         }

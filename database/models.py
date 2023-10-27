@@ -75,6 +75,13 @@ class PerfilUsuario(models.Model):
     telefono_emergencia = models.CharField(max_length=10, blank=False)
     direccion = models.CharField(max_length=50, blank=False)
     acceso_ubicacion = models.BooleanField(blank=False, default=False)
+    latitud = models.CharField(max_length=50, blank=False)
+    longitud = models.CharField(max_length=50, blank=False)
     alergias = models.CharField(max_length=100, blank=False)
     medicamentos = models.CharField(max_length=100, blank=False)
-    rh = models.CharField(max_length=1, blank=False)
+    rh = models.CharField(max_length=3, blank=False)
+
+class IPSFiltrada(models.Model):
+    ips1 = models.CharField(max_length=30, blank=False)
+    ips2 = models.CharField(max_length=30, blank=False)
+    ips3 = models.CharField(max_length=30, blank=False)
