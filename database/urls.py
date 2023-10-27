@@ -13,5 +13,4 @@ router.register('api/usuario', UsuarioViewSet, 'usuario')
 router.register('api/triaje', TriajeViewSet, 'triaje')
 router.register('api/perfil', PerfilViewSet, 'perfil')
 
-
 urlpatterns = router.urls

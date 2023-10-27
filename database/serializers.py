@@ -56,6 +56,8 @@ class PerfilUsuarioSerializer(serializers.ModelSerializer):
             'telefono_emergencia',
             'direccion',
             'acceso_ubicacion',
+            'latitud',
+            'longitud',
             'alergias',
             'medicamentos',
             'rh'
