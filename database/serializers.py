@@ -4,7 +4,6 @@ from .models import Ips
 from .models import Usuario
 from .models import Triaje
 from .models import PerfilUsuario
-from .models import IPSFiltrada
 
 class EpsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -64,8 +63,3 @@ class PerfilUsuarioSerializer(serializers.ModelSerializer):
             'rh'
         )
         read_only_fields = (['codigo'])
-
-class IPSFiltradaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = IPSFiltrada
-        fields = '__all__'
