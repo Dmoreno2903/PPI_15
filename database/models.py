@@ -80,8 +80,3 @@ class PerfilUsuario(models.Model):
     alergias = models.CharField(max_length=100, blank=False)
     medicamentos = models.CharField(max_length=100, blank=False)
     rh = models.CharField(max_length=3, blank=False)
-
-class IPSFiltrada(models.Model):
-    ips1 = models.CharField(max_length=30, blank=True, null=True)
-    ips2 = models.CharField(max_length=30, blank=True, null=True)
-    ips3 = models.CharField(max_length=30, blank=True, null=True)
