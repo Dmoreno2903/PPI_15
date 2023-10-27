@@ -14,7 +14,7 @@ export default function Perfil_usuario() {
 
     // Obtener el usuario que se está buscando desde la URL
     const paramUser = useParams();
-
+    console.log("ParamUser: ", paramUser.id)
     // Para mostrar las opciones en el select TipoSangre
     const list_sangres = ['A', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
@@ -31,20 +31,22 @@ export default function Perfil_usuario() {
 
     async function getUsuario() {
         const usuarioBuscado = await obtenerUsuario(paramUser.id);
-        // console.log("GetUsuario")
-        // console.log(usuarioBuscado.data)
-        // console.log("GetUsuario")
+        // // console.log("GetUsuario")
+        // // console.log(usuarioBuscado.data)
+        // // console.log("GetUsuario")
         setUsuarioBuscado(usuarioBuscado.data);
 
         return usuarioBuscado.data
     }
 
+
+    console.log("DataUsuario")  
     async function getPerfil(user) {
         try {
-            const perfilUsuarioBuscado = await getPerfilUsuario(paramUser.usuario);
+            const perfilUsuarioBuscado = await getPerfilUsuario(paramUser.id);
             toast.success("El perfil de usuario está completo	\n puede editarlo si lo desea");
-            console.log("No DATA");
-            console.log(perfilUsuarioBuscado.data);
+            // console.log("No DATA");
+            // console.log(perfilUsuarioBuscado.data);
             setdataPerfilUsuario(perfilUsuarioBuscado.data);
             navigate(`/ppi_15/ingresar/${paramUser.id}`);
 
@@ -66,7 +68,7 @@ export default function Perfil_usuario() {
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 // toast.success("Registro éxitoso");
-
+                
                 toast('No se ha completado el registro del perfil \n registrelo por favor',
                     {
                         icon: '⏳',
@@ -77,15 +79,15 @@ export default function Perfil_usuario() {
                         },
                     }
                 );
-                // console.error("El perfil de usuario no se encontró (HTTP 404)");
+                // // console.error("El perfil de usuario no se encontró (HTTP 404)");
                 // Realiza acciones específicas para el error 404, si es necesario.
-                // console.log("Se ejecutara getUsuario");
+                // // console.log("Se ejecutara getUsuario");
                 // navigate(`/ppi_15/ingresar/${paramUser.id}`);
 
 
-                // console.log("Ejecutaré los otros nombres");
+                // // console.log("Ejecutaré los otros nombres");
                 // Se colocan los datos del usuario en los inputs
-                // console.log(user)
+                // // console.log(user)
                 setValue("user", user.usuario);
 
 
@@ -94,10 +96,10 @@ export default function Perfil_usuario() {
     }
 
     useEffect(() => {
-        // console.log("Entre en el useEffect");
+        // // console.log("Entre en el useEffect");
         (async () => {
             const user = await getUsuario();
-            console.log(DataUsuario)
+            console.log("El parametro into",user)
             await getPerfil(user);
         })()
 
@@ -121,10 +123,10 @@ export default function Perfil_usuario() {
     const onSubmit = handleSubmit(async (data) => {
         try {
             const perfilUsuarioBuscado = await getPerfilUsuario(paramUser.id);
-            console.log("PAram");
-            console.log(paramUser.id)
+            // console.log("PAram");
+            // console.log(paramUser.id)
             if (perfilUsuarioBuscado.data) {
-                // console.log(data);
+                // // console.log(data);
                 await updatePerfil(paramUser.id, data);
                 toast.success("Se modificaron correctamente los datos");
                 navigate(`/ppi_15/ingresar/${paramUser.id}`);
@@ -132,7 +134,7 @@ export default function Perfil_usuario() {
             }
         } catch (error) {
             if (error.response && error.response.status === 404) {
-                console.log(data);
+                // console.log(data);
                 await createPerfil(data);
                 toast.success("Perfil actualizado con exito");
                 navigate(`/ppi_15/ingresar/${paramUser.id}`);

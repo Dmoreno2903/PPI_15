@@ -8,6 +8,7 @@ import Información from './layouts/Información';
 import Conocenos from './layouts/Conocenos';
 import Registro from './layouts/Registro';
 import Ingresar from './layouts/Ingresar';
+import Mapa from './layouts/Mapa';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/ppi_15/ingresar/:id",
         element: <Ingresar />
+      },
+      {
+        path: "/ppi_15/map",
+        element: <Mapa />
       },
     ]
   }
