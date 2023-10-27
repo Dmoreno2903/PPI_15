@@ -82,6 +82,6 @@ class PerfilUsuario(models.Model):
     rh = models.CharField(max_length=3, blank=False)
 
 class IPSFiltrada(models.Model):
-    ips1 = models.CharField(max_length=30, blank=False)
-    ips2 = models.CharField(max_length=30, blank=False)
-    ips3 = models.CharField(max_length=30, blank=False)
+    ips1 = models.CharField(max_length=30, blank=True, null=True)
+    ips2 = models.CharField(max_length=30, blank=True, null=True)
+    ips3 = models.CharField(max_length=30, blank=True, null=True)
