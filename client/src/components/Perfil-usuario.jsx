@@ -79,15 +79,6 @@ export default function Perfil_usuario() {
                         },
                     }
                 );
-                // // console.error("El perfil de usuario no se encontró (HTTP 404)");
-                // Realiza acciones específicas para el error 404, si es necesario.
-                // // console.log("Se ejecutara getUsuario");
-                // navigate(`/ppi_15/ingresar/${paramUser.id}`);
-
-
-                // // console.log("Ejecutaré los otros nombres");
-                // Se colocan los datos del usuario en los inputs
-                // // console.log(user)
                 setValue("user", user.usuario);
 
 
@@ -96,7 +87,6 @@ export default function Perfil_usuario() {
     }
 
     useEffect(() => {
-        // // console.log("Entre en el useEffect");
         (async () => {
             const user = await getUsuario();
             console.log("El parametro into",user)
