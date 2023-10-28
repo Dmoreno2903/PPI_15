@@ -83,6 +83,7 @@ class PerfilUsuario(models.Model):
 
 # Relación temporal
 class IpsValidas(models.Model):
+    codigo = models.AutoField(primary_key=True)
     ips_one = models.CharField(max_length=10, blank=True)
     ips_two = models.CharField(max_length=10, blank=True)
     ips_three = models.CharField(max_length=10, blank=True)
