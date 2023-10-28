@@ -2,8 +2,20 @@ import {styled} from "styled-components";
 import img_conocenos from "../images/img_conocenos.png"
 import github_conocenos from "../images/github_conocenos.png"
 import email_conocenos from "../images/email_conocenos.png"
+import { useEffect } from "react";
+import Axios from 'axios'
 
 export default function Conocenos(){
+
+    useEffect(() => {
+        Axios.post('http://localhost:8000/api/ips/filtro/').then(response => {
+            console.log(response.data.ips_validas_serializer);
+        })
+        .catch(error => {
+            console.error('Erros al procesar los datos', error);
+        });
+    })
+
     return(
         <>
         <Conocenos_styled>

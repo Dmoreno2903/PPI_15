@@ -1,5 +1,4 @@
 from rest_framework import viewsets, permissions
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
@@ -8,14 +7,12 @@ from .models import Ips
 from .models import Usuario
 from .models import Triaje
 from .models import PerfilUsuario
-from .models import IpsValidas
 
 from .serializers import EpsSerializer
 from .serializers import IpsSerializer
 from .serializers import UsuarioSerializer
 from .serializers import TriajeSerializer
 from .serializers import PerfilUsuarioSerializer
-from .serializers import IpsValidasSerializer
 
 import pandas as pd
 import geopandas as gp
@@ -30,27 +27,7 @@ class IpsViewSet(viewsets.ModelViewSet):
     permissions_classes = [permissions.AllowAny]
     serializer_class = IpsSerializer
 
-class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset = Usuario.objects.all()
-    permissions_classes = [permissions.AllowAny]
-    serializer_class = UsuarioSerializer
-
-class TriajeViewSet(viewsets.ModelViewSet):
-    queryset = Triaje.objects.all()
-    permissions_classes = [permissions.AllowAny]
-    serializer_class = TriajeSerializer
-
-class PerfilViewSet(viewsets.ModelViewSet):
-    queryset = PerfilUsuario.objects.all()
-    permissions_classes = [permissions.AllowAny]
-    serializer_class = PerfilUsuarioSerializer
-
-class IpsValidasViewSet(viewsets.ModelViewSet):
-    queryset = IpsValidas.objects.all()
-    permissions_classes = [permissions.AllowAny]
-    serializer_class = IpsValidasSerializer
-
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['post'], url_path='filtro')
     def filter_ips(self, request):
         try:
             crs = 'EPSG:21897'
@@ -102,22 +79,25 @@ class IpsValidasViewSet(viewsets.ModelViewSet):
             # Ordenamos y seleccionamos las 3 con el cálculo ponderado menor
             ips_validas = geo_ips.sort_values(by='ponderado').iloc[:3]
 
-            # Seleccionamos el código de las IPS
-            cod_ips = ips_validas['codigo']
+            ips_validas_data = ips_validas.to_dict(orient='records')
 
-            # Valores de referencia
-            referencia = ['ips_one', 'ips_two', "three"]
-
-            # Diccionario a serializar
-            dicc = {}
-
-            for ind in range(cod_ips.shape[0]):
-                dicc[referencia[ind]] = cod_ips.iloc[ind]
-
-            # Pasamos a la base de datos
-            serial = IpsValidasSerializer(data=dicc)
-            serial.save()
+            ips_validas_serializer = IpsSerializer(ips_validas_data, many=True).data
             
-            return {'message': 'Procesado correctamente'}
+            return Response({'message': 'Procesado correctamente', 'ips_validas': ips_validas_serializer})
         except Exception as e:
             return {'message' : str(e)}
+
+class UsuarioViewSet(viewsets.ModelViewSet):
+    queryset = Usuario.objects.all()
+    permissions_classes = [permissions.AllowAny]
+    serializer_class = UsuarioSerializer
+
+class TriajeViewSet(viewsets.ModelViewSet):
+    queryset = Triaje.objects.all()
+    permissions_classes = [permissions.AllowAny]
+    serializer_class = TriajeSerializer
+
+class PerfilViewSet(viewsets.ModelViewSet):
+    queryset = PerfilUsuario.objects.all()
+    permissions_classes = [permissions.AllowAny]
+    serializer_class = PerfilUsuarioSerializer
