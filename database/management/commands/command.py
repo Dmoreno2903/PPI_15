@@ -59,7 +59,8 @@ class Command(BaseCommand):
         # Ordenamos y seleccionamos las 3 con el cálculo ponderado menor
         ips_validas = geo_ips.sort_values(by='ponderado').iloc[:3]
 
-        print(ips_validas[['nombre_prestador', 'codigo', 'ponderado']])
+        for _, row in ips_validas.iterrows():
+            print(_, row)
 
 
 

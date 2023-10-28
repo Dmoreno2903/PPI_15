@@ -1,17 +1,21 @@
 from rest_framework import viewsets, permissions
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from .models import Eps
 from .models import Ips
 from .models import Usuario
 from .models import Triaje
 from .models import PerfilUsuario
+from .models import IpsValidas
 
 from .serializers import EpsSerializer
 from .serializers import IpsSerializer
 from .serializers import UsuarioSerializer
 from .serializers import TriajeSerializer
 from .serializers import PerfilUsuarioSerializer
+from .serializers import IpsValidasSerializer
 
 import pandas as pd
 import geopandas as gp
@@ -41,8 +45,13 @@ class PerfilViewSet(viewsets.ModelViewSet):
     permissions_classes = [permissions.AllowAny]
     serializer_class = PerfilUsuarioSerializer
 
-class ProcesamientoDatosViewSet(viewsets.ViewSet):
-    def Procesamiento(self, request):
+class IpsValidasViewSet(viewsets.ModelViewSet):
+    queryset = IpsValidas.objects.all()
+    permissions_classes = [permissions.AllowAny]
+    serializer_class = IpsValidasSerializer
+
+    @action(detail=False, methods=['post'])
+    def filter_ips(self, request):
         try:
             crs = 'EPSG:21897'
 
@@ -93,9 +102,22 @@ class ProcesamientoDatosViewSet(viewsets.ViewSet):
             # Ordenamos y seleccionamos las 3 con el cálculo ponderado menor
             ips_validas = geo_ips.sort_values(by='ponderado').iloc[:3]
 
-            #Serializamos
-            ips_validas_serializer = IpsSerializer(ips_validas, many=True).data
+            # Seleccionamos el código de las IPS
+            cod_ips = ips_validas['codigo']
 
-            return Response({'message':'Filtrado correcto', 'ips_validas':ips_validas_serializer})
+            # Valores de referencia
+            referencia = ['ips_one', 'ips_two', "three"]
+
+            # Diccionario a serializar
+            dicc = {}
+
+            for ind in range(cod_ips.shape[0]):
+                dicc[referencia[ind]] = cod_ips.iloc[ind]
+
+            # Pasamos a la base de datos
+            serial = IpsValidasSerializer(data=dicc)
+            serial.save()
+            
+            return {'message': 'Procesado correctamente'}
         except Exception as e:
-            return Response({'message':str(e)})
+            return {'message' : str(e)}

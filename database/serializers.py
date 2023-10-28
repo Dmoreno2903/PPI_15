@@ -4,6 +4,7 @@ from .models import Ips
 from .models import Usuario
 from .models import Triaje
 from .models import PerfilUsuario
+from .models import IpsValidas
 
 class EpsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -63,3 +64,8 @@ class PerfilUsuarioSerializer(serializers.ModelSerializer):
             'rh'
         )
         read_only_fields = (['codigo'])
+
+class IpsValidasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IpsValidas
+        fields = '__all__'
