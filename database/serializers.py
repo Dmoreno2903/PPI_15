@@ -68,4 +68,9 @@ class PerfilUsuarioSerializer(serializers.ModelSerializer):
 class IpsValidasSerializer(serializers.ModelSerializer):
     class Meta:
         model = IpsValidas
-        fields = '__all__'
+        fields = (
+            'ips_one',
+            'ips_two',
+            'ips_three',
+        )
+        read_only_fields = (['codigo'])
