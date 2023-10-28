@@ -69,7 +69,7 @@ class Triaje(models.Model):
 class PerfilUsuario(models.Model):
     codigo = models.AutoField(primary_key=True)
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    email = models.EmailField(max_length=30, blank=True, null=True)
+    email = models.EmailField(max_length=30, blank=True)
     telefono = models.CharField(max_length=10, blank=False)
     contacto_emergencia = models.CharField(max_length=50, blank=False)
     telefono_emergencia = models.CharField(max_length=10, blank=False)
