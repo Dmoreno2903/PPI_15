@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllIps } from '../api/ips_api';
 import styled from 'styled-components';
+import Autosuggest from 'react-autosuggest';
 
 const InformacionStyled = styled.div`
   .detalle-ips {
@@ -34,9 +35,8 @@ const InformacionStyled = styled.div`
     border: 1px solid #0B4FD9;
     border-radius: 8px;
     padding: 0.5em 1vw;
-    margin-bottom: 2vh;
-    margin-right: 2vh;
-    width: 50%;
+    margin-bottom: 1vh;
+    
   }
   input:focus {
     outline: none;
@@ -64,39 +64,99 @@ const InformacionStyled = styled.div`
   .listado-nombres {
     margin-top: 20px;
   }
+
+  .informacion-ips {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .react-autosuggest__suggestions-list {
+    list-style: none;
+    padding: 0;
+    border: 1px solid #0B4FD9;
+    margin: 0;
+  }
+  
+  .suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+  }
+
+  .suggestion-item:hover {
+    background-color: #e0e0e0;
+  }
+  .form-position {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .form-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
 `;
 
 function InformacionIPS() {
   const [ips, setIps] = useState([]);
-  const [terminoBusqueda, setTerminoBusqueda] = useState('');
+  const [value, setValue] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
   const [ipSeleccionada, setIpSeleccionada] = useState(null);
   const [mostrarListado, setMostrarListado] = useState(false);
 
   useEffect(() => {
-    // Realizar la solicitud GET al servidor para obtener la lista de IPs
     getAllIps()
-      .then(response => {
+      .then((response) => {
         setIps(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error al obtener la lista de IPs:', error);
       });
   }, []);
 
-  const realizarBusqueda = () => {
-    // Buscar una IP cuyo nombre del prestador coincida con el término de búsqueda
-    const ipCoincidente = ips.find(ip => ip.nombre_prestador.toLowerCase() === terminoBusqueda.toLowerCase());
-    setIpSeleccionada(ipCoincidente);
-    setMostrarListado(false); // Ocultar el listado al seleccionar un nombre
+  const getSuggestions = (inputValue) => {
+    const inputValueLowerCase = inputValue.toLowerCase();
+    const filteredSuggestions = ips.filter((ip) =>
+      ip.nombre_prestador.toLowerCase().startsWith(inputValueLowerCase)
+    );
+    return filteredSuggestions.slice(0, 5); // Limita a 5 sugerencias como máximo
   };
 
-  const manejarCambioBusqueda = (e) => {
-    setTerminoBusqueda(e.target.value);
+  const onSuggestionsFetchRequested = ({ value }) => {
+    setSuggestions(getSuggestions(value));
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setSuggestions([]);
+  };
+
+  const onSuggestionSelected = (event, { suggestion }) => {
+    setIpSeleccionada(suggestion);
+    setMostrarListado(false);
+    setValue(suggestion.nombre_prestador);
+  };
+
+  const manejarCambioBusqueda = (event, { newValue }) => {
+    setValue(newValue);
   };
 
   const manejarEnvioBusqueda = (e) => {
     e.preventDefault();
-    realizarBusqueda();
+    const ipCoincidente = ips.find(
+      (ip) => ip.nombre_prestador.toLowerCase() === value.toLowerCase()
+    );
+    if (ipCoincidente) {
+      setIpSeleccionada(ipCoincidente);
+      setMostrarListado(false);
+    }
   };
 
   const manejarMostrarListado = () => {
@@ -104,19 +164,41 @@ function InformacionIPS() {
     setIpSeleccionada(null);
   };
 
+  const renderSuggestion = (suggestion) => {
+    return (
+      <div className="suggestion-item">
+        {suggestion.nombre_prestador}
+        
+      </div>
+    );
+  };
+
   return (
     <>
       <InformacionStyled>
         <div className="informacion-ips">
-          <form onSubmit={manejarEnvioBusqueda}>
-            <input
-              type="text"
-              placeholder="Buscar por nombre del prestador"
-              value={terminoBusqueda}
-              onChange={manejarCambioBusqueda}
-            />
-            <button type="submit">Buscar</button>
-          </form>
+          <div className='form-position'>
+            <form  className='form-container' onSubmit={manejarEnvioBusqueda}>
+              
+              <div className="search-container">
+                <Autosuggest
+                  suggestions={suggestions}
+                  onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                  onSuggestionsClearRequested={onSuggestionsClearRequested}
+                  onSuggestionSelected={onSuggestionSelected}
+                  getSuggestionValue={(suggestion) => suggestion.nombre_prestador}
+                  renderSuggestion={renderSuggestion}
+                  inputProps={{
+                    placeholder: 'Buscar por nombre del prestador',
+                    value,
+                    onChange: manejarCambioBusqueda,
+                  }}
+                />
+                </div>
+              <div><button type="submit">Buscar</button></div>
+            </form>
+          </div>
+          
           <button onClick={manejarMostrarListado}>Listar Nombres</button>
 
           {!ipSeleccionada && mostrarListado && (
@@ -124,7 +206,7 @@ function InformacionIPS() {
               <h2>Listado de IPS</h2>
               <table>
                 <tbody>
-                  {ips.map(ip => (
+                  {ips.map((ip) => (
                     <tr key={ip.codigo} onClick={() => setIpSeleccionada(ip)}>
                       <td>{ip.nombre_prestador}</td>
                     </tr>
