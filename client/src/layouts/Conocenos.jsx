@@ -1,10 +1,16 @@
+
+/* Se importan los componentes requeridos */
 import {styled} from "styled-components";
 import img_conocenos from "../images/img_conocenos.png"
 import github_conocenos from "../images/github_conocenos.png"
 import email_conocenos from "../images/email_conocenos.png"
 
 export default function Conocenos(){
+
+    // La función crea la ventana "Conocenos" dónde se colocará información relevante sobre la aplicación
+
     return(
+        // Se crea un fragmento HTML
         <>
         <Conocenos_styled>
             <div className="contenedor">
@@ -96,6 +102,7 @@ export default function Conocenos(){
     );
 }
 
+// Se crea la constante de estilo la cuál contendrá todo el código CSS
 const Conocenos_styled = styled.div`
     background-color: #eeeeee;
     display: flex;

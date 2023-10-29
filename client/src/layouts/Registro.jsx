@@ -9,6 +9,8 @@ import { createUser } from "../api/usuario_api";
 
 export default function Registro(){
 
+    // La función crea el componente de registro de usuario
+
     /* Guardamos la lista de EPS obtenida */
     const [listEPS, setListEPS] = useState([]);
 
@@ -63,7 +65,18 @@ export default function Registro(){
         /* Válidamos que género y EPS se hayan seleccionado */
         if (eps === 'incorrect' || genero === 'incorrect') {
             /* Mostramos una alerta */
-            toast.error("Complete todos los campos");
+            toast.error('Complete todos los campos', {
+                style: {
+                    border: '1px solid #081A40',
+                    padding: '16px',
+                    color: '#081A40',
+                },
+                iconTheme: {
+                    primary: '#081A40',
+                    secondary: '#FFFAEE',
+                  },
+                position: 'bottom-center'
+            });
         }
         else {
             /* Válidamos si el checkbox fue checkeado */
@@ -73,16 +86,39 @@ export default function Registro(){
                 /* Pasa a la ventana de inicio */
                 navigate("/ppi_15/");
                 /* Confirma el registro éxitoso */
-                toast.success("Registro éxitoso");
+                toast.success('Registro éxitoso', {
+                    style: {
+                        border: '1px solid #081A40',
+                        padding: '16px',
+                        color: '#081A40',
+                    },
+                    iconTheme: {
+                        primary: '#081A40',
+                        secondary: '#FFFAEE',
+                      },
+                    position: 'bottom-center'
+                });
             }
             else {
                 /* Mostramos una alerta */
-                toast.error("Acepte la politica de tratamiento");
+                toast.error('Acepte la politica de tratamiento de datos', {
+                    style: {
+                        border: '1px solid #081A40',
+                        padding: '16px',
+                        color: '#081A40',
+                    },
+                    iconTheme: {
+                        primary: '#081A40',
+                        secondary: '#FFFAEE',
+                      },
+                    position: 'bottom-center'
+                });
             }
         }
     });  
 
     return(
+        // Agregamos un fragmento de HTML
         <>
         <StyledRegistro>
             <div className="contenedor">
@@ -175,6 +211,7 @@ export default function Registro(){
     );
 };
 
+// Se crea la constante de estilos dónde se pondrá el código CSS
 const StyledRegistro  = styled.div`
     .contenedor{
         background-color: #E5E7E9;
