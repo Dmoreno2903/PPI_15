@@ -1,22 +1,16 @@
+
+/* Se importan los componentes requeridos */
 import {styled} from "styled-components";
 import img_conocenos from "../images/img_conocenos.png"
 import github_conocenos from "../images/github_conocenos.png"
 import email_conocenos from "../images/email_conocenos.png"
-import { useEffect } from "react";
-import Axios from 'axios'
 
 export default function Conocenos(){
 
-    useEffect(() => {
-        Axios.post('http://localhost:8000/api/ips/filtro/').then(response => {
-            console.log(response.data.ips_validas_serializer);
-        })
-        .catch(error => {
-            console.error('Erros al procesar los datos', error);
-        });
-    })
+    // La función crea la ventana "Conocenos" dónde se colocará información relevante sobre la aplicación
 
     return(
+        // Se crea un fragmento HTML
         <>
         <Conocenos_styled>
             <div className="contenedor">
@@ -24,45 +18,45 @@ export default function Conocenos(){
                     <h1>Conócenos</h1>
                     <h2>Descripción</h2>
                     <div className="description">
-                        <text className="text_description">
+                        <p className="text_description">
                         MediMinder es un sistema diseñado para facilitar a los pacientes 
                         que buscan atención médica urgente en la ciudad de Medellín la 
                         recomendación de una ruta confiable y eficiente. 
                         El objetivo principal es asegurar un acceso rápido y efectivo al centro 
                         de salud más apropiado según las necesidades de atención médica 
                         del paciente y su clasificación en el triage
-                        </text>
+                        </p>
                         <img src={img_conocenos} className="img_conocenos"/>
                     </div>  
                     <h2>Funcionalidades</h2>
                     <div className="funcionalidades">
                         <div className="funcionalidad">
                             <h3>Recomendación de Ruta</h3>
-                            <text>MediMinder analiza la ubicación del paciente y su estado 
+                            <p>MediMinder analiza la ubicación del paciente y su estado 
                                 de salud para recomendar la ruta más conveniente al centro 
                                 de salud más apropiado
-                                </text>
+                                </p>
                         </div>
                         <div className="funcionalidad">
                             <h3>Triage Personalizado</h3>
-                            <text>El sistema utiliza un sistema de triage para evaluar la 
+                            <p>El sistema utiliza un sistema de triage para evaluar la 
                                 gravedad de la situación y priorizar la atención médica 
                                 en función de la información proporcionada por el usuario
-                                </text>
+                                </p>
                         </div>
                         <div className="funcionalidad">
                             <h3>Información de Centros de Salud</h3>
-                            <text>MediMinder proporciona información detallada sobre los 
+                            <p>MediMinder proporciona información detallada sobre los 
                                 centros de salud disponibles en la ciudad, 
                                 incluyendo tiempos de espera estimados y servicios disponibles
-                                </text>
+                                </p>
                         </div>
                         <div className="funcionalidad">
                             <h3>Notificaciones en Tiempo Real</h3>
-                            <text>Los usuarios recibirán notificaciones en tiempo real sobre 
+                            <p>Los usuarios recibirán notificaciones en tiempo real sobre 
                                 el estado de su ruta y cualquier cambio en la disponibilidad 
                                 de los centros de salud
-                                </text>
+                                </p>
                         </div>
                     </div>
                     <h2>Desarrolladores</h2>
@@ -71,33 +65,33 @@ export default function Conocenos(){
                             <h3>Cesar Augusto Ospina Muñoz</h3>
                             <div className="info">
                                 <img src={github_conocenos} className="info_image"/>
-                                <text className="info_title">@Cesar-580</text>
+                                <p className="info_title">@Cesar-580</p>
                             </div>
                             <div className="info">
                                 <img src={email_conocenos} className="info_image"/>
-                                <text className="info_title">caospinamu@unal.edu.co</text>
+                                <p className="info_title">caospinamu@unal.edu.co</p>
                             </div>
                         </div>
                         <div className="desarrollador">
                             <h3>Juan Diego Aguirre Moreno</h3>
                             <div className="info">
                                 <img src={github_conocenos} className="info_image"/>
-                                <text className="info_title">@Dmoreno2903</text>
+                                <p className="info_title">@Dmoreno2903</p>
                             </div>
                             <div className="info">
                                 <img src={email_conocenos} className="info_image"/>
-                                <text className="info_title">jaguirremo@unal.edu.co</text>
+                                <p className="info_title">jaguirremo@unal.edu.co</p>
                             </div>
                         </div>
                         <div className="desarrollador">
                             <h3>Sergio Andrés Arias Jiménez</h3>
                             <div className="info">
                                 <img src={github_conocenos} className="info_image"/>
-                                <text className="info_title">@Hoid14</text>
+                                <p className="info_title">@Hoid14</p>
                             </div>
                             <div className="info">
                                 <img src={email_conocenos} className="info_image"/>
-                                <text className="info_title">sarias@unal.edu.co</text>
+                                <p className="info_title">sarias@unal.edu.co</p>
                             </div>
                         </div>
                     </div>
@@ -108,6 +102,7 @@ export default function Conocenos(){
     );
 }
 
+// Se crea la constante de estilo la cuál contendrá todo el código CSS
 const Conocenos_styled = styled.div`
     background-color: #eeeeee;
     display: flex;
@@ -194,7 +189,7 @@ const Conocenos_styled = styled.div`
         font-size: 1.5vw;
         margin-bottom: 1vh;
     }
-    text{
+    p{
         margin: 0px;
         font-size: 1vw;
     }
