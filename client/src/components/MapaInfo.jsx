@@ -84,6 +84,12 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import 'leaflet-routing-machine';
 
+/**
+ * Componente que muestra un mapa con una ruta desde una ubicación inicial hasta una ubicación dada.
+ * @param {Object} props - Propiedades del componente.
+ * @param {Array} props.coordinates - Coordenadas de la ubicación final.
+ * @returns {JSX.Element} Componente de React que muestra el mapa.
+ */
 const MapaInfo = ({ coordinates }) => {
   const mapRef = useRef(null);
   const routingControlRef = useRef(null);
@@ -91,6 +97,7 @@ const MapaInfo = ({ coordinates }) => {
   useEffect(() => {
     // Verifica si ya existe un mapa en el ref actual
     if (!mapRef.current) {
+      // Crea un nuevo mapa con las opciones especificadas
       const map = L.map('map', {
         center: coordinates,
         zoom: 13,
@@ -103,10 +110,12 @@ const MapaInfo = ({ coordinates }) => {
       });
       mapRef.current = map;
 
+      // Agrega una capa de teselas de OpenStreetMap al mapa
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
       
+      // Crea dos iconos personalizados para los marcadores
       const blueIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
         iconSize: [25, 41],
@@ -125,8 +134,10 @@ const MapaInfo = ({ coordinates }) => {
         shadowSize: [41, 41],
       });
 
+      // Coordenadas iniciales para la capa de enrutamiento
       const initialCoordinates = [6.27502919502266, -75.59265372007177];
 
+      // Crea una capa de enrutamiento con las opciones especificadas
       const routingControl = L.Routing.control({
         waypoints: [
           L.latLng(initialCoordinates),
@@ -152,6 +163,7 @@ const MapaInfo = ({ coordinates }) => {
         },
       });
 
+      // Agrega la capa de enrutamiento al mapa y la guarda en el ref correspondiente
       routingControl.addTo(map);
       routingControlRef.current = routingControl;
 
@@ -174,6 +186,7 @@ const MapaInfo = ({ coordinates }) => {
     };
   }, [coordinates]);
 
+  // Retorna el elemento JSX que contiene el mapa
   return (
     <div id="map" style={{ width: '100%', height: '400px' }}></div>
   );

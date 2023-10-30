@@ -120,14 +120,21 @@ const InformacionStyled = styled.div`
   }
 `;
 
+/**
+ * Componente que muestra información de IPS (Instituciones Prestadoras de Salud).
+ * Permite buscar IPS por nombre y ver detalles de la IPS seleccionada.
+ */
 function InformacionIPS() {
-  const [ips, setIps] = useState([]);
-  const [value, setValue] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
-  const [ipSeleccionada, setIpSeleccionada] = useState(null);
+  const [ips, setIps] = useState([]); // Estado para almacenar la lista de IPS
+  const [value, setValue] = useState(''); // Estado para almacenar el valor del input de búsqueda
+  const [suggestions, setSuggestions] = useState([]); // Estado para almacenar las sugerencias de búsqueda
+  const [ipSeleccionada, setIpSeleccionada] = useState(null); // Estado para almacenar la IPS seleccionada
   const [ventana, setVentana] = useState(); // Estado para controlar la ventana
-  
 
+  /**
+   * Función que se ejecuta al cargar el componente.
+   * Obtiene la lista de IPS y la almacena en el estado.
+   */
   useEffect(() => {
     const fetchIps = async () => {
       try {
@@ -141,6 +148,11 @@ function InformacionIPS() {
     fetchIps();
   }, []);
 
+  /**
+   * Función que devuelve las sugerencias de búsqueda según el valor del input.
+   * @param {string} inputValue - Valor del input de búsqueda.
+   * @returns {Array} - Array de objetos IPS que coinciden con el valor de búsqueda.
+   */
   const getSuggestions = (inputValue) => {
     const inputValueLowerCase = inputValue.toLowerCase();
     const filteredSuggestions = ips.filter((ip) =>
@@ -149,23 +161,51 @@ function InformacionIPS() {
     return filteredSuggestions.slice(0, 5);
   };
 
+  /**
+   * Función que se ejecuta al solicitar sugerencias de búsqueda.
+   * Actualiza el estado de sugerencias con las sugerencias obtenidas.
+   * @param {Object} param - Objeto que contiene el valor del input de búsqueda.
+   */
   const onSuggestionsFetchRequested = ({ value }) => {
     setSuggestions(getSuggestions(value));
   };
 
+  /**
+   * Función que se ejecuta al limpiar las sugerencias de búsqueda.
+   * Actualiza el estado de sugerencias a un array vacío.
+   */
   const onSuggestionsClearRequested = () => {
     setSuggestions([]);
   };
 
+  /**
+   * Función que se ejecuta al seleccionar una sugerencia de búsqueda.
+   * Actualiza el estado de IPS seleccionada con la IPS seleccionada.
+   * Actualiza el valor del input de búsqueda con el nombre de la IPS seleccionada.
+   * @param {Object} event - Evento de selección de sugerencia.
+   * @param {Object} suggestion - Objeto IPS seleccionado.
+   */
   const onSuggestionSelected = (event, { suggestion }) => {
     setIpSeleccionada(suggestion);
     setValue(suggestion.nombre_prestador);
   };
 
+  /**
+   * Función que se ejecuta al cambiar el valor del input de búsqueda.
+   * Actualiza el estado del valor del input de búsqueda.
+   * @param {Object} event - Evento de cambio de valor del input.
+   * @param {Object} newValue - Nuevo valor del input de búsqueda.
+   */
   const manejarCambioBusqueda = (event, { newValue }) => {
     setValue(newValue);
   };
 
+  /**
+   * Función que se ejecuta al enviar el formulario de búsqueda.
+   * Busca la IPS que coincide con el valor del input de búsqueda.
+   * Actualiza el estado de IPS seleccionada con la IPS encontrada.
+   * @param {Object} e - Evento de envío de formulario.
+   */
   const manejarEnvioBusqueda = (e) => {
     e.preventDefault();
     const ipCoincidente = ips.find(
@@ -176,22 +216,40 @@ function InformacionIPS() {
     }
   };
 
-  // Cambiar a la ventana de búsqueda al hacer clic en el botón "Ventana 1"
+  /**
+   * Función que se ejecuta al hacer clic en el botón "Ventana 1".
+   * Cambia el estado de ventana a "busqueda".
+   * Limpia el estado de IPS seleccionada.
+   */
   const mostrarVentana1 = () => {
     setVentana('busqueda');
     setIpSeleccionada(null);
   };
 
-  // Cambiar a la ventana de listado al hacer clic en el botón "Ventana 2"
+  /**
+   * Función que se ejecuta al hacer clic en el botón "Ventana 2".
+   * Cambia el estado de ventana a "listado".
+   * Limpia el estado de IPS seleccionada.
+   */
   const mostrarVentana2 = () => {
     setVentana('listado');
     setIpSeleccionada(null); // Limpiar la selección
   };
 
+  /**
+   * Función que se ejecuta al hacer clic en una fila de la tabla de IPS.
+   * Actualiza el estado de IPS seleccionada con la IPS seleccionada.
+   * Cambia el estado de ventana a "listadoAlt".
+   */
   const mostrarListadoAlt = () => {
     setVentana('listadoAlt');
   }
 
+  /**
+   * Función que renderiza una sugerencia de búsqueda.
+   * @param {Object} suggestion - Objeto IPS a renderizar.
+   * @returns {JSX.Element} - Elemento JSX que representa la sugerencia de búsqueda.
+   */
   const renderSuggestion = (suggestion) => {
     return (
       <div className="suggestion-item">
@@ -200,8 +258,6 @@ function InformacionIPS() {
     );
   };
 
-  
-  
   return (
     <InformacionStyled>
       <div className="informacion-ips">
@@ -294,6 +350,7 @@ function InformacionIPS() {
                   <td>Naturaleza:</td>
                   <td>{ipSeleccionada.naturaleza}</td>
                 </tr>
+                
                 <tr>
                   <td>Dirección:</td>
                   <td>{ipSeleccionada.direccion}</td>
