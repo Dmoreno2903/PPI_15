@@ -1,16 +1,22 @@
-
-/* Se importan los componentes requeridos */
 import {styled} from "styled-components";
 import img_conocenos from "../images/img_conocenos.png"
 import github_conocenos from "../images/github_conocenos.png"
 import email_conocenos from "../images/email_conocenos.png"
+import { useEffect } from "react";
+import Axios from 'axios'
 
 export default function Conocenos(){
 
-    // La función crea la ventana "Conocenos" dónde se colocará información relevante sobre la aplicación
+    useEffect(() => {
+        Axios.post('http://localhost:8000/api/ips/filtro/').then(response => {
+            console.log(response.data.ips_validas_serializer);
+        })
+        .catch(error => {
+            console.error('Erros al procesar los datos', error);
+        });
+    })
 
     return(
-        // Se crea un fragmento HTML
         <>
         <Conocenos_styled>
             <div className="contenedor">
