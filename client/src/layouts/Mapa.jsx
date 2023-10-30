@@ -37,7 +37,7 @@ export default function Mapa() {
   // Solicitar datos de destino a la API de MediMinder en el backend
   useEffect(() => {
     // Petición POST a la API de MediMinder en el backend
-    Axios.post('http://localhost:8000/api/ips/filtro/')
+    Axios.post('https://mediminder-e6ow.onrender.com/api/ips/filtro/')
       .then(response => {
         // Extracción de destinos válidos de la respuesta de Axios
         const ipsValidas = response.data.ips_validas;

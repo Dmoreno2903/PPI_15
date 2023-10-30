@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const UsuarioAPI = axios.create({
-    baseURL: 'http://localhost:8000/api/usuario/',
+    baseURL: 'https://mediminder-e6ow.onrender.com/api/usuario/',
 });
 
 export const getAllUsers = () => UsuarioAPI.get('/');
