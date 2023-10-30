@@ -126,7 +126,7 @@ export default function Perfil_usuario() {
             if (error.response && error.response.status === 404) {
                 // console.log(data);
                 await createPerfil(data);
-                toast.success("Perfil actualizado con exito");
+                toast.success("Perfil actualizado con exito")
                 navigate(`/ppi_15/ingresar/${paramUser.id}`);
 
             }
