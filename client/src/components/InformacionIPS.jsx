@@ -310,6 +310,7 @@ function InformacionIPS() {
             </table>
             <div className="App">
             <h1>Mapa</h1>
+            <div>Azul: ubicacion actual  Rojo: ubicacion destino</div>
             <MapaInfo coordinates={[parseFloat(ipSeleccionada.latitud), parseFloat(ipSeleccionada.longitud)]} />
             </div>
             
