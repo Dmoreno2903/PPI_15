@@ -124,7 +124,11 @@ export default function Perfil_usuario() {
             }
         } catch (error) {
             if (error.response && error.response.status === 404) {
-                // console.log(data);
+                data["latitud"] = 6.477726194410493
+                data["longitud"] = -75.54883793840892
+                console.log(data);
+                console.log("Estoy aca")
+                
                 await createPerfil(data);
                 toast.success("Perfil actualizado con exito")
                 navigate(`/ppi_15/ingresar/${paramUser.id}`);
