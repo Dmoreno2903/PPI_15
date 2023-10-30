@@ -49,6 +49,7 @@ export default function Mapa() {
         }));
 
         // Almacenamiento de los destinos en el estado
+        console.log(destinations)
         setDestinationData(destinations);
       })
       .catch(error => {

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 // import Menu from "../components/Menu";
 import Perfil_usuario from "../components/Perfil-usuario";
+import MenuList from "../components/Menu";
 
 export default function Ingresar(){
     return(
@@ -9,6 +10,7 @@ export default function Ingresar(){
             <div className="profile-container">
                 <div className="profile-picture-links">
                     {/* <Menu /> */}
+                    <MenuList />
                 </div>
                 <div className="perfil">
                     <Perfil_usuario />
