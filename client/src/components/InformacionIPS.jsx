@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { getAllIps } from '../api/ips_api';
 import styled from 'styled-components';
 import Autosuggest from 'react-autosuggest';
+import MapaInfo from './MapaInfo';
+
 
 const InformacionStyled = styled.div`
   .detalle-ips {
@@ -112,6 +114,10 @@ const InformacionStyled = styled.div`
   .window-change button {
     margin-right: 20px; 
   }
+  .table-row:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+  }
 `;
 
 function InformacionIPS() {
@@ -120,6 +126,7 @@ function InformacionIPS() {
   const [suggestions, setSuggestions] = useState([]);
   const [ipSeleccionada, setIpSeleccionada] = useState(null);
   const [ventana, setVentana] = useState(); // Estado para controlar la ventana
+  
 
   useEffect(() => {
     const fetchIps = async () => {
@@ -137,7 +144,7 @@ function InformacionIPS() {
   const getSuggestions = (inputValue) => {
     const inputValueLowerCase = inputValue.toLowerCase();
     const filteredSuggestions = ips.filter((ip) =>
-      ip.nombre_prestador.toLowerCase().startsWith(inputValueLowerCase)
+      ip.nombre_prestador.toLowerCase().includes(inputValueLowerCase)
     );
     return filteredSuggestions.slice(0, 5);
   };
@@ -172,6 +179,7 @@ function InformacionIPS() {
   // Cambiar a la ventana de búsqueda al hacer clic en el botón "Ventana 1"
   const mostrarVentana1 = () => {
     setVentana('busqueda');
+    setIpSeleccionada(null);
   };
 
   // Cambiar a la ventana de listado al hacer clic en el botón "Ventana 2"
@@ -179,6 +187,10 @@ function InformacionIPS() {
     setVentana('listado');
     setIpSeleccionada(null); // Limpiar la selección
   };
+
+  const mostrarListadoAlt = () => {
+    setVentana('listadoAlt');
+  }
 
   const renderSuggestion = (suggestion) => {
     return (
@@ -188,6 +200,8 @@ function InformacionIPS() {
     );
   };
 
+  
+  
   return (
     <InformacionStyled>
       <div className="informacion-ips">
@@ -200,7 +214,7 @@ function InformacionIPS() {
           </div>
           <div>
             <button onClick={mostrarVentana2}
-            style={{ backgroundColor: ventana === 'listado' ? 'white' : '#0B4FD9', color: ventana === 'listado' ? '#0B4FD9' : 'white' }}
+            style={{ backgroundColor: ventana === 'listado' || ventana === 'listadoAlt' ? 'white' : '#0B4FD9', color: ventana === 'listado' || ventana === 'listadoAlt' ? '#0B4FD9' : 'white' }}
             >Listado IPS</button>
           </div>
           </div>
@@ -234,11 +248,11 @@ function InformacionIPS() {
           {/* Ventana de listado */}
           {ventana === 'listado' && (
             <div className="listado-nombres">
-              <h2>Listado de IPS</h2>
+              <h2>Seleccione una IPS</h2>
               <table>
                 <tbody>
                   {ips.map((ip) => (
-                    <tr key={ip.codigo} onClick={() => setIpSeleccionada(ip)}>
+                    <tr className="table-row" key={ip.codigo} onClick={() => {setIpSeleccionada(ip); mostrarListadoAlt();}}>
                       <td>{ip.nombre_prestador}</td>
                     </tr>
                   ))}
@@ -246,8 +260,18 @@ function InformacionIPS() {
               </table>
             </div>
           )}
+
+          {/* Ventana de listado alternativo*/}
+          {ventana === 'listadoAlt' && (
+            <div>
+              <button onClick={mostrarVentana2}>volver</button>
+            </div>
+          )}
+
+          
         </div>
 
+        
         {/* Detalles de la IP seleccionada */}
         {ipSeleccionada && (
           <div className="detalle-ips">
@@ -284,7 +308,13 @@ function InformacionIPS() {
                 </tr>
               </tbody>
             </table>
+            <div className="App">
+            <h1>Mapa</h1>
+            <MapaInfo coordinates={[parseFloat(ipSeleccionada.latitud), parseFloat(ipSeleccionada.longitud)]} />
+            </div>
+            
           </div>
+          
         )}
       </div>
     </InformacionStyled>
@@ -292,6 +322,8 @@ function InformacionIPS() {
 }
 
 export default InformacionIPS;
+
+
 
 
 
