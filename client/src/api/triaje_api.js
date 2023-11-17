@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const TriajeAPI = axios.create({
-    baseURL: 'https://mediminder-e6ow.onrender.com/api/triaje/',
+    baseURL: 'http://localhost:3000/api/triaje/',
 });
 
 export const getAllTriaje = () => TriajeAPI.get('/');

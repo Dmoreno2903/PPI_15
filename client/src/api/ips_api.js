@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const IPSAPI = axios.create({
-    baseURL: 'https://mediminder-e6ow.onrender.com/api/ips/',
+    baseURL: 'http://localhost:3000/api/ips/',
 });
 
 export const getAllIps = () => IPSAPI.get('/');
