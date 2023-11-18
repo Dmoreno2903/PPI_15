@@ -116,6 +116,7 @@ export default function Emergencia() {
             await createTriaje(body);
             // toast.success("Se modificaron correctamente los datos");
             // navigate(`/ppi_15/ingresar/${usuario_emergencia.id}`);
+            // navigate("http://localhost:3000/ppi_15/api/triaje/ ");
             navigate("/ppi_15/map");
         }
     });
