@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { obtenerUsuario } from "../api/usuario_api";
-import { updatePerfil, createPerfil, getPerfilUsuario } from "../api/perfil_api";
+import { updatePerfil, createPerfil, getPerfilUsuario, getAllPerfil } from "../api/perfil_api";
 
 
 export default function Perfil_usuario() {
@@ -14,7 +14,7 @@ export default function Perfil_usuario() {
 
     // Obtener el usuario que se está buscando desde la URL
     const paramUser = useParams();
-    console.log("ParamUser: ", paramUser.id)
+    // console.log("ParamUser: ", paramUser.id)
     // Para mostrar las opciones en el select TipoSangre
     const list_sangres = ['A', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
@@ -40,56 +40,63 @@ export default function Perfil_usuario() {
     }
 
 
-    console.log("DataUsuario")  
+    // console.log("DataUsuario")  
     async function getPerfil(user) {
-        try {
-            const perfilUsuarioBuscado = await getPerfilUsuario(paramUser.id);
+        // const perfilUsuarioBuscado = await getPerfilUsuario(paramUser.id);
+        // console.log("GetPerfil",paramUser.id)
+        const perfilUsuarioBuscado = await getAllPerfil();
+    
+        // itera sobre perfilUsuarioBuscado para saber si esta paramUser.id en el campo user
+        // console.log("GetPerfil",perfilUsuarioBuscado.data)
+        var existe = false
+        var perfil_usuario = {}
+        for (const perfil of perfilUsuarioBuscado.data) {
+            if (perfil.user === user.usuario) {
+                existe = true
+                perfil_usuario = perfil
+            }
+        }
+        if (existe) {
+            // console.log("GetPerfil",perfil_usuario)
             toast.success("El perfil de usuario está completo	\n puede editarlo si lo desea");
-            // console.log("No DATA");
-            // console.log(perfilUsuarioBuscado.data);
-            setdataPerfilUsuario(perfilUsuarioBuscado.data);
+
+            setdataPerfilUsuario(perfil_usuario);
             navigate(`/ppi_15/ingresar/${paramUser.id}`);
 
+            console.log("GetPerfil",perfil_usuario)
+
             // Se colocan los datos del usuario en los inputs
-            setValue("nombre_completo", perfilUsuarioBuscado.data.nombre_completo);
-            setValue("numero_identificacion", perfilUsuarioBuscado.data.id);
-            setValue("numero_contacto", perfilUsuarioBuscado.data.numero_contacto);
-            setValue("correo_electronico", perfilUsuarioBuscado.data.correo_electronico);
-            setValue("sexo", perfilUsuarioBuscado.data.sexo);
-            setValue("nombre_contacto_emergencia", perfilUsuarioBuscado.data.nombre_contacto_emergencia);
-            setValue("numero_contacto_emergencia", perfilUsuarioBuscado.data.numero_contacto_emergencia);
-            setValue("direccion_residencia", perfilUsuarioBuscado.data.direccion_residencia);
-            setValue("acceso_ubicacion_habilitado", perfilUsuarioBuscado.data.acceso_ubicacion_habilitado);
-            setValue("alergias", perfilUsuarioBuscado.data.alergias);
-            setValue("medicamentos", perfilUsuarioBuscado.data.medicamentos);
-            // setValue("tipo_sangre", perfilUsuarioBuscado.data.tipo_sangre);
-            setValue("medicamentos_alergicos", perfilUsuarioBuscado.data.medicamentos_alergicos);
-
-        } catch (error) {
-            if (error.response && error.response.status === 404) {
-                // toast.success("Registro éxitoso");
-                
-                toast('No se ha completado el registro del perfil \n registrelo por favor',
-                    {
-                        icon: '⏳',
-                        style: {
-                            borderRadius: '10px',
-                            background: '#333',
-                            color: '#fff',
-                        },
-                    }
-                );
-                setValue("user", user.usuario);
-
-
-            }
+            setValue("email", perfil_usuario.email);
+            setValue("telefono", perfil_usuario.telefono);
+            setValue("sexo", perfil_usuario.sexo);
+            setValue("contacto_emergencia", perfil_usuario.contacto_emergencia);
+            setValue("telefono_emergencia", perfil_usuario.telefono_emergencia);
+            setValue("direccion", perfil_usuario.direccion);
+            setValue("acceso_ubicacion", perfil_usuario.acceso_ubicacion);
+            setValue("latitud", perfil_usuario.acceso_ubicacion);
+            setValue("longitud", perfil_usuario.acceso_ubicacion);
+            setValue("alergias", perfil_usuario.alergias);
+            setValue("medicamentos", perfil_usuario.medicamentos);
+            setValue("rh", perfil_usuario.rh);
+        } else {
+            toast('No se ha completado el registro del perfil \n registrelo por favor',
+                {
+                    icon: '⏳',
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }
+            );
+            setValue("user", user.usuario);
         }
     }
 
     useEffect(() => {
         (async () => {
             const user = await getUsuario();
-            console.log("El parametro into",user)
+            // console.log("El parametro into",user)
             await getPerfil(user);
         })()
 
@@ -111,30 +118,42 @@ export default function Perfil_usuario() {
 
     // Para crear el perfil
     const onSubmit = handleSubmit(async (data) => {
-        try {
-            const perfilUsuarioBuscado = await getPerfilUsuario(paramUser.id);
-            // console.log("PAram");
-            // console.log(paramUser.id)
-            if (perfilUsuarioBuscado.data) {
-                // // console.log(data);
-                await updatePerfil(paramUser.id, data);
-                toast.success("Se modificaron correctamente los datos");
-                navigate(`/ppi_15/ingresar/${paramUser.id}`);
-
-            }
-        } catch (error) {
-            if (error.response && error.response.status === 404) {
-                data["latitud"] = 6.477726194410493
-                data["longitud"] = -75.54883793840892
-                console.log(data);
-                console.log("Estoy aca")
-                
-                await createPerfil(data);
-                toast.success("Perfil actualizado con exito")
-                navigate(`/ppi_15/ingresar/${paramUser.id}`);
-
+        const perfilUsuarioBuscado = await getAllPerfil();
+        var existe = false
+        var perfil_usuario = {}
+        for (const perfil of perfilUsuarioBuscado.data) {
+            console.log(perfil.id)
+            if (perfil.user === paramUser.id) {
+                // console.log("as",perfil.codigo)
+                existe = true
+                perfil_usuario = perfil
             }
         }
+        // // console.log("Melo",paramUser.id)
+        // if (existe) {
+        //     console.log("Actializacion del usuario",paramUser.id)
+        //     data["user"] = paramUser.id
+        //     data["latitud"] = 6.477726194410493
+        //     data["longitud"] = -75.54883793840892
+
+        //     await updatePerfil(paramUser.id, data);
+        //     toast.success("Se modificaron correctamente los datos");
+        //     navigate(`/ppi_15/ingresar/${paramUser.id}`);
+
+            
+        // } else {
+        //     console.log("Creacion antes del error",paramUser.id)
+        //     data["user"] = paramUser.id
+        //     data["latitud"] = 6.477726194410493
+        //     data["longitud"] = -75.54883793840892
+        //     console.log(data);
+            
+        //     await createPerfil(data);
+        //     toast.success("Perfil actualizado con exito")
+        //     navigate(`/ppi_15/ingresar/${paramUser.id}`);
+
+            
+        // }
     });
 
     return (
@@ -149,13 +168,6 @@ export default function Perfil_usuario() {
                             <h2>
                                 Perfil de usuario
                             </h2>
-
-                            <input
-                                type="text"
-                                placeholder="Nombre de usuario"
-                                {...register('user', { required: true })}
-                                required
-                            />
 
                             <input
                                 type="email"
@@ -208,20 +220,6 @@ export default function Perfil_usuario() {
                             </label>
 
                             <textarea id="medicamentos" name="medicamentos" {...register('medicamentos', { required: true })} required></textarea>
-
-
-
-                            <label htmlFor="tipo_sangre">
-                                Tipo de Sangre:
-                            </label>
-
-                            {/* <input
-                                type="text"
-                                id="tipo_sangre"
-                                name="tipo_sangre"
-                                {...register('tipo_sangre', { required: true })}
-                                required
-                            />  */}
 
                             <select {...register('rh')} value={selecteSangres} onChange={handleSelectChangeSangres}>
                                 <option value=''>Seleccione:</option>

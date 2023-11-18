@@ -1,38 +1,35 @@
 // Importaciones de módulos necesarios
-import Axios from 'axios'
-import { useJsApiLoader, GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api'
-import { useEffect, useState } from 'react'
+import Axios from 'axios';
+import { useJsApiLoader, GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api';
+import { useEffect, useState } from 'react';
 
 // Definición de constantes y estados iniciales
-const center = { lat: 6.274655, lng: -75.5926907 }
+// Puedes definir origin aquí con un valor por defecto o dejarlo comentado y asignarlo más adelante
+// const origin = { lat: 0, lng: 0 };
 
 export default function Mapa() {
-  // Este componente renderiza un mapa de Google Maps con 
-  // una ruta desde un origen (Lugar donde está el paciente) a 
-  // un destino calculado por el sistema (Centro de salud recomendado)
-  // El destino se calcula a partir de los datos de ubicación de los centros de salud
-  // obtenidos desde la API de MediMinder en el backend (Django)
-
   // Carga de la API de Google Maps
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-  })
-  
+  });
+
   // Estados para las respuestas de direcciones, distancia, duración y destino seleccionado
   // Respuesta de direcciones
-  const [directionsResponse, setDirectionsResponse] = useState('')
+  const [directionsResponse, setDirectionsResponse] = useState('');
   // Distancia de la ruta
-  const [distance, setDistance] = useState('')
+  const [distance, setDistance] = useState('');
   // Duración de la ruta
-  const [duration, setDuration] = useState('')
+  const [duration, setDuration] = useState('');
   // Destino seleccionado
-  const [selectedDestination, setSelectedDestination] = useState(1)
+  const [selectedDestination, setSelectedDestination] = useState(1);
 
   // Estado para almacenar los datos de destino obtenidos de Axios
-  const [destinationData, setDestinationData] = useState([])
+  const [destinationData, setDestinationData] = useState([]);
 
-  // Origen de las direcciones
-  const origin = { lat: 6.274655, lng: -75.5926907 }
+  // Obtencion de ubicacion actual
+  const [origin, setOrigin] = useState({ lat: 0, lng: 0 });
+
+
 
   // Solicitar datos de destino a la API de MediMinder en el backend
   useEffect(() => {
@@ -49,51 +46,64 @@ export default function Mapa() {
         }));
 
         // Almacenamiento de los destinos en el estado
-        console.log(destinations)
+        console.log(destinations);
         setDestinationData(destinations);
       })
       .catch(error => {
         // Manejo de errores
         console.error('Error al procesar los datos', error);
       });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position.coords.latitude, position.coords.longitude);
+        const currentOrigin = { lat: position.coords.latitude, lng: position.coords.longitude };
+        // Asigna el valor de origin usando setOrigin
+        setOrigin(currentOrigin);
+      }, (error) => {
+        alert("Error: " + error.code + " " + error.message);
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
   }, []);
 
   // Función asincrónica para calcular la ruta desde el origen al destino seleccionado
   async function calculateRoute() {
     // Carga de la API de Google Maps
-    const directionsService = new window.google.maps.DirectionsService()
+    const directionsService = new window.google.maps.DirectionsService();
     // Cálculo de la ruta
     // El destino se calcula a partir de los datos de ubicación de los centros de salud
     const results = await directionsService.route({
       // Parámetros de la ruta
       origin: origin,
-      destination: destinationData[selectedDestination - 1], 
+      destination: destinationData[selectedDestination - 1],
       travelMode: window.google.maps.TravelMode.DRIVING,
-    })
+    });
 
     // Actualización de estados con los resultados de la ruta
-    setDirectionsResponse(results)
+    setDirectionsResponse(results);
     // La distancia de la ruta se obtienen de los resultados de la ruta
-    setDistance(results.routes[0].legs[0].distance.text)
+    setDistance(results.routes[0].legs[0].distance.text);
     // La duración de la ruta se obtienen de los resultados de la ruta
-    setDuration(results.routes[0].legs[0].duration.text)
+    setDuration(results.routes[0].legs[0].duration.text);
   }
 
   // Se calcula la ruta cada vez que se selecciona un destino
   useEffect(() => {
-    calculateRoute()
+    calculateRoute();
   }, [selectedDestination, destinationData]);
 
   // Comprobación de carga de Google Maps API
   if (!isLoaded) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   // Renderizado del mapa y botones de selección de destino
   return (
     <div style={{ height: '700px' }}>
-      <GoogleMap center={center} zoom={15} mapContainerStyle={{ width: '100%', height: '100%' }}>
-        <Marker position={center} />
+      <GoogleMap center={origin} zoom={15} mapContainerStyle={{ width: '100%', height: '100%' }}>
+        <Marker position={origin} />
         <DirectionsRenderer directions={directionsResponse} />
       </GoogleMap>
 
@@ -104,5 +114,5 @@ export default function Mapa() {
         </button>
       ))}
     </div>
-  )
+  );
 }

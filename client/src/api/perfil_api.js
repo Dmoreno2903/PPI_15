@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const PerfilAPI = axios.create({
-    baseURL: 'http://localhost:3000/api/perfil/',
+    baseURL: 'http://127.0.0.1:8000/api/perfil/',
 });
 
 export const getAllPerfil = () => PerfilAPI.get('/');
