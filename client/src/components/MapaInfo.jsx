@@ -78,44 +78,35 @@ export default MapaInfo;
 
 // Ubicacion fija
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import 'leaflet-routing-machine';
 
-/**
- * Componente que muestra un mapa con una ruta desde una ubicación inicial hasta una ubicación dada.
- * @param {Object} props - Propiedades del componente.
- * @param {Array} props.coordinates - Coordenadas de la ubicación final.
- * @returns {JSX.Element} Componente de React que muestra el mapa.
- */
 const MapaInfo = ({ coordinates }) => {
   const mapRef = useRef(null);
   const routingControlRef = useRef(null);
+  const [origin, setOrigin] = useState(null);
 
   useEffect(() => {
-    // Verifica si ya existe un mapa en el ref actual
     if (!mapRef.current) {
-      // Crea un nuevo mapa con las opciones especificadas
       const map = L.map('map', {
         center: coordinates,
         zoom: 13,
-        dragging: true, // Habilita el arrastre del mapa
-        zoomControl: true, // Habilita el control de zoom
+        dragging: true,
+        zoomControl: true,
         doubleClickZoom: 'center',
         boxZoom: false,
-        touchZoom: true, // Habilita el zoom táctil
-        scrollWheelZoom: true, // Habilita el zoom con la rueda del ratón
+        touchZoom: true,
+        scrollWheelZoom: true,
       });
       mapRef.current = map;
 
-      // Agrega una capa de teselas de OpenStreetMap al mapa
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
-      
-      // Crea dos iconos personalizados para los marcadores
+
       const blueIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
         iconSize: [25, 41],
@@ -134,13 +125,23 @@ const MapaInfo = ({ coordinates }) => {
         shadowSize: [41, 41],
       });
 
-      // Coordenadas iniciales para la capa de enrutamiento
-      const initialCoordinates = [6.27502919502266, -75.59265372007177];
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const currentOrigin = { lat: position.coords.latitude, lng: position.coords.longitude };
+            setOrigin(currentOrigin);
+          },
+          (error) => {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        );
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
 
-      // Crea una capa de enrutamiento con las opciones especificadas
       const routingControl = L.Routing.control({
         waypoints: [
-          L.latLng(initialCoordinates),
+          L.latLng(origin ? [origin.lat, origin.lng] : [0, 0]),
           L.latLng(coordinates),
         ],
         routeWhileDragging: true,
@@ -159,23 +160,17 @@ const MapaInfo = ({ coordinates }) => {
           }
         },
         lineOptions: {
-          styles: [{clickable: false, draggable: false }],
+          styles: [{ clickable: false, draggable: false }],
         },
       });
 
-      // Agrega la capa de enrutamiento al mapa y la guarda en el ref correspondiente
       routingControl.addTo(map);
       routingControlRef.current = routingControl;
-
-      // Oculta la capa de enrutamiento (se vuelve no editable)
       routingControl.hide();
     } else {
-      // Si el mapa ya existe, simplemente actualiza la ubicación
       mapRef.current.setView(coordinates, 13);
-
-      // Actualiza las coordenadas de los waypoints en la capa de enrutamiento
       routingControlRef.current.setWaypoints([
-        L.latLng([6.27502919502266, -75.59265372007177]),
+        L.latLng(origin ? [origin.lat, origin.lng] : [0, 0]),
         L.latLng(coordinates),
       ]);
     }
@@ -184,12 +179,9 @@ const MapaInfo = ({ coordinates }) => {
       // No es necesario eliminar el mapa ni la capa de enrutamiento aquí
       // ya que serán reutilizados en el siguiente render
     };
-  }, [coordinates]);
+  }, [coordinates, origin]);
 
-  // Retorna el elemento JSX que contiene el mapa
-  return (
-    <div id="map" style={{ width: '100%', height: '400px' }}></div>
-  );
+  return <div id="map" style={{ width: '100%', height: '400px' }}></div>;
 };
 
 export default MapaInfo;
