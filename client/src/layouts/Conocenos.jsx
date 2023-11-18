@@ -8,7 +8,7 @@ import Axios from 'axios'
 export default function Conocenos(){
 
     useEffect(() => {
-        Axios.post('http://localhost:8000/api/ips/filtro/').then(response => {
+        Axios.post('https://mediminder-e6ow.onrender.com/api/ips/filtro/').then(response => {
             console.log(response.data.ips_validas_serializer);
         })
         .catch(error => {
