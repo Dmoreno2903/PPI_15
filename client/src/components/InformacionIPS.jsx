@@ -360,22 +360,9 @@ function InformacionIPS() {
               </div>
             </div>
           )}
-          {ventana === 'listado' && (
-            <div className="contenedor-listado-nombres">
-              <h2>Seleccione una IPS</h2>
-              <div className='contenedor-tabla-listado'>
-              <table>
-                <tbody>
-                  {ips
-                  .sort((a, b) => a.nombre_prestador.localeCompare(b.nombre_prestador))
-                  .map((ip) => (
-                    <tr className="table-row" key={ip.codigo} onClick={() => {setIpSeleccionada(ip); mostrarListadoAlt();}}>
-                      <td>{ip.nombre_prestador}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              </div>
+          {ventana === 'graficas' && (
+            <div className="contenedor-graficas">
+              
             </div>
           )}
 
