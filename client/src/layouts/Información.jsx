@@ -6,7 +6,7 @@ export default function Información(){
         <>
         <Informacion_styled>
             <div className="contenedor">
-                <h1>Información de IPS</h1>
+                <h1>Información</h1>
                 <InformacionIPS/>
             </div>
         </Informacion_styled>
