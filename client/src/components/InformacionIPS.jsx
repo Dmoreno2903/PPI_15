@@ -15,8 +15,9 @@ const InformacionStyled = styled.div`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
-  table {
-    width: 100%;
+  .detalle-ips table {
+    width: 100px;
+    height: 50px;
     border-collapse: collapse;
   }
 
@@ -63,8 +64,16 @@ const InformacionStyled = styled.div`
     color: #0B4FD9;
   }
 
-  .listado-nombres {
+  .contenedor-listado-nombres table{
     margin-top: 20px;
+    width: 100%;
+    height: 100px;
+    border-collapse: collapse;
+  }
+  .contenedor-tabla-listado{
+    overflow: auto;
+    height: 400px;
+    width: 100%;
   }
 
   .informacion-ips {
@@ -117,6 +126,25 @@ const InformacionStyled = styled.div`
   .table-row:hover {
     background-color: #e0e0e0;
     cursor: pointer;
+  }
+  .contenedor-info-mapa {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly; /* Centrar horizontalmente */
+  }
+  .contenedor-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .contenedor-mapa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .mapa{
+    width: 400px;
+    height: 400px;
   }
 `;
 
@@ -236,6 +264,13 @@ function InformacionIPS() {
     setIpSeleccionada(null); // Limpiar la selección
   };
 
+  const mostrarVentana3 = () => {
+    setVentana('graficas');
+    setIpSeleccionada(null); // Limpiar la selección
+  };
+
+
+
   /**
    * Función que se ejecuta al hacer clic en una fila de la tabla de IPS.
    * Actualiza el estado de IPS seleccionada con la IPS seleccionada.
@@ -273,6 +308,11 @@ function InformacionIPS() {
             style={{ backgroundColor: ventana === 'listado' || ventana === 'listadoAlt' ? 'white' : '#0B4FD9', color: ventana === 'listado' || ventana === 'listadoAlt' ? '#0B4FD9' : 'white' }}
             >Listado IPS</button>
           </div>
+          <div>
+            <button onClick={mostrarVentana3}
+            style={{ backgroundColor: ventana === 'graficas' ? 'white' : '#0B4FD9', color: ventana === 'graficas' ? '#0B4FD9' : 'white' }}
+            >Grafica</button>
+          </div>
           </div>
         <div className="form-position">
           
@@ -303,17 +343,39 @@ function InformacionIPS() {
 
           {/* Ventana de listado */}
           {ventana === 'listado' && (
-            <div className="listado-nombres">
+            <div className="contenedor-listado-nombres">
               <h2>Seleccione una IPS</h2>
+              <div className='contenedor-tabla-listado'>
               <table>
                 <tbody>
-                  {ips.map((ip) => (
+                  {ips
+                  .sort((a, b) => a.nombre_prestador.localeCompare(b.nombre_prestador))
+                  .map((ip) => (
                     <tr className="table-row" key={ip.codigo} onClick={() => {setIpSeleccionada(ip); mostrarListadoAlt();}}>
                       <td>{ip.nombre_prestador}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              </div>
+            </div>
+          )}
+          {ventana === 'listado' && (
+            <div className="contenedor-listado-nombres">
+              <h2>Seleccione una IPS</h2>
+              <div className='contenedor-tabla-listado'>
+              <table>
+                <tbody>
+                  {ips
+                  .sort((a, b) => a.nombre_prestador.localeCompare(b.nombre_prestador))
+                  .map((ip) => (
+                    <tr className="table-row" key={ip.codigo} onClick={() => {setIpSeleccionada(ip); mostrarListadoAlt();}}>
+                      <td>{ip.nombre_prestador}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              </div>
             </div>
           )}
 
@@ -331,7 +393,9 @@ function InformacionIPS() {
         {/* Detalles de la IP seleccionada */}
         {ipSeleccionada && (
           <div className="detalle-ips">
-            <h2>Información del Prestador</h2>
+            <div className='contenedor-info-mapa'>
+            <div className='contenedor-info'>
+            <h1>Información del Prestador</h1>
             <table>
               <tbody>
                 <tr>
@@ -365,10 +429,13 @@ function InformacionIPS() {
                 </tr>
               </tbody>
             </table>
-            <div className="App">
+            </div>
+            <div className="contenedor-mapa">
             <h1>Mapa</h1>
-            <div>Azul: ubicacion actual  Rojo: ubicacion destino</div>
+            <div className='mapa'>
             <MapaInfo coordinates={[parseFloat(ipSeleccionada.latitud), parseFloat(ipSeleccionada.longitud)]} />
+            </div>
+            </div>
             </div>
             
           </div>
