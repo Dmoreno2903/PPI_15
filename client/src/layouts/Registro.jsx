@@ -115,7 +115,20 @@ export default function Registro(){
                 });
             }
         }
-    });  
+    });
+
+    function political() {
+        toast((t) => (
+            <span>
+              Respetamos tu privacidad. Los datos personales que nos proporcionas se 
+              utilizan exclusivamente con el propósito de brindarte una mejor experiencia. 
+              Nos comprometemos a proteger tu información y no compartiremos tus datos con 
+              terceros sin tu consentimiento. Puedes acceder, corregir o eliminar tus datos 
+              personales en cualquier momento
+            </span>
+          ));
+        
+    }
 
     return(
         // Agregamos un fragmento de HTML
@@ -197,7 +210,7 @@ export default function Registro(){
                                 onChange={changeCHECKBOX}
                             />
                             <p>
-                                Acepto la politica de tratamiento de datos
+                                Acepto la <span className="political" onClick={political}>politica de tratamiento de datos</span>
                             </p>
                         </div>
 
@@ -320,6 +333,10 @@ const StyledRegistro  = styled.div`
     .form button:hover{
         color: #FFFFFF;
         background-color: #0B4FD9;
+    }
+    .political{
+        font-weight: bold;
+        cursor: pointer;
     }
     
 `

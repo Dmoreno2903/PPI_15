@@ -10,6 +10,7 @@ import Registro from './layouts/Registro';
 import Ingresar from './layouts/Ingresar';
 import Mapa from './layouts/Mapa';
 import Emergencia from './layouts/Emergencia';
+import Recursos from './layouts/Recursos';
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/ppi_15/map",
         element: <Mapa />
+      },
+      {
+        path: "/ppi_15/recursos",
+        element: <Recursos />
       },
     ]
   }

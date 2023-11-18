@@ -7,15 +7,6 @@ import Axios from 'axios'
 
 export default function Conocenos(){
 
-    useEffect(() => {
-        Axios.post('https://mediminder-e6ow.onrender.com/api/ips/filtro/').then(response => {
-            console.log(response.data.ips_validas_serializer);
-        })
-        .catch(error => {
-            console.error('Erros al procesar los datos', error);
-        });
-    })
-
     return(
         <>
         <Conocenos_styled>
