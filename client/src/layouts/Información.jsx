@@ -34,7 +34,7 @@ const Informacion_styled = styled.div`
         display: flex;
         flex-direction:column;
         width: 70%;
-        height: 600px; 
+        height: 800px; 
 
         background-color: #ffffff;
         box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.2);
