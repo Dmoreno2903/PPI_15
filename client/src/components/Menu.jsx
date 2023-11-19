@@ -6,20 +6,16 @@ import user_man from "../images/user_man.png";
 import user_woman from "../images/user_woman.png";
 
 const rutasLogin = [
-//   { title: 'Perfil usuario', id: 1, ruta: 'perfil' },
   { title: 'Emergencia', id: 1, ruta: 'emergencia' },
-//   { title: 'Triage', id: 2 , ruta: 'triage'},
-//   { title: 'Calendario', id: 3 , ruta: 'calendario'},
-//   { title: 'Rutas', id: 4 , ruta: 'rutas'}, // ID único
-//   { title: 'Ubicación', id: 5 , ruta: 'ubicacion'}, // ID único
-//   { title: 'Reseña', id: 6 , ruta: 'resena'}, // ID único
+  { title: 'Registrar cita', id: 2 , ruta: 'Regcitamedica'},
+  { title: 'Calendario', id: 3 , ruta: 'calendario'},
 ];
 
 export default function MenuList() {
   const paramUser = useParams();
 
-  const [genero, setGenero] = useState(''); // Establecer un estado para el género
-  const [imagenPerfil, setImagenPerfil] = useState(user_man); // Establecer una imagen predeterminada
+  const [genero, setGenero] = useState('');
+  const [imagenPerfil, setImagenPerfil] = useState(user_man);
 
   useEffect(() => {
     async function getUsuario() {
@@ -27,7 +23,6 @@ export default function MenuList() {
       const generoUsuario = usuarioBuscado.data.genero;
       setGenero(generoUsuario);
 
-      // Cambiar la imagen según el género
       if (generoUsuario === 'Femenino') {
         setImagenPerfil(user_woman);
       }
@@ -56,66 +51,64 @@ export default function MenuList() {
   );
 }
 
-
 const MenuStyled = styled.div`
-
-
-.profile-picture{
+  .profile-picture {
     width: auto;
     height: auto;
-}
+  }
 
-.profile-picture img {
+  .profile-picture img {
     width: 150px;
     height: 150px;
     object-fit: cover;
-}
+  }
 
-.profile-slidebar{
+  .profile-slidebar {
     width: auto;
     height: auto;
-    /* position: fixed; */ 
-    /* top: 90px; */
-    background-color: #F4F3EE;
-}
+    background-color: #f4f3ee;
+    margin-top: 20px;
+  }
 
-.slidebar_inner ul{
-    padding: 0px;
+  .slidebar_inner ul {
+    padding: 10px;
     list-style: none;
-}
+    margin: 0;
+  }
 
-.slidebar_inner ul li{
+  .slidebar_inner ul li {
     display: flex;
     padding: 16px 25px;
     align-items: center;
     cursor: pointer;
     justify-content: center;
-    color : #000;
-}
+    color: #000;
+    border: 1px solid #081a40;
+    margin-bottom: 10px; /* Espacio entre elementos li */
+  }
 
+  .slidebar_inner ul li:hover {
+    color: #fff;
+    background-color: #0b4fd9;
+    font-weight: bold;
+  }
 
-.slidebar_inner ul li:hover{
-  color: #fff;
-  background-color: #DA1B2B;
-  font-weight: bold;
-}
-
-.slidebar_inner ul li a{
+  .slidebar_inner ul li a {
     display: block;
     color: #000;
     width: auto;
     padding: 5px;
     text-decoration: none;
     justify-content: center;
-}
+  }
 
-.profile-slidebar .text{
+  .profile-slidebar .text {
     padding: 1px 1px 1px 50px;
     letter-spacing: 1px;
-}
+  }
 
-.slidebar_inner ul li a img{
+  .slidebar_inner ul li a img {
     width: 30px;
-}
-
-`
+    margin-right: 10px;
+  }
+`;

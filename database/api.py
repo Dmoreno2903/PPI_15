@@ -5,6 +5,7 @@ from .models import Ips
 from .models import Usuario
 from .models import Triaje
 from .models import PerfilUsuario
+from .models import Citas
 
 # Se importan los serializadores de cada modelo
 from .serializers import EpsSerializer
@@ -12,6 +13,7 @@ from .serializers import IpsSerializer
 from .serializers import UsuarioSerializer
 from .serializers import TriajeSerializer
 from .serializers import PerfilUsuarioSerializer
+from .serializers import CitasSerializer
 
 # Se importan las librerías necesarias
 import base64
@@ -178,3 +180,8 @@ class PerfilViewSet(viewsets.ModelViewSet):
     queryset = PerfilUsuario.objects.all()
     permissions_classes = [permissions.AllowAny]
     serializer_class = PerfilUsuarioSerializer
+
+class CitasViewSet(viewsets.ModelViewSet):
+    queryset = Citas.objects.all()
+    permissions_classes = [permissions.AllowAny]
+    serializer_class = CitasSerializer

@@ -7,14 +7,13 @@ import { toast } from "react-hot-toast";
 import { obtenerUsuario } from "../api/usuario_api";
 import { updatePerfil, createPerfil, getPerfilUsuario, getAllPerfil } from "../api/perfil_api";
 
-
 export default function Perfil_usuario() {
     // La navegacion
     const navigate = useNavigate();
 
     // Obtener el usuario que se está buscando desde la URL
     const paramUser = useParams();
-    // console.log("ParamUser: ", paramUser.id)
+    
     // Para mostrar las opciones en el select TipoSangre
     const list_sangres = ['A', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
@@ -31,44 +30,30 @@ export default function Perfil_usuario() {
 
     async function getUsuario() {
         const usuarioBuscado = await obtenerUsuario(paramUser.id);
-        // // console.log("GetUsuario")
-        // // console.log(usuarioBuscado.data)
-        // // console.log("GetUsuario")
         setUsuarioBuscado(usuarioBuscado.data);
-
-        return usuarioBuscado.data
+        return usuarioBuscado.data;
     }
 
-
-    // console.log("DataUsuario")  
     async function getPerfil(user) {
-        // const perfilUsuarioBuscado = await getPerfilUsuario(paramUser.id);
-        // console.log("GetPerfil",paramUser.id)
         const perfilUsuarioBuscado = await getAllPerfil();
-    
-        // itera sobre perfilUsuarioBuscado para saber si esta paramUser.id en el campo user
-        // console.log("GetPerfil",perfilUsuarioBuscado.data)
-        var existe = false
-        var perfil_usuario = {}
+        var existe = false;
+        var perfil_usuario = {};
+
         for (const perfil of perfilUsuarioBuscado.data) {
             if (perfil.user === user.usuario) {
-                existe = true
-                perfil_usuario = perfil
+                existe = true;
+                perfil_usuario = perfil;
             }
         }
-        if (existe) {
-            // console.log("GetPerfil",perfil_usuario)
-            toast.success("El perfil de usuario está completo	\n puede editarlo si lo desea");
 
+        if (existe) {
+            toast.success("El perfil de usuario está completo\npuede editarlo si lo desea");
             setdataPerfilUsuario(perfil_usuario);
             navigate(`/ppi_15/ingresar/${paramUser.id}`);
-
-            console.log("GetPerfil",perfil_usuario)
 
             // Se colocan los datos del usuario en los inputs
             setValue("email", perfil_usuario.email);
             setValue("telefono", perfil_usuario.telefono);
-            setValue("sexo", perfil_usuario.sexo);
             setValue("contacto_emergencia", perfil_usuario.contacto_emergencia);
             setValue("telefono_emergencia", perfil_usuario.telefono_emergencia);
             setValue("direccion", perfil_usuario.direccion);
@@ -79,16 +64,14 @@ export default function Perfil_usuario() {
             setValue("medicamentos", perfil_usuario.medicamentos);
             setValue("rh", perfil_usuario.rh);
         } else {
-            toast('No se ha completado el registro del perfil \n registrelo por favor',
-                {
-                    icon: '⏳',
-                    style: {
-                        borderRadius: '10px',
-                        background: '#333',
-                        color: '#fff',
-                    },
-                }
-            );
+            toast('No se ha completado el registro del perfil \n registrelo por favor', {
+                icon: '⏳',
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
             setValue("user", user.usuario);
         }
     }
@@ -96,64 +79,71 @@ export default function Perfil_usuario() {
     useEffect(() => {
         (async () => {
             const user = await getUsuario();
-            // console.log("El parametro into",user)
             await getPerfil(user);
         })()
-
-        // DataUsuario
     }, [paramUser.id]);
 
-
-
     /* Se toma la información del form y se guarda en la base de datos */
-    const { register,
-        handleSubmit,
-        formState: { errors },
-        setValue
-    } = useForm();
-
-
-
-
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm();
 
     // Para crear el perfil
     const onSubmit = handleSubmit(async (data) => {
         const perfilUsuarioBuscado = await getAllPerfil();
-        var existe = false
-        var perfil_usuario = {}
+        var existe = false;
+        var perfil_usuario = {};
+        var posicion = 0;
+        var id_perfil = 100;
+
         for (const perfil of perfilUsuarioBuscado.data) {
-            console.log(perfil.id)
+            posicion += 1;
             if (perfil.user === paramUser.id) {
-                // console.log("as",perfil.codigo)
-                existe = true
-                perfil_usuario = perfil
+                existe = true;
+                perfil_usuario = perfil;
+                id_perfil = posicion;
             }
         }
-        // // console.log("Melo",paramUser.id)
-        // if (existe) {
-        //     console.log("Actializacion del usuario",paramUser.id)
-        //     data["user"] = paramUser.id
-        //     data["latitud"] = 6.477726194410493
-        //     data["longitud"] = -75.54883793840892
 
-        //     await updatePerfil(paramUser.id, data);
-        //     toast.success("Se modificaron correctamente los datos");
-        //     navigate(`/ppi_15/ingresar/${paramUser.id}`);
+        var dataa = {};
+        if (existe) {
+            console.log("Perfil a actualizar", id_perfil);
 
-            
-        // } else {
-        //     console.log("Creacion antes del error",paramUser.id)
-        //     data["user"] = paramUser.id
-        //     data["latitud"] = 6.477726194410493
-        //     data["longitud"] = -75.54883793840892
-        //     console.log(data);
-            
-        //     await createPerfil(data);
-        //     toast.success("Perfil actualizado con exito")
-        //     navigate(`/ppi_15/ingresar/${paramUser.id}`);
+            // Propiedades del objeto dataa
+            var properties = [
+                "user",
+                "email",
+                "telefono",
+                "contacto_emergencia",
+                "telefono_emergencia",
+                "direccion",
+                "acceso_ubicacion",
+                "latitud",
+                "longitud",
+                "alergias",
+                "medicamentos",
+                "rh"
+            ];
 
+            // Asignar valores al objeto dataa
+            properties.forEach(function(property) {
+                dataa[property] = data[property];
+            });
+
+            // Asignar valores específicos
+            dataa["user"] = paramUser.id;
+            dataa["latitud"] = 6.477726194410493;
+            dataa["longitud"] = -75.54883793840892;
+            await updatePerfil(id_perfil, dataa);
+            toast.success("Perfil actualizado con exito");
+        } else {
+            console.log("Creacion antes del error", paramUser.id);
+            data["user"] = paramUser.id;
+            data["latitud"] = 6.477726194410493;
+            data["longitud"] = -75.54883793840892;
             
-        // }
+            await createPerfil(data);
+            toast.success("Perfil creado con exito");
+            navigate(`/ppi_15/ingresar/${paramUser.id}`);
+        }
     });
 
     return (
@@ -165,9 +155,7 @@ export default function Perfil_usuario() {
 
                     <div className="formulario">
                         <form onSubmit={onSubmit}>
-                            <h2>
-                                Perfil de usuario
-                            </h2>
+                            <h2>Perfil de usuario</h2>
 
                             <input
                                 type="email"
@@ -181,7 +169,6 @@ export default function Perfil_usuario() {
                                 {...register('telefono', { required: true })}
                                 required
                             />
-
 
                             <input
                                 type="text"
@@ -203,22 +190,19 @@ export default function Perfil_usuario() {
                                 required
                             />
 
-
                             <label>
                                 Acceso a la ubicación:
                             </label>
-                            <input type="checkbox" {...register('acceso_ubicacion ')} />
+                            <input type="checkbox" {...register('acceso_ubicacion')} />
 
                             <label htmlFor="alergias">
                                 Alergias:
                             </label>
-
                             <textarea id="alergias" name="alergias" {...register('alergias', { required: true })} required></textarea>
 
                             <label htmlFor="medicamentos">
                                 Medicamentos:
                             </label>
-
                             <textarea id="medicamentos" name="medicamentos" {...register('medicamentos', { required: true })} required></textarea>
 
                             <select {...register('rh')} value={selecteSangres} onChange={handleSelectChangeSangres}>
