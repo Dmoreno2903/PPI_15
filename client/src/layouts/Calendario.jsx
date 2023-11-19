@@ -78,7 +78,7 @@ cont += 1;
               </table>
             </div>
             <form onSubmit={onSubmit}>
-            <button className="button">Volver</button>
+            <button className="button">Volver.</button>
             </form>
           </div>
         </CalendarioS>
