@@ -14,10 +14,10 @@ export default function Home() {
 
   return (
     <>
-    <Home_styled>
+    <HomeStyled>
       <Header />
       <div>
-        {parametro === '/ppi_15/' ? (
+        {parametro === '/ppi_15' ? (
           <div className="cont_home">
             <div className="cont_home_des">
                 <h1 className="cont_home_des_h1">Bienvenidos a MediMinder</h1>
@@ -30,14 +30,14 @@ export default function Home() {
           </div>
         )}
       </div>
-    </Home_styled>
+    </HomeStyled>
     </>
   );
 }
 
 
 // Se crea la constante de estilo la cuál contendrá todo el código CSS
-const Home_styled = styled.div`
+const HomeStyled = styled.div`
 
     .cont_home{
         padding: 10vh 0 0 0;

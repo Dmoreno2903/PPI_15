@@ -61,7 +61,7 @@ export default function Ingreso() {
             }
         });
 
-        if (usuario_exist == true) {
+        if (usuario_exist === true) {
             /* Guardamos el usuario */
             setUser(usuario);
 
@@ -98,7 +98,7 @@ export default function Ingreso() {
         <HeaderStyled>
             {isLogin ? 
                 <div>
-                <Link to={"/ppi_15/"}>Inicio</Link>
+                <Link to={"/ppi_15"}>Inicio</Link>
                 <Link to={"/ppi_15/informacion"}>Información</Link>
                 <Link to={"/ppi_15/conocenos"}>Conócenos</Link>
                 <Link to={"/ppi_15/registro"}>Registro</Link>
