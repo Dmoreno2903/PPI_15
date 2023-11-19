@@ -1,103 +1,93 @@
 import { styled } from "styled-components";
-import img_conocenos from "../images/img_conocenos.png"
-import github_conocenos from "../images/github_conocenos.png"
-import email_conocenos from "../images/email_conocenos.png"
 import { useEffect } from "react";
-import Axios from 'axios'
-import { getAllNotes } from "../api/notas_api";
+import { getAllCitas } from "../api/cita_api";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+ 
+export default function Calendario() {
+    // La navegacion
+    const navigate = useNavigate();
 
-export default function Conocenos() {
-    const [notas, setNotas] = useState([]);
-    const [promedios, setPromedios] = useState([]);
-    const [graphPath, setGraphPath] = useState('');
+     const [citasUser, setCitas] = useState([]);
+    // Obtener el usuario que se está buscando desde la URL
+     const paramUser = useParams();
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await Axios.post('https://s10proyect.onrender.com/api/notes/librerias/');
-                console.log("Enserio?", response.data.notas_seria);
-
-                if (response.data.graph_path) {
-                    setGraphPath(`data:image/png;base64, ${response.data.graph_path}`);
-                } else {
-                    console.error('El campo graph_path no está presente en la respuesta.');
-                }
-                const promediosObtenidas = response.data.notas_seria;
-                setPromedios(promediosObtenidas);    
-
-
-                const notasObtenidas = await getNotes();
-                setNotas(notasObtenidas);
-            } catch (error) {
-                console.error('Errores al procesar los datos', error);
-            }
+     useEffect(() => {
+         getNotes();
+     }, []);
+ 
+     async function getNotes() {
+         const citas = await getAllCitas();
+         var existe = false;
+         var citas_usuario = {};
+        var cont = 0;
+         for (const cita of citas.data) {
+             if (cita.user === paramUser.id) {
+                 existe = true;
+                 citas_usuario [cont]= cita;
+cont += 1;
+             }
+         }
+ 
+         if (existe) {
+        console.log(citas_usuario);
+        setCitas(citas_usuario)
+        }else{
+        console.log("no tiene");
         }
 
-        fetchData();
-    }, []);
+        
+     }
 
-    async function getNotes() {
-        const notes = await getAllNotes();
-        return notes.data;
-    }
-
-    return (
-        <Conocenos_styled>
-            <div className="contenedor">
-                <div className="items">
-                    <h1>Así están sus notas</h1>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Materia</th>
-                                <th>Nota</th>
-                                <th>Semestre</th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            {notas && notas.map((nota) => (
-                                <tr key={nota.id}>
-                                    <td>{nota.materia_code}</td>
-                                    <td>{nota.note}</td>
-                                    <td>{nota.semester}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div className="funcionalidades">
-                        <h1>Promedios</h1>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Semestre</th>
-                                    <th>Nota</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {promedios && promedios.map((promedio) => (
-                                    <tr key={promedio.id}>
-                                        <td>{promedio.semester}</td>
-                                        <td>{promedio.note}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        {/* Renderizar el gráfico */}
-                        {graphPath && <img src={graphPath} alt="Promedio de Notas por Materia" />}
-                    </div>
-                </div>
+     // Para crear el perfil
+     const onSubmit = async (event) => {
+        navigate(`/ppi_15/ingresar/${paramUser.id}`);
+    };
+ 
+     return (
+        <CalendarioS>
+          <div className="contenedor">
+            <div className="items">
+              <h1>Estas son las citas que tiene proximamente</h1>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Tipo de Cita</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    {/* <th>Usuario</th> */}
+                    {/* Agrega más columnas según la estructura de tus datos */}
+                  </tr>
+                </thead>
+      
+                <tbody>
+                  {Object.values(citasUser).map((cita) => (
+                    <tr key={cita.codigo}>
+                      <td>{cita.codigo}</td>
+                      <td>{cita.tipo_cita}</td>
+                      <td>{cita.fecha}</td>
+                      <td>{cita.hora}</td>
+                      {/* <td>{cita.ips}</td> */}
+                      {/* Agrega más celdas según la estructura de tus datos */}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-        </Conocenos_styled>
-    );
-}
+            <form onSubmit={onSubmit}>
+            <button className="button">Volver</button>
+            </form>
+          </div>
+        </CalendarioS>
+      );
+} 
+
 
 // Se crea la constante de estilo la cuál contendrá todo el código CSS
-const Conocenos_styled = styled.div`
+const CalendarioS = styled.div`
     background-color: #eeeeee;
     display: flex;
     justify-content: center;
@@ -119,13 +109,13 @@ const Conocenos_styled = styled.div`
     h1 {
         font-size: 2rem; /* Adjust font size for better readability */
         margin: 1vh;
-        color: #081c15;
+        color: #081A40
     }
 
     h2 {
         font-size: 1.5rem; /* Adjust font size for better readability */
         margin: 0px;
-        color: #081c15;
+        color: #081A40
     }
 
     .items {
@@ -150,7 +140,7 @@ const Conocenos_styled = styled.div`
     }
 
     th {
-        background-color: #081c15;
+        background-color: #081A40;
         color: white;
     }
 
@@ -168,7 +158,7 @@ const Conocenos_styled = styled.div`
     }
 
     .funcionalidad {
-        background-color: #081c15;
+        background-color: #081A40
         border-radius: 15px;
         width: calc(33.33% - 20px); /* 33.33% width with some space between items */
         margin: 1vw;
@@ -181,11 +171,25 @@ const Conocenos_styled = styled.div`
     }
 
     .funcionalidad:hover {
-        background-color: #081c15;
+        background-color: #081A40
     }
 
     .info_image {
         width: 1.5rem; /* Adjust image size for better readability */
         height: auto;
+    }
+    .button{
+        font-size: 1.5vw;
+        font-weight: bold;
+        background-color: #081A40;
+        color: #fff;
+        margin: 1vh 2vw 3vh 2vw;
+        padding: 1vh 1vw;
+        border: 0px;
+        border-radius: 10px
+    }
+    .button:hover{
+        color: #FFFFFF;
+        background-color: #0B4FD9;
     }
 `;
