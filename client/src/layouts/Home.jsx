@@ -1,17 +1,25 @@
+
+// Importamos los módulos requeridos
 import {styled} from "styled-components";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import { useState, useEffect } from "react";
 
 export default function Home() {
+  // Creamos la variable para guardar la ruta
   const [parametro, setParametro] = useState('');
+
+  // Seleccionamos la ruta la cuál estamos visitando
   const location = useLocation();
 
+  // Despues de cualquier modificación en la ruta, guardamos la ruta
   useEffect(() => {
+    // Toma la ruta y la guarda en parmetro
     const tuParametro = location.pathname;
     setParametro(tuParametro);
   }, [location]);
 
+  // Mostramos la vista
   return (
     <>
     <HomeStyled>
