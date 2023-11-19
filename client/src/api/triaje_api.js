@@ -8,3 +8,7 @@ const TriajeAPI = axios.create({
 export const getAllTriaje = () => TriajeAPI.get('/');
 
 export const createTriaje = (triaje) => TriajeAPI.post('/', triaje);
+
+export const getTriajeGrafica = () => TriajeAPI.get('/grafica/');
+
+export const getEstadisticasTriaje = () => TriajeAPI.get('/estadisticas_triaje/');

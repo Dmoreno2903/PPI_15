@@ -14,8 +14,12 @@ from .serializers import TriajeSerializer
 from .serializers import PerfilUsuarioSerializer
 
 # Se importan las librerías necesarias
+import base64
+import numpy as np
 import pandas as pd
 import geopandas as gp
+import matplotlib.pyplot as plt
+from io import BytesIO
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -101,17 +105,73 @@ class IpsViewSet(viewsets.ModelViewSet):
             # Devuelve un mensaje de error
             return {'message' : str(e)}
 
+
 # Se crea la vista de la relación Usuario
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     permissions_classes = [permissions.AllowAny]
     serializer_class = UsuarioSerializer
 
+def get_graph():
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png)
+    graph = graph.decode('utf-8')
+    buffer.close()
+    return graph
+
 # Se crea la vista de la relación Triage
 class TriajeViewSet(viewsets.ModelViewSet):
     queryset = Triaje.objects.all()
     permissions_classes = [permissions.AllowAny]
     serializer_class = TriajeSerializer
+    @action(detail=False, methods=['get'], url_path='estadisticas_triaje')
+    def get_estadisticas_triaje(self, request):
+            ''' La función calcula diferentes estadísticas '''
+            try:
+                registros = Triaje.objects.values('triage_calculado')
+                
+                # Obtiene los triages como un array de NumPy
+                triages = np.array([registro['triage_calculado'] for registro in registros])
+
+                # Convierte los datos a numéricos utilizando NumPy
+                triages = np.array(triages, dtype=np.float64)
+                # Calcula el promedio y la desviación estándar
+                promedio = round(np.mean(triages),3)
+                desviacion_estandar = round(np.std(triages),3)
+
+                return Response({'promedio': promedio, 'desviacion_estandar': desviacion_estandar})
+            except Exception as e:
+                return Response({'error': str(e)})
+            
+    @action(detail=False, methods=['get'], url_path='grafica')
+    def grafica(self, request):
+            ''' La función hace una grafica de frecuencias'''
+            try:
+                registros = Triaje.objects.values('triage_calculado')
+                df = pd.DataFrame(registros)
+                # Calcula la frecuencia y crea un nuevo DataFrame
+                frecuencias = df['triage_calculado'].value_counts().reset_index()
+                frecuencias.columns = ['triage_calculado', 'frecuencia']
+                # Ordena el DataFrame en orden descendente por 'triage_calculado'
+                frecuencias = frecuencias.sort_values(by='triage_calculado')
+                #Crear el grafico con Matplotlib
+                plt.switch_backend('AGG')
+                plt.figure(figsize=(10, 5))
+                plt.title('Frecuencia de triajes')
+                plt.xlabel('Triage')
+                plt.ylabel('Frecuencia')
+                plt.bar(frecuencias['triage_calculado'],frecuencias['frecuencia'])
+                plt.xticks(frecuencias['triage_calculado'])
+                plt.tight_layout()
+                graph = get_graph()
+                return Response({'grafico': graph, "triage_calculado": frecuencias['triage_calculado'].tolist(), "frecuencia": frecuencias['frecuencia'].tolist()})
+            except Exception as e:
+                return {'message' : str(e)}
+            
+    
 
 # Se crea la vista de la relación Perfil de usuario
 class PerfilViewSet(viewsets.ModelViewSet):

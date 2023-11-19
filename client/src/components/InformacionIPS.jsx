@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllIps } from '../api/ips_api';
+import { getTriajeGrafica} from '../api/triaje_api';
+import { getEstadisticasTriaje } from '../api/triaje_api';
 import styled from 'styled-components';
 import Autosuggest from 'react-autosuggest';
 import MapaInfo from './MapaInfo';
@@ -146,6 +148,26 @@ const InformacionStyled = styled.div`
     width: 400px;
     height: 400px;
   }
+  .contenedor-estadisticas-grafica {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Centrar horizontalmente */
+    align-items: center;
+    margin-top: 20px;
+    border: 2px solid #0B4FD9;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .contenedor-estadisticas table{
+    border-collapse: collapse;
+  }
+  .contenedor-graficas img{
+    width: 80%;
+    height: 40%;
+    margin-top: 20px;
+  }
 `;
 
 /**
@@ -158,7 +180,9 @@ function InformacionIPS() {
   const [suggestions, setSuggestions] = useState([]); // Estado para almacenar las sugerencias de búsqueda
   const [ipSeleccionada, setIpSeleccionada] = useState(null); // Estado para almacenar la IPS seleccionada
   const [ventana, setVentana] = useState(); // Estado para controlar la ventana
-
+  const [grafica, setGrafica] = useState(null); // Estado para almacenar las estadísticas de la IPS seleccionada
+  const [estadisticasTriaje, setEstadisticasTriaje] = useState(null); // Estado para almacenar las estadísticas de la IPS seleccionada
+  
   /**
    * Función que se ejecuta al cargar el componente.
    * Obtiene la lista de IPS y la almacena en el estado.
@@ -176,6 +200,33 @@ function InformacionIPS() {
     fetchIps();
   }, []);
 
+  useEffect(() => {
+    const fetchTriaje = async () => {
+      try {
+        const response = await getTriajeGrafica();
+        setGrafica(response.data);
+      } catch (error) {
+        console.error('Error al obtener la grafica:', error);
+      }
+    };
+
+    fetchTriaje();  
+  }
+  , []);
+
+  useEffect(() => {
+    const fetchTriaje = async () => {
+      try {
+        const response = await getEstadisticasTriaje();
+        setEstadisticasTriaje(response.data);
+      } catch (error) {
+        console.error('Error al obtener la grafica:', error);
+      }
+    };
+
+    fetchTriaje();  
+  }
+  , []);
   /**
    * Función que devuelve las sugerencias de búsqueda según el valor del input.
    * @param {string} inputValue - Valor del input de búsqueda.
@@ -360,10 +411,27 @@ function InformacionIPS() {
               </div>
             </div>
           )}
+          {/* Ventana de graficas*/}
           {ventana === 'graficas' && (
-            <div className="contenedor-graficas">
-              
-            </div>
+            <div className='contenedor-estadisticas-grafica'>
+              <div className="contenedor-estadisticas">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Promedio del triaje:</td>
+                    <td>{estadisticasTriaje.promedio}</td>
+                  </tr>
+                  <tr>
+                    <td>Desviacion estandar del triaje:</td>
+                    <td>{estadisticasTriaje.desviacion_estandar}</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              <div className="contenedor-graficas">
+                <img src={`data:image/png;base64,${grafica.grafico}`} alt="Gastos por mes" />
+              </div>
+            </div> 
           )}
 
           {/* Ventana de listado alternativo*/}
