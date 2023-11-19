@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const PerfilAPI = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api/perfil/',
+    baseURL: 'https://mediminder-e6ow.onrender.com/api/perfil/',
 });
 
 export const getAllPerfil = () => PerfilAPI.get('/');

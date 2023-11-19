@@ -87,10 +87,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
+        default='postgres://mediminder_db_user:dWESEDKv1Q8va63edpz0o7gXes46YByE@dpg-cld6g9d4lnec73e72c5g-a.oregon-postgres.render.com/mediminder_db',
         conn_max_age=600
     )
-}
+} 
 
 
 # Password validation
