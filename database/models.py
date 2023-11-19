@@ -80,3 +80,12 @@ class PerfilUsuario(models.Model):
     alergias = models.CharField(max_length=100, blank=False)
     medicamentos = models.CharField(max_length=100, blank=False)
     rh = models.CharField(max_length=3, blank=False)
+
+# Relación Perfil-Usuario
+class Citas(models.Model):
+    codigo = models.AutoField(primary_key=True)
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    tipo_cita = models.CharField(max_length=50, blank=False)
+    fecha = models.CharField(max_length=50, blank=False)
+    hora = models.CharField(max_length=50, blank=False)
+    ips = models.ForeignKey(Ips, on_delete=models.CASCADE)

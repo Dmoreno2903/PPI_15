@@ -371,7 +371,7 @@ const Registro_styled = styled.div`
         border: 1px solid #0B4FD9;
     }
     button:hover{
-        background-color: white;
+        background-color: #0B4FD9;
         color: #0B4FD9;
         border: 1px solid #0B4FD9;
     }

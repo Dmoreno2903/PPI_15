@@ -11,6 +11,8 @@ import Ingresar from './layouts/Ingresar';
 import Mapa from './layouts/Mapa';
 import Emergencia from './layouts/Emergencia';
 import Recursos from './layouts/Recursos';
+import Regcitamedica from './layouts/Regcitamedica';
+import Calendario from './layouts/Calendario';
 
 const router = createBrowserRouter([
   {
@@ -52,6 +54,22 @@ const router = createBrowserRouter([
       {
         path: "/ppi_15/recursos",
         element: <Recursos />
+      },
+      {
+        path: "/ppi_15/Regcitamedica",
+        element: <Regcitamedica />
+      },
+      {
+        path: "/ppi_15/Regcitamedica/:id",
+        element: <Regcitamedica />
+      },
+      {
+        path: "/ppi_15/calendario",
+        element: <Calendario />
+      },
+      {
+        path: "/ppi_15/calendario/:id",
+        element: <Calendario />
       },
     ]
   }

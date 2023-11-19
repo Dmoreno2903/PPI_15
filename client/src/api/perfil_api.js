@@ -10,4 +10,4 @@ export const createPerfil = (triaje) => PerfilAPI.post('/', triaje);
 
 export const getPerfilUsuario = (cedula) => PerfilAPI.get(`/${cedula}/`);
 
-export const updatePerfil = (cedula, data) => PerfilAPI.put(`/${cedula}/`, data);
+export const updatePerfil = (user, data) => PerfilAPI.put(`/${user}/`, data);

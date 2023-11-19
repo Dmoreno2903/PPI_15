@@ -8,6 +8,7 @@ from .models import Ips
 from .models import Usuario
 from .models import Triaje
 from .models import PerfilUsuario
+from .models import Citas
 
 # Se crea el serializador de la relación EPS
 class EpsSerializer(serializers.ModelSerializer):
@@ -72,3 +73,9 @@ class PerfilUsuarioSerializer(serializers.ModelSerializer):
             'rh'
         )
         read_only_fields = (['codigo'])
+
+# Se crea el serializador de la relación Citas
+class CitasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Citas
+        fields = '__all__'
