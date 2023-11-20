@@ -16,7 +16,7 @@ import Calendario from './layouts/Calendario';
 
 const router = createBrowserRouter([
   {
-    path: "/ppi_15",
+    path: "/ppi_15/",
     element: <Home/>,
     children: [
       {

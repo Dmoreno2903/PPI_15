@@ -25,7 +25,7 @@ export default function Home() {
     <HomeStyled>
       <Header />
       <div>
-        {parametro === '/ppi_15' ? (
+        {parametro === '/ppi_15/' ? (
           <div className="cont_home">
             <div className="cont_home_des">
                 <h1 className="cont_home_des_h1">Bienvenidos a MediMinder</h1>
