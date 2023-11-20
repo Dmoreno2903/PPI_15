@@ -29,7 +29,6 @@ export default function Home() {
           <div className="cont_home">
             <div className="cont_home_des">
                 <h1 className="cont_home_des_h1">Bienvenidos a MediMinder</h1>
-                <a href="/ppi_15/recursos" className="cont_home_des_a">Acceso a recursos médicos</a>
             </div>
           </div>
         ) : (
