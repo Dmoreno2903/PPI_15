@@ -1,5 +1,28 @@
+/**
+ * Módulo que contiene funciones para realizar operaciones 
+ * relacionadas con triajes mediante peticiones a la API.
+ * Utiliza la biblioteca axios para gestionar las solicitudes HTTP.
+ *
+ * @module triaje_api
+ */
+
 import axios from 'axios'
 
+/**
+ * Instancia de axios preconfigurada para realizar 
+ * peticiones a la API de triajes.
+ * La URL base está establecida en 'https://mediminder-e6ow.onrender.com/api/triaje/'.
+ *
+ * @type {Object}
+ * @property {Function} get - Función para realizar una solicitud 
+ * GET para obtener todos los triajes.
+ * @property {Function} post - Función para realizar una solicitud 
+ * POST para crear un nuevo triaje.
+ * @property {Function} getTriajeGrafica - Función para realizar una 
+ * solicitud GET para obtener datos para la gráfica de triajes.
+ * @property {Function} getEstadisticasTriaje - Función para realizar 
+ * una solicitud GET para obtener estadísticas de triajes.
+ */
 const TriajeAPI = axios.create({
     // baseURL: 'http://localhost:3000/api/triaje/',
     baseURL: 'https://mediminder-e6ow.onrender.com/api/triaje/',
