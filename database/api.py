@@ -29,7 +29,7 @@ from rest_framework.decorators import action
 
 # Se crea la vista de la relación EPS
 class EpsViewSet(viewsets.ModelViewSet):
-     """ Vista para la gestión de la entidad EPS.
+    """ Vista para la gestión de la entidad EPS.
 
     Esta vista permite realizar operaciones CRUD
     (Crear, Leer,Actualizar, Eliminar)
@@ -43,9 +43,9 @@ class EpsViewSet(viewsets.ModelViewSet):
     - `serializer_class`: Clase utilizada para serializar y deserializar
        objetos EPS.
     """
-     queryset = Eps.objects.all()
-     permissions_classes = [permissions.AllowAny]
-     serializer_class = EpsSerializer
+    queryset = Eps.objects.all()
+    permissions_classes = [permissions.AllowAny]
+    serializer_class = EpsSerializer
 
 # Se crea la vista de la relación IPS
 class IpsViewSet(viewsets.ModelViewSet):
@@ -143,7 +143,7 @@ class IpsViewSet(viewsets.ModelViewSet):
 
 # Se crea la vista de la relación Usuario
 class UsuarioViewSet(viewsets.ModelViewSet):
-     """ Vista para la gestión de la entidad Usuario.
+    """ Vista para la gestión de la entidad Usuario.
 
     Esta vista permite realizar operaciones CRUD
     (Crear, Leer, Actualizar, Eliminar) sobre los objetos
@@ -157,9 +157,9 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     - `serializer_class`: Clase utilizada para serializar y deserializar
         objetos Usuario.
     """
-     queryset = Usuario.objects.all()
-     permissions_classes = [permissions.AllowAny]
-     serializer_class = UsuarioSerializer
+    queryset = Usuario.objects.all()
+    permissions_classes = [permissions.AllowAny]
+    serializer_class = UsuarioSerializer
 
 def get_graph():
     """
@@ -287,7 +287,6 @@ class PerfilViewSet(viewsets.ModelViewSet):
     - `serializer_class`: Clase utilizada para serializar y
     deserializar objetos Perfil de Usuario.
     """
-
     queryset = PerfilUsuario.objects.all()
     permissions_classes = [permissions.AllowAny]
     serializer_class = PerfilUsuarioSerializer
