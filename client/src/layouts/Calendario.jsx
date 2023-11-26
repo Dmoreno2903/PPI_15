@@ -5,85 +5,100 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
- 
+/**
+* Componente funcional que representa la vista del calendario de citas del usuario.
+*
+* @component
+* @returns {JSX.Element} Retorna un elemento JSX que contiene la información y el formulario del calendario de citas.
+*/
 export default function Calendario() {
-    // La navegacion
-    const navigate = useNavigate();
+  // La navegacion
+  const navigate = useNavigate();
 
-     const [citasUser, setCitas] = useState([]);
-    // Obtener el usuario que se está buscando desde la URL
-     const paramUser = useParams();
+  const [citasUser, setCitas] = useState([]);
+  // Obtener el usuario que se está buscando desde la URL
+  const paramUser = useParams();
 
-     useEffect(() => {
-         getNotes();
-     }, []);
- 
-     async function getNotes() {
-         const citas = await getAllCitas();
-         var existe = false;
-         var citas_usuario = {};
-        var cont = 0;
-         for (const cita of citas.data) {
-             if (cita.user === paramUser.id) {
-                 existe = true;
-                 citas_usuario [cont]= cita;
-cont += 1;
-             }
-         }
- 
-         if (existe) {
-        console.log(citas_usuario);
-        setCitas(citas_usuario)
-        }else{
-        console.log("no tiene");
-        }
+  useEffect(() => {
+    getNotes();
+  }, []);
 
-        
-     }
+  /**
+* Efecto que se ejecuta al renderizar el componente para obtener las citas del usuario.
+*
+* @effect
+*/
+  async function getNotes() {
+    const citas = await getAllCitas();
+    var existe = false;
+    var citas_usuario = {};
+    var cont = 0;
+    for (const cita of citas.data) {
+      if (cita.user === paramUser.id) {
+        existe = true;
+        citas_usuario[cont] = cita;
+        cont += 1;
+      }
+    }
 
-     // Para crear el perfil
-     const onSubmit = async (event) => {
-        navigate(`/ppi_15/ingresar/${paramUser.id}`);
-    };
- 
-     return (
-        <CalendarioS>
-          <div className="contenedor">
-            <div className="items">
-              <h1>Estas son las citas que tiene proximamente</h1>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Código</th>
-                    <th>Tipo de Cita</th>
-                    <th>Fecha</th>
-                    <th>Hora</th>
-                    {/* <th>Usuario</th> */}
-                    {/* Agrega más columnas según la estructura de tus datos */}
-                  </tr>
-                </thead>
-      
-                <tbody>
-                  {Object.values(citasUser).map((cita) => (
-                    <tr key={cita.codigo}>
-                      <td>{cita.codigo}</td>
-                      <td>{cita.tipo_cita}</td>
-                      <td>{cita.fecha}</td>
-                      <td>{cita.hora}</td>
-                      {/* <td>{cita.ips}</td> */}
-                      {/* Agrega más celdas según la estructura de tus datos */}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <form onSubmit={onSubmit}>
-            <button className="button">Volver.</button>
-            </form>
-          </div>
-        </CalendarioS>
-      );
-} 
+    if (existe) {
+      console.log(citas_usuario);
+      setCitas(citas_usuario)
+    } else {
+      console.log("no tiene");
+    }
+
+
+  }
+
+  /**
+   * Función que maneja la lógica de envío del formulario.
+   *
+   * @function
+   * @param {Event} event - Evento del formulario.
+   */
+  const onSubmit = async (event) => {
+    navigate(`/ppi_15/ingresar/${paramUser.id}`);
+  };
+
+  return (
+    <CalendarioS>
+      <div className="contenedor">
+        <div className="items">
+          <h1>Estas son las citas que tiene proximamente</h1>
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Tipo de Cita</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                {/* <th>Usuario</th> */}
+                {/* Agrega más columnas según la estructura de tus datos */}
+              </tr>
+            </thead>
+
+            <tbody>
+              {Object.values(citasUser).map((cita) => (
+                <tr key={cita.codigo}>
+                  <td>{cita.codigo}</td>
+                  <td>{cita.tipo_cita}</td>
+                  <td>{cita.fecha}</td>
+                  <td>{cita.hora}</td>
+                  {/* <td>{cita.ips}</td> */}
+                  {/* Agrega más celdas según la estructura de tus datos */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <form onSubmit={onSubmit}>
+          <button className="button">Volver.</button>
+        </form>
+      </div>
+    </CalendarioS>
+  );
+}
 
 
 // Se crea la constante de estilo la cuál contendrá todo el código CSS

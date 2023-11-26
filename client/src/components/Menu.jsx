@@ -7,9 +7,17 @@ import user_woman from "../images/user_woman.png";
 
 const rutasLogin = [
   { title: 'Emergencia', id: 1, ruta: 'emergencia' },
-  { title: 'Registrar cita', id: 2 , ruta: 'Regcitamedica'},
-  { title: 'Calendario', id: 3 , ruta: 'calendario'},
+  { title: 'Registrar cita', id: 2, ruta: 'Regcitamedica' },
+  { title: 'Calendario', id: 3, ruta: 'calendario' },
 ];
+
+
+/**
+ * Componente que representa el menú lateral de navegación para un usuario.
+ *
+ * @component
+ * @returns {JSX.Element} Retorna un elemento JSX que contiene la estructura del menú.
+ */
 
 export default function MenuList() {
   const paramUser = useParams();
@@ -17,6 +25,10 @@ export default function MenuList() {
   const [genero, setGenero] = useState('');
   const [imagenPerfil, setImagenPerfil] = useState(user_man);
 
+  /**
+     * Función asincrónica que obtiene información del usuario, incluyendo su género,
+     * y actualiza el estado del componente con la información correspondiente.
+     */
   useEffect(() => {
     async function getUsuario() {
       const usuarioBuscado = await obtenerUsuario(paramUser.id);
@@ -30,12 +42,18 @@ export default function MenuList() {
     getUsuario();
   }, [paramUser.id]);
 
+  /**
+   * Mapea la lista de rutas de navegación y genera elementos de lista con enlaces.
+   */
   const listItems = rutasLogin.map(product =>
     <li key={product.id}>
       <Link to={`/ppi_15/${product.ruta}/${paramUser.id}`}>{product.title}</Link>
     </li>
   );
-
+  
+  /**
+ * Estilos CSS-in-JS para el componente del menú lateral.
+ */
   return (
     <MenuStyled>
       <div className="profile-picture">

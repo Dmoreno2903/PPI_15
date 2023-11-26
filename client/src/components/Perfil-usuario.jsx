@@ -7,6 +7,12 @@ import { toast } from "react-hot-toast";
 import { obtenerUsuario } from "../api/usuario_api";
 import { updatePerfil, createPerfil, getPerfilUsuario, getAllPerfil } from "../api/perfil_api";
 
+/**
+ * Componente funcional que representa la vista del perfil de usuario.
+ *
+ * @component
+ * @returns {JSX.Element} Retorna un elemento JSX que contiene la información y formulario del perfil de usuario.
+ */
 export default function Perfil_usuario() {
     // La navegacion
     const navigate = useNavigate();
@@ -28,12 +34,27 @@ export default function Perfil_usuario() {
     // Se guardan los datos consultados en la base de datos Usuario
     const [dataPerfilUsuario, setdataPerfilUsuario] = useState([]);
 
+    /**
+   * Función asincrónica que obtiene información del usuario y actualiza el estado del componente.
+   *
+   * @async
+   * @function
+   */
     async function getUsuario() {
         const usuarioBuscado = await obtenerUsuario(paramUser.id);
         setUsuarioBuscado(usuarioBuscado.data);
         return usuarioBuscado.data;
     }
+    
 
+    /**
+   * Función asincrónica que obtiene y verifica la existencia del perfil del usuario.
+   * Muestra un mensaje y redirige según la existencia del perfil.
+   *
+   * @async
+   * @function
+   * @param {Object} user - Objeto que representa al usuario.
+   */
     async function getPerfil(user) {
         const perfilUsuarioBuscado = await getAllPerfil();
         var existe = false;
