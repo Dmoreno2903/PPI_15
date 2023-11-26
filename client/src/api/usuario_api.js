@@ -29,3 +29,5 @@ export const getAllUsers = () => UsuarioAPI.get('/');
 export const createUser = (user) => UsuarioAPI.post('/', user);
 
 export const obtenerUsuario = (usuario) => UsuarioAPI.get(`/${usuario}/`);
+
+export const actualizarUsuario = (usuario, object) => UsuarioAPI.put(`/${usuario}/`, object)

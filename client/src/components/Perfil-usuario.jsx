@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { obtenerUsuario } from "../api/usuario_api";
+import { actualizarUsuario, obtenerUsuario } from "../api/usuario_api";
 import { updatePerfil, createPerfil, getPerfilUsuario, getAllPerfil } from "../api/perfil_api";
 
 /**
@@ -167,6 +167,22 @@ export default function Perfil_usuario() {
         }
     });
 
+    const [newPassword, setNewPassword] = useState('')
+
+    const changeInput = ({target}) => {
+        setNewPassword(target.value)
+    }
+
+    async function changePassword () {
+        const changeUser = await obtenerUsuario(paramUser.id)
+        const objectUser = changeUser.data
+        objectUser.password = newPassword
+        console.log(objectUser)
+        setNewPassword('')
+        actualizarUsuario(paramUser.id, objectUser)
+        toast.success('Contraseña cambiada con éxito')
+    }
+
     return (
         <>
             <PerfilStyled>
@@ -236,7 +252,13 @@ export default function Perfil_usuario() {
                             </select>
 
                             <button>Completar informacion</button>
+
                         </form>
+
+                        <label> Cambiar la contraseña</label>
+                        <input type="text" placeholder="Nueva contraseña" value={newPassword} onChange={changeInput}></input>
+                        <button onClick={changePassword}>CAMBIAR</button>
+
                     </div>
                 </div>
             </PerfilStyled>
