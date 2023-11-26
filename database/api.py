@@ -43,9 +43,9 @@ class EpsViewSet(viewsets.ModelViewSet):
     - `serializer_class`: Clase utilizada para serializar y deserializar
        objetos EPS.
     """
-    queryset = Eps.objects.all()
-    permissions_classes = [permissions.AllowAny]
-    serializer_class = EpsSerializer
+     queryset = Eps.objects.all()
+     permissions_classes = [permissions.AllowAny]
+     serializer_class = EpsSerializer
 
 # Se crea la vista de la relación IPS
 class IpsViewSet(viewsets.ModelViewSet):
@@ -157,9 +157,9 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     - `serializer_class`: Clase utilizada para serializar y deserializar
         objetos Usuario.
     """
-    queryset = Usuario.objects.all()
-    permissions_classes = [permissions.AllowAny]
-    serializer_class = UsuarioSerializer
+     queryset = Usuario.objects.all()
+     permissions_classes = [permissions.AllowAny]
+     serializer_class = UsuarioSerializer
 
 def get_graph():
     """

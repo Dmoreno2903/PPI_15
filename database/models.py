@@ -13,49 +13,45 @@ class Eps(models.Model):
     - `__str__`: Método que devuelve la representación en cadena
     de la entidad EPS (nombre de la entidad).
     """
-    codigo = models.CharField(max_length=10, blank=False, primary_key=True)
-    nit = models.CharField(max_length=15, blank=False)
-    regimen = models.CharField(max_length=20, blank=False)
-    entidad = models.CharField(max_length=50, blank=False)
-
-    def __str__(self):
-        return (self.entidad)
+     codigo = models.CharField(max_length=10, blank=False, primary_key=True)
+     nit = models.CharField(max_length=15, blank=False)
+     regimen = models.CharField(max_length=20, blank=False)
+     entidad = models.CharField(max_length=50, blank=False)
+     def __str__(self):
+         return (self.entidad)
 
 class Ips(models.Model):
+     """Modelo que representa la entidad IPS en el sistema.
+     Atributos:
+     - `codigo`: Código identificador único de la IPS (clave primaria).
+     - `nombre_prestador`: Nombre del prestador de servicios de salud.
+     - `nit`: NIT (Número de Identificación Tributaria) de la IPS.
+     - `naturaleza`: Naturaleza de la IPS.
+     - `direccion`: Dirección de la IPS.
+     - `email`: Correo electrónico de la IPS.
+     - `telefono`: Número de teléfono de la IPS.
+     - `tiempo_urgencias`: Tiempo de atención en urgencias.
+     - `complejidad`: Nivel de complejidad de la IPS.
+     - `latitud`: Coordenada de latitud de la ubicación de la IPS.
+     - `longitud`: Coordenada de longitud de la ubicación de la IPS.
+     
+     Método:
+     - `__str__`: Método que devuelve la representación en cadena 
+     de la entidad IPS (nombre del prestador).
      """
-    Modelo que representa la entidad IPS en el sistema.
-
-    Atributos:
-    - `codigo`: Código identificador único de la IPS (clave primaria).
-    - `nombre_prestador`: Nombre del prestador de servicios de salud.
-    - `nit`: NIT (Número de Identificación Tributaria) de la IPS.
-    - `naturaleza`: Naturaleza de la IPS.
-    - `direccion`: Dirección de la IPS.
-    - `email`: Correo electrónico de la IPS.
-    - `telefono`: Número de teléfono de la IPS.
-    - `tiempo_urgencias`: Tiempo de atención en urgencias.
-    - `complejidad`: Nivel de complejidad de la IPS.
-    - `latitud`: Coordenada de latitud de la ubicación de la IPS.
-    - `longitud`: Coordenada de longitud de la ubicación de la IPS.
-
-    Método:
-    - `__str__`: Método que devuelve la representación en cadena 
-    de la entidad IPS (nombre del prestador).
-    """
-    codigo = models.CharField(max_length=10, blank=False, primary_key=True)
-    nombre_prestador = models.CharField(max_length=250, blank=False)
-    nit = models.CharField(max_length=15, blank=False)
-    naturaleza = models.CharField(max_length=15, blank=False)
-    direccion = models.CharField(max_length=100, blank=False)
-    email = models.CharField(max_length=30, blank=False)
-    telefono = models.CharField(max_length=10, blank=False)
-    tiempo_urgencias = models.CharField(max_length=4, blank=False)
-    complejidad = models.CharField(max_length=1, blank=False)
-    latitud = models.CharField(max_length=50, blank=False)
-    longitud = models.CharField(max_length=50, blank=False)
-
-    def __str__(self):
-        return (self.nombre_prestador)
+     codigo = models.CharField(max_length=10, blank=False, primary_key=True)
+     nombre_prestador = models.CharField(max_length=250, blank=False)
+     nit = models.CharField(max_length=15, blank=False)
+     naturaleza = models.CharField(max_length=15, blank=False)
+     direccion = models.CharField(max_length=100, blank=False)
+     email = models.CharField(max_length=30, blank=False)
+     telefono = models.CharField(max_length=10, blank=False)
+     tiempo_urgencias = models.CharField(max_length=4, blank=False)
+     complejidad = models.CharField(max_length=1, blank=False)
+     latitud = models.CharField(max_length=50, blank=False)
+     longitud = models.CharField(max_length=50, blank=False)
+     def __str__(self):
+         return (self.nombre_prestador)
 
 class Usuario(models.Model):
     """Modelo que representa la entidad Usuario en el sistema.
@@ -200,9 +196,9 @@ class Citas(models.Model):
     - `ips`: Relación con la entidad IPS donde se realiza la cita.
 
     """
-    codigo = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    tipo_cita = models.CharField(max_length=50, blank=False)
-    fecha = models.CharField(max_length=50, blank=False)
-    hora = models.CharField(max_length=50, blank=False)
-    ips = models.ForeignKey(Ips, on_delete=models.CASCADE)
+     codigo = models.AutoField(primary_key=True)
+     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+     tipo_cita = models.CharField(max_length=50, blank=False)
+     fecha = models.CharField(max_length=50, blank=False)
+     hora = models.CharField(max_length=50, blank=False)
+     ips = models.ForeignKey(Ips, on_delete=models.CASCADE)
