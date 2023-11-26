@@ -8,42 +8,29 @@ import { getAllEps } from "../api/eps_api";
 import { toast } from "react-hot-toast";
 import { createTriaje } from "../api/triaje_api";
 
+/**
+ * Componente funcional que representa la vista de emergencia para realizar el triaje del usuario.
+ *
+ * @component
+ * @returns {JSX.Element} Retorna un elemento JSX que contiene el formulario de triaje de emergencia.
+ */
 export default function Emergencia() {
+     // Obtener el usuario de emergencia desde la URL
     const usuario_emergencia = useParams();
-    // console.log("usuario_emergencia");
-    // console.log(usuario_emergencia);
 
+    // Navegación
     const navigate = useNavigate();
-    // const [selectedEPS, setselectedEPS] = useState();
-    // const handleSelectChangeEPS = (event) => {
-    //     setselectedEPS(event.target.value);
-    // };
 
-    // /* Se muestran las opciones en el select EPS*/
-    // const [listEPS, setlistEPS] = useState([]);
-
-    // /* GET de todas las eps desde la base de datos*/
-    // useEffect(() => {
-    //     async function getEPS() {
-    //         const list_eps = await getAllEps();
-    //         setlistEPS(list_eps.data)
-    //     }
-    //     getEPS();
-    // }, []);
-
-    // /* Se listan los géneros y se muestran en el select*/
-    // const list_generos = ['Masculino', 'Femenino', '39 tipos de gays'];
-
-    // const [selectedGenero, setSelectedGenero] = useState('');
-    // const handleSelectChangeGenero = (event) => {
-    //     setSelectedGenero(event.target.value);
-    // };
-
-    /* Se toma la información del form y se guarda en la base de datos */
+    // Hook del formulario
     const { register, handleSubmit } = useForm();
 
-    // const navigate = useNavigate();
-
+    /**
+     * Función que calcula el nivel de triaje basado en las respuestas del formulario.
+     *
+     * @function
+     * @param {Object} respuestas - Objeto que contiene las respuestas del formulario.
+     * @returns {number} Nivel de triaje calculado.
+     */
     function calcularTriage(respuestas) {
         // Triage I
         if (respuestas.respiratoria === "true" || respuestas.traumatismos === "true" || respuestas.quemaduras === "true" || respuestas.perdida === "true" || respuestas.hemorragia === "true" || respuestas.trabajo_parto === "true" || respuestas.abuso_sexual === "true") {
@@ -80,17 +67,18 @@ export default function Emergencia() {
         // return "Triage Desconocido";
     }
 
-
+    /**
+     * Función que maneja el envío del formulario de triaje.
+     *
+     * @async
+     * @function
+     * @param {Object} data - Datos del formulario.
+     */
     const onSubmit = handleSubmit(async (data) => {
         if (data) {
 
             const body = data;
-
-            // console.log(usuario_emergencia) ;
             const calculed_triage = calcularTriage(body);
-
-            // console.log("calculed_triage");
-            // console.log(calculed_triage);
 
             if (calculed_triage === 1) {
                 toast.error("Su triage es de 1 (Rojo)\n¡Se procedera con el calculo de la ruta!");
@@ -114,9 +102,6 @@ export default function Emergencia() {
             console.log(body.user);
 
             await createTriaje(body);
-            // toast.success("Se modificaron correctamente los datos");
-            // navigate(`/ppi_15/ingresar/${usuario_emergencia.id}`);
-            // navigate("http://localhost:3000/ppi_15/api/triaje/ ");
             navigate("/ppi_15/map");
         }
     });
