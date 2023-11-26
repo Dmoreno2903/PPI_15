@@ -9,6 +9,7 @@ const rutasLogin = [
   { title: 'Emergencia', id: 1, ruta: 'emergencia' },
   { title: 'Registrar cita', id: 2, ruta: 'Regcitamedica' },
   { title: 'Calendario', id: 3, ruta: 'calendario' },
+  { title: 'Cambiar contrasena', id: 4, ruta: 'cambio' },
 ];
 
 

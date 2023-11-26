@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { actualizarUsuario, obtenerUsuario } from "../api/usuario_api";
 import { updatePerfil, createPerfil, getPerfilUsuario, getAllPerfil } from "../api/perfil_api";
+import perfil_img from "../images/img_Profile.jpg"
 
 /**
  * Componente funcional que representa la vista del perfil de usuario.
@@ -19,7 +20,7 @@ export default function Perfil_usuario() {
 
     // Obtener el usuario que se está buscando desde la URL
     const paramUser = useParams();
-    
+
     // Para mostrar las opciones en el select TipoSangre
     const list_sangres = ['A', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
@@ -45,7 +46,7 @@ export default function Perfil_usuario() {
         setUsuarioBuscado(usuarioBuscado.data);
         return usuarioBuscado.data;
     }
-    
+
 
     /**
    * Función asincrónica que obtiene y verifica la existencia del perfil del usuario.
@@ -145,7 +146,7 @@ export default function Perfil_usuario() {
             ];
 
             // Asignar valores al objeto dataa
-            properties.forEach(function(property) {
+            properties.forEach(function (property) {
                 dataa[property] = data[property];
             });
 
@@ -160,7 +161,7 @@ export default function Perfil_usuario() {
             data["user"] = paramUser.id;
             data["latitud"] = 6.477726194410493;
             data["longitud"] = -75.54883793840892;
-            
+
             await createPerfil(data);
             toast.success("Perfil creado con exito");
             navigate(`/ppi_15/ingresar/${paramUser.id}`);
@@ -169,11 +170,11 @@ export default function Perfil_usuario() {
 
     const [newPassword, setNewPassword] = useState('')
 
-    const changeInput = ({target}) => {
+    const changeInput = ({ target }) => {
         setNewPassword(target.value)
     }
 
-    async function changePassword () {
+    async function changePassword() {
         const changeUser = await obtenerUsuario(paramUser.id)
         const objectUser = changeUser.data
         objectUser.password = newPassword
@@ -188,6 +189,7 @@ export default function Perfil_usuario() {
             <PerfilStyled>
                 <div className="contenedor">
                     <div className="image">
+                        <img src={perfil_img} className="info_image" />
                     </div>
 
                     <div className="formulario">
@@ -242,8 +244,13 @@ export default function Perfil_usuario() {
                             </label>
                             <textarea id="medicamentos" name="medicamentos" {...register('medicamentos', { required: true })} required></textarea>
 
-                            <select {...register('rh')} value={selecteSangres} onChange={handleSelectChangeSangres}>
-                                <option value=''>Seleccione:</option>
+                            <select
+                                {...register('rh')}
+                                value={selecteSangres}
+                                onChange={handleSelectChangeSangres}
+                                required
+                            >
+                                <option value=''>Seleccione Rh +:</option>
                                 {list_sangres.map((sangre, index) => (
                                     <option key={index} value={sangre}>
                                         {sangre}
@@ -255,9 +262,9 @@ export default function Perfil_usuario() {
 
                         </form>
 
-                        <label> Cambiar la contraseña</label>
+                        {/* <label> Cambiar la contraseña</label>
                         <input type="text" placeholder="Nueva contraseña" value={newPassword} onChange={changeInput}></input>
-                        <button onClick={changePassword}>CAMBIAR</button>
+                        <button onClick={changePassword}>CAMBIAR</button> */}
 
                     </div>
                 </div>

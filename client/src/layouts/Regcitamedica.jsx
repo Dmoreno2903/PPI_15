@@ -1,19 +1,19 @@
 import img_registro from "../images/img_registro.jpg"
-import {styled} from "styled-components";
+import { styled } from "styled-components";
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from "react";
 import { getAllIps } from "../api/ips_api";
 import { useNavigate, useParams } from "react-router-dom";
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { createUser } from "../api/usuario_api";
 import { createCita } from "../api/cita_api";
 
 
-export default function Registro(){
+export default function Registro() {
     // Obtener el usuario que se está buscando desde la URL
     const paramUser = useParams();
 
-    console.log("El identificador de usuario",paramUser.id);
+    console.log("El identificador de usuario", paramUser.id);
 
     const [selectedTipoCita, setSelectedTipoCita] = useState();
     const changeTipoCita = (event) => {
@@ -22,9 +22,9 @@ export default function Registro(){
     };
 
 
-    
+
     /* Creamos un formulario usando react-hook */
-    const {register, handleSubmit} = useForm()
+    const { register, handleSubmit } = useForm()
 
     /* Creamos un navegador para intercambiar entre componentes */
     const navigate = useNavigate();
@@ -49,7 +49,7 @@ export default function Registro(){
     }, []);
 
 
- 
+
     const onSubmit = handleSubmit(async (data) => {
         console.log("Creacion cita", paramUser.id);
         data["user"] = paramUser.id;
@@ -59,71 +59,83 @@ export default function Registro(){
         await createCita(data);
         toast.success("Cita registrada con éxito");
         /* Pasa a la ventana de inicio */
-        navigate("/ppi_15/ingresar/"+paramUser.id);
-    
+        navigate("/ppi_15/ingresar/" + paramUser.id);
+
     });
 
 
-    return(
+    return (
         // Agregamos un fragmento de HTML
         <>
-        <StyledRegistro>
-            <div className="contenedor">
-                <div className="target">
+            <StyledRegistro>
+                <div className="contenedor">
+                    <div className="target">
 
-                    <div className="cont_image">
-                        <img src={img_registro}/>
-                    </div>
+                        <div className="cont_image">
+                            <img src={img_registro} />
+                        </div>
 
-                    <form className="form" onSubmit={onSubmit}>
-                        <h1>Formulario de registro cita medica</h1>
-                        <p>Complete todos los campos</p>
+                        <form className="form" onSubmit={onSubmit}>
+                            <h1>Formulario de registro cita medica</h1>
+                            <p>Complete todos los campos</p>
 
-                        <select {...register('tipo_cita')} value={selectedTipoCita} onChange={changeTipoCita}>
-                            <option value='incorrect'>Seleccione el tipo de cita</option>
-                            <option value='Odontológica'>Odontológica</option>
-                            <option value='General'>General</option>
-                            <option value='Especialista'>Especialista</option>
-                            <option value='Exámenes Médicos'>Exámenes Médicos</option>
-                        </select>
+                            <select
+                                {...register('tipo_cita', { required: true })}
+                                value={selectedTipoCita}
+                                onChange={changeTipoCita}
+                                required
+                            >
+                                <option value=''>Seleccione el tipo de cita</option>
+                                <option value='Odontológica'>Odontológica</option>
+                                <option value='General'>General</option>
+                                <option value='Especialista'>Especialista</option>
+                                <option value='Exámenes Médicos'>Exámenes Médicos</option>
+                            </select>
 
-                        <input
-                            type="date"
-                            placeholder="Dia cita medica"
-                            autoComplete="off"
-                            {...register('fecha', { required: true })}
-                        />
-                                                
-                        <input
-                            type="time"
-                            placeholder="Hora cita medica"
-                            autoComplete="off"
-                            {...register('hora', { required: true })}
-                        />
+                            <input
+                                type="date"
+                                placeholder="Dia cita medica"
+                                autoComplete="off"
+                                {...register('fecha', { required: true })}
+                                required
+                                />
 
+                            <input
+                                type="time"
+                                placeholder="Hora cita medica"
+                                autoComplete="off"
+                                {...register('hora', { required: true })}
+                                required
+                            />
 
-                        <select {...register('ips')} value={selectedIPS} onChange={changeIPS}>
-                            <option value='incorrect'>Seleccione su IPS</option>
-                            {listIPS.map((ips) => (
-                                <option key={ips.codigo} value={ips.codigo}>
-                                    {ips.nombre_prestador}
+                            <select
+                                {...register('ips', { required: true })}
+                                value={selectedIPS}
+                                onChange={changeIPS}
+                                required
+                            >
+                                <option value=''>Seleccione su IPS</option>
+                                {listIPS.map((ips) => (
+                                    <option key={ips.codigo} value={ips.codigo}>
+                                        {ips.nombre_prestador}
                                     </option>
-                            ))}
-                        </select>
-                        
+                                ))}
+                            </select>
 
-                        <button>Cargar cita</button>
 
-                    </form>
+
+                            <button>Cargar cita</button>
+
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </StyledRegistro>
+            </StyledRegistro>
         </>
     );
 };
 
 // Se crea la constante de estilos dónde se pondrá el código CSS
-const StyledRegistro  = styled.div`
+const StyledRegistro = styled.div`
     .contenedor{
         background-color: #E5E7E9;
         height: 100vh;

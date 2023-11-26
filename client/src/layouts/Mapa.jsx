@@ -2,6 +2,7 @@
 import Axios from 'axios';
 import { useJsApiLoader, GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api';
 import { useEffect, useState } from 'react';
+import styled from "styled-components";
 
 // Definición de constantes y estados iniciales
 // Puedes definir origin aquí con un valor por defecto o dejarlo comentado y asignarlo más adelante
@@ -102,17 +103,50 @@ export default function Mapa() {
   // Renderizado del mapa y botones de selección de destino
   return (
     <div style={{ height: '700px' }}>
+      
       <GoogleMap center={origin} zoom={15} mapContainerStyle={{ width: '100%', height: '100%' }}>
         <Marker position={origin} />
         <DirectionsRenderer directions={directionsResponse} />
       </GoogleMap>
-
+      <div className='info'>
+      <MapStyled>
       {/* Renderización de botones basados en los datos recibidos de Axios */}
       {destinationData.map((destination, index) => (
-        <button key={index} onClick={() => setSelectedDestination(index + 1)}>
+        <button key={index} onClick={() => setSelectedDestination(index + 1)} className=''>
           Ruta {index + 1}
         </button>
       ))}
+      </MapStyled>
+    </div>
     </div>
   );
 }
+
+const MapStyled = styled.div`
+.info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vh;
+  height: 100%;
+}
+
+button {
+  margin-bottom: 5vh;
+  font-weight: bold;
+  background-color: #0B4FD9;
+  color: white;
+  padding: 0.5em 1vw;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5vw;
+  cursor: pointer;
+  border: 1px solid #0B4FD9;
+}
+
+button:hover {
+  background-color: white;
+  color: #0B4FD9;
+  border: 1px solid #0B4FD9;
+}
+`
