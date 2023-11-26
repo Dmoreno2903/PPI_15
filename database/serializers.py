@@ -133,7 +133,7 @@ class PerfilUsuarioSerializer(serializers.ModelSerializer):
             'medicamentos',
             'rh'
         )
-        read_only_fields = ('codigo')
+        read_only_fields = (['codigo'])
 
 
 # Se crea el serializador de la relación Citas
